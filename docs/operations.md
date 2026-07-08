@@ -29,7 +29,7 @@
 2. In jedem Workflow zuerst Secret-Check ausführen; bei mismatch muss der `Unauthorized 401`-Node antworten.
 3. In n8n SMTP-Credentials für den Node `Email Send` hinterlegen.
 4. `fromEmail` auf `portal@mail.ritz-ai.solutions` setzen und Testmail versenden.
-5. In `report_published` und `input_requested` den Postgres-Credential für den Node `Load Client Email` hinterlegen.
+5. In `report_published` und `input_requested` den Supabase-Credential für den Node `Load Client Email` hinterlegen.
 6. Supabase Database Webhooks auf die n8n Webhook-URLs setzen (nur auf `published`/`open`/`insert` Events).
 
 ## Storage cleanup concept

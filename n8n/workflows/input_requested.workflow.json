@@ -30,17 +30,29 @@
     },
     {
       "parameters": {
-        "operation": "executeQuery",
-        "query": "select primary_contact_email from portal.clients where id = $1 limit 1;",
-        "options": {},
-        "additionalFields": {
-          "queryParams": "={{[$json.body.record.client_id]}}"
+        "resource": "row",
+        "operation": "getAll",
+        "tableId": "clients",
+        "returnAll": false,
+        "limit": 1,
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "id",
+              "condition": "eq",
+              "keyValue": "={{$('Supabase Webhook').item.json.body.record.client_id}}"
+            }
+          ]
+        },
+        "options": {
+          "schema": "portal",
+          "columns": "primary_contact_email"
         }
       },
       "id": "loadClientEmail",
       "name": "Load Client Email",
-      "type": "n8n-nodes-base.postgres",
-      "typeVersion": 2,
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
       "position": [700, 250]
     },
     {
