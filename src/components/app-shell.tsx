@@ -43,7 +43,17 @@ export function AppShell({ title, subtitle, links, children, logoUrl }: AppShell
         </nav>
         {children}
       </div>
-      <footer className="border-t border-border text-center text-xs text-muted p-4">Powered by RAIS</footer>
+      <footer className="border-t border-border text-center text-xs text-muted p-4 space-y-1">
+        <p>Powered by RAIS</p>
+        <p className="space-x-3">
+          <Link href="/datenschutz" className="underline-offset-2 hover:underline">
+            Datenschutz
+          </Link>
+          <Link href="/impressum" className="underline-offset-2 hover:underline">
+            Impressum
+          </Link>
+        </p>
+      </footer>
     </div>
   );
 }

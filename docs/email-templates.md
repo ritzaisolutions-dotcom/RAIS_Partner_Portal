@@ -30,11 +30,11 @@
 
 ## input_submitted (Kevin Alert)
 
-- Betreff: `Neue Input-Submission eingegangen`
+- Betreff: `Neue Input-Einreichung eingegangen`
 - HTML:
 
 ```html
-<p>Neue Submission im RAIS Portal.</p>
+<p>Neue Einreichung im RAIS Portal.</p>
 <ul>
   <li>Request-ID: {{request_id}}</li>
   <li>Client-ID: {{client_id}}</li>

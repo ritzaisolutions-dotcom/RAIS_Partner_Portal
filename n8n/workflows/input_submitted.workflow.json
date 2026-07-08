@@ -32,9 +32,9 @@
       "parameters": {
         "fromEmail": "portal@mail.ritz-ai.solutions",
         "toEmail": "kevin@ritz-ai.solutions",
-        "subject": "Neue Input-Submission eingegangen",
+        "subject": "Neue Input-Einreichung eingegangen",
         "emailType": "html",
-        "message": "={{\"<p>Neue Submission im RAIS Portal.</p><ul><li>Request-ID: \" + $json.body.record.request_id + \"</li><li>Client-ID: \" + $json.body.record.client_id + \"</li></ul>\"}}"
+        "message": "={{\"<p>Neue Einreichung im RAIS Portal.</p><ul><li>Request-ID: \" + $json.body.record.request_id + \"</li><li>Client-ID: \" + $json.body.record.client_id + \"</li></ul>\"}}"
       },
       "id": "sendKevinMail",
       "name": "Alert Kevin",

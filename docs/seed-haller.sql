@@ -32,14 +32,14 @@ join (
       'form',
       '[{"key":"admin_kontakt","label":"Admin-Kontakt","type":"text","required":true},{"key":"tenant_id","label":"Tenant-ID","type":"text","required":true}]',
       '2026-07-10',
-      'Bitte M365-Admin-Kontakt und Tenant-ID bestaetigen.'
+      'Bitte M365-Admin-Kontakt und Tenant-ID bestätigen.'
     ),
     (
-      'Postfach-Adressen bestaetigen',
+      'Postfach-Adressen bestätigen',
       'form',
       '[{"key":"postfach_vertrieb","label":"Postfach Vertrieb","type":"email","required":true},{"key":"postfach_verwaltung","label":"Postfach Verwaltung","type":"email","required":true},{"key":"postfach_is24_eingang","label":"IS24 Eingangspostfach","type":"email","required":true}]',
       '2026-07-10',
-      'Bitte die produktiven Postfach-Adressen bestaetigen.'
+      'Bitte die produktiven Postfach-Adressen bestätigen.'
     ),
     (
       'Dashboard-Nutzer',
@@ -53,7 +53,7 @@ join (
       'freetext',
       null,
       null,
-      'Liste aktiver Inserate mit Adresse, Kauf/Miete und Expose-Nummer.'
+      'Liste aktiver Inserate mit Adresse, Kauf/Miete und Exposé-Nummer.'
     ),
     (
       'Impressums-/Datenschutzangaben LP1',

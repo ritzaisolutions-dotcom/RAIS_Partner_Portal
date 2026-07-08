@@ -94,15 +94,27 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
     );
   }
 
-  await portal.from("input_submissions").insert({
-    request_id: id,
-    client_id: clientUser.client_id,
-    submitted_by: user.id,
-    data: payload,
-    file_paths: filePaths,
-  });
+  const { data: submission, error: submissionError } = await portal
+    .from("input_submissions")
+    .insert({
+      request_id: id,
+      client_id: clientUser.client_id,
+      submitted_by: user.id,
+      data: payload,
+      file_paths: filePaths,
+    })
+    .select("id")
+    .single();
 
-  await admin.schema("portal").from("input_requests").update({ status: "submitted" }).eq("id", id);
+  if (submissionError || !submission) {
+    return NextResponse.redirect(new URL(`/portal/inputs/${id}?error=Antwort+konnte+nicht+gespeichert+werden.`, request.url));
+  }
+
+  const { error: statusError } = await admin.schema("portal").from("input_requests").update({ status: "submitted" }).eq("id", id);
+  if (statusError) {
+    await admin.schema("portal").from("input_submissions").delete().eq("id", submission.id);
+    return NextResponse.redirect(new URL(`/portal/inputs/${id}?error=Status+konnte+nicht+aktualisiert+werden.`, request.url));
+  }
 
   return NextResponse.redirect(new URL(`/portal/inputs/${id}?success=Vielen+Dank%2C+die+Antwort+wurde+gespeichert.`, request.url));
 }

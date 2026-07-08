@@ -36,6 +36,10 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
 
+  if (!isAdmin && !hasClient && !PUBLIC_PATHS.some((publicPath) => pathname.startsWith(publicPath)) && pathname !== "/auth/signout") {
+    return NextResponse.redirect(new URL("/login", request.url));
+  }
+
   if (pathname === "/login") {
     if (isAdmin) return NextResponse.redirect(new URL("/admin", request.url));
     if (hasClient) return NextResponse.redirect(new URL("/portal", request.url));
