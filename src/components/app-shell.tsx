@@ -15,7 +15,10 @@ export function AppShell({ title, subtitle, links, children, logoUrl }: AppShell
     <div className="min-h-screen bg-white flex flex-col">
       <PortalHeader title={title} subtitle={subtitle} logoUrl={logoUrl} />
 
-      <div className="flex flex-1 min-h-0">
+      {/* Header ist jetzt `fixed` (echtes Liquid-Glass-Overlay, Inhalt scrollt
+          sichtbar darunter durch), daher braucht der Rest der Seite hier oben
+          Platz in Hoehe der Headerleiste (68px). */}
+      <div className="flex flex-1 min-h-0 pt-[68px]">
         <aside className="hidden md:flex w-[260px] shrink-0 flex-col gap-1 p-4">
           <p className="px-4 py-1.5 text-xs font-medium text-grey-600 uppercase tracking-wide">Navigation</p>
           {links.map((link) => (
