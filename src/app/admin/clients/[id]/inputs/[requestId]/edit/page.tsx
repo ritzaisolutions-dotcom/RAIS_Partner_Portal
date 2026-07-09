@@ -22,6 +22,10 @@ export default async function EditInputRequestPage({
   if (!request) notFound();
 
   const formSchemaText = request.form_schema ? JSON.stringify(request.form_schema, null, 2) : "[]";
+  const today = new Date().toISOString().slice(0, 10);
+  // min darf ein bereits in der Vergangenheit liegendes Fälligkeitsdatum nicht verstecken/blockieren -
+  // sonst laesst sich ein ueberfaelliger Termin nicht mehr unveraendert speichern.
+  const dueDateMin = request.due_date && request.due_date < today ? request.due_date : today;
 
   return (
     <section className="space-y-4">
@@ -58,7 +62,7 @@ export default async function EditInputRequestPage({
           <label className="block text-xs text-grey-600 mb-1" htmlFor="due_date">
             Fälligkeitsdatum
           </label>
-          <input id="due_date" name="due_date" type="date" defaultValue={request.due_date ?? ""} />
+          <input id="due_date" name="due_date" type="date" defaultValue={request.due_date ?? ""} min={dueDateMin} />
         </div>
         <div>
           <label className="block text-xs text-grey-600 mb-1" htmlFor="status">

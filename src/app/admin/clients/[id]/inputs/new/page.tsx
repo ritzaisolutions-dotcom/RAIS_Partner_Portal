@@ -16,6 +16,7 @@ export default async function NewInputRequestPage({
 }) {
   const { id } = await params;
   const resolvedSearch = await searchParams;
+  const today = new Date().toISOString().slice(0, 10);
   return (
     <section className="space-y-4">
       <h2 className="text-xl">Neue Input-Anfrage</h2>
@@ -51,7 +52,7 @@ export default async function NewInputRequestPage({
           <label className="block text-xs text-grey-600 mb-1" htmlFor="due_date">
             Fälligkeitsdatum
           </label>
-          <input id="due_date" name="due_date" type="date" />
+          <input id="due_date" name="due_date" type="date" min={today} />
         </div>
         <div>
           <label className="block text-xs text-grey-600 mb-1" htmlFor="status">
