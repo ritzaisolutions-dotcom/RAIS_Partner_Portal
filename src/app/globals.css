@@ -1,6 +1,7 @@
 @import "tailwindcss";
 
 :root {
+  /* ---- RAIS Markenfarben (fix, siehe brand.md — NICHT ändern) ---- */
   --color-charcoal: #2f2a24;
   --color-orange: #ec6a37;
   --color-linen: #fbf8f3;
@@ -8,11 +9,56 @@
   --color-stone: #7b746b;
   --color-sage: #789464;
   --color-pistachio-dark: #3c5a2a;
+
   --background: var(--color-linen);
   --surface: #ffffff;
   --foreground: var(--color-charcoal);
   --muted: var(--color-stone);
   --border: #e5ddd2;
+
+  /* ---- Neutrale Skala (Design-System, Slate-basiert) ---- */
+  --grey-50: #f8fafc;
+  --grey-100: #eef2f6;
+  --grey-200: #e3e8ef;
+  --grey-300: #cdd5df;
+  --grey-500: #697586;
+  --grey-600: #4b5565;
+  --grey-700: #364152;
+  --grey-900: #121926;
+
+  /* ---- Primary = RAIS Orange (Haupt-CTA-Farbe) ---- */
+  --primary-main: var(--color-orange);
+  --primary-light: color-mix(in srgb, var(--color-orange) 12%, white);
+  --primary-200: color-mix(in srgb, var(--color-orange) 50%, white);
+  --primary-dark: color-mix(in srgb, var(--color-orange) 88%, black);
+  --primary-800: color-mix(in srgb, var(--color-orange) 70%, black);
+
+  /* ---- Secondary = RAIS Dark Pistachio (Sidebar-Aktiv, Highlight-Cards) ---- */
+  --secondary-main: var(--color-pistachio-dark);
+  --secondary-light: color-mix(in srgb, var(--color-pistachio-dark) 12%, white);
+  --secondary-200: color-mix(in srgb, var(--color-pistachio-dark) 50%, white);
+  --secondary-dark: color-mix(in srgb, var(--color-pistachio-dark) 88%, black);
+  --secondary-800: color-mix(in srgb, var(--color-pistachio-dark) 70%, black);
+
+  /* ---- Semantische Farben ---- */
+  --success-light: color-mix(in srgb, var(--color-sage) 15%, white);
+  --success-main: var(--color-sage);
+  --success-dark: color-mix(in srgb, var(--color-sage) 85%, black);
+  --error-light: #f9dede;
+  --error-main: #c0392b;
+  --error-dark: #962e22;
+  --warning-light: #f8ecd2;
+  --warning-main: #d69a1f;
+  --warning-dark: #a9760f;
+
+  /* ---- Geometrie ---- */
+  --radius: 8px;
+  --shadow-z1: 0 1px 2px 0 rgba(47, 42, 36, 0.12);
+  --shadow-z8: 0 8px 16px 0 rgba(47, 42, 36, 0.14);
+
+  /* ---- Liquid-Glass Motion (aus ritz-ai.solutions Marketing-Site) ---- */
+  --ease-glass: cubic-bezier(0.16, 1, 0.3, 1);
+  --grain-opacity: 0.045;
 }
 
 @theme inline {
@@ -24,14 +70,69 @@
   --color-brand-orange: var(--color-orange);
   --color-brand-sage: var(--color-sage);
   --color-brand-pistachio: var(--color-pistachio-dark);
+
+  --color-grey-50: var(--grey-50);
+  --color-grey-100: var(--grey-100);
+  --color-grey-200: var(--grey-200);
+  --color-grey-300: var(--grey-300);
+  --color-grey-500: var(--grey-500);
+  --color-grey-600: var(--grey-600);
+  --color-grey-700: var(--grey-700);
+  --color-grey-900: var(--grey-900);
+
+  --color-primary: var(--primary-main);
+  --color-primary-light: var(--primary-light);
+  --color-primary-200: var(--primary-200);
+  --color-primary-dark: var(--primary-dark);
+  --color-primary-800: var(--primary-800);
+
+  --color-secondary: var(--secondary-main);
+  --color-secondary-light: var(--secondary-light);
+  --color-secondary-200: var(--secondary-200);
+  --color-secondary-dark: var(--secondary-dark);
+  --color-secondary-800: var(--secondary-800);
+
+  --color-success-light: var(--success-light);
+  --color-success: var(--success-main);
+  --color-success-dark: var(--success-dark);
+  --color-error-light: var(--error-light);
+  --color-error: var(--error-main);
+  --color-error-dark: var(--error-dark);
+  --color-warning-light: var(--warning-light);
+  --color-warning: var(--warning-main);
+  --color-warning-dark: var(--warning-dark);
+
   --font-sans: var(--font-inter);
   --font-serif: var(--font-playfair);
 }
 
 body {
-  background: var(--background);
+  background: var(--grey-100);
   color: var(--foreground);
   font-family: var(--font-inter), Arial, sans-serif;
+  font-size: 0.875rem;
+  position: relative;
+}
+
+/* Feine Papier-/Grain-Textur (aus ritz-ai.solutions), verhindert komplett flache Fläche */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: var(--grain-opacity);
+  background-image: radial-gradient(circle at 20% 20%, rgba(47, 42, 36, 0.18) 0.5px, transparent 0.9px),
+    radial-gradient(circle at 80% 0%, rgba(47, 42, 36, 0.14) 0.6px, transparent 1px);
+  background-size: 3px 3px, 4px 4px;
+  mix-blend-mode: multiply;
+}
+
+#__next,
+main,
+.min-h-screen {
+  position: relative;
+  z-index: 1;
 }
 
 h1,
@@ -39,22 +140,232 @@ h2,
 h3,
 h4 {
   font-family: var(--font-playfair), Georgia, serif;
+  color: var(--grey-900);
 }
 
 a {
-  color: var(--color-brand-orange);
+  color: var(--primary-main);
 }
 
 input,
 textarea,
 select {
-  background: #fff;
-  border: 1px solid var(--border);
-  border-radius: 0.5rem;
+  background: var(--grey-50);
+  border: 1px solid var(--grey-300);
+  border-radius: var(--radius);
   padding: 0.625rem 0.75rem;
   width: 100%;
+  font-size: 0.875rem;
+  color: var(--grey-900);
+  transition: border-color 0.15s ease;
+}
+
+input:hover,
+textarea:hover,
+select:hover {
+  border-color: var(--primary-light);
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: var(--primary-main);
+  outline: none;
 }
 
 button {
   cursor: pointer;
+}
+
+/* ---- Wiederverwendbare Komponenten (RAIS Dashboard Design System v1.0) ---- */
+@layer components {
+  .card {
+    background: var(--surface);
+    border-radius: var(--radius);
+    border: 1px solid var(--grey-200);
+  }
+
+  .card-hover:hover {
+    box-shadow: var(--shadow-z8);
+  }
+
+  .card-header {
+    padding: 1.5rem;
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--grey-900);
+    border-bottom: 1px solid var(--grey-200);
+  }
+
+  .card-content {
+    padding: 1.5rem;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    font-weight: 500;
+    font-size: 0.875rem;
+    border-radius: var(--radius);
+    padding: 0.5rem 1rem;
+    text-transform: capitalize;
+    transition: background-color 0.15s ease, color 0.15s ease;
+  }
+
+  .btn-primary {
+    background: var(--primary-main);
+    color: #fff;
+  }
+  .btn-primary:hover {
+    background: var(--primary-dark);
+  }
+
+  .btn-secondary {
+    background: var(--secondary-light);
+    color: var(--secondary-dark);
+  }
+  .btn-secondary:hover {
+    background: var(--secondary-main);
+    color: #fff;
+  }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--grey-700);
+    border: 1px solid var(--grey-200);
+  }
+  .btn-ghost:hover {
+    background: var(--grey-50);
+  }
+
+  .btn-destructive {
+    background: var(--error-main);
+    color: #fff;
+  }
+  .btn-destructive:hover {
+    background: var(--error-dark);
+  }
+
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    border-radius: var(--radius);
+    padding: 0.25rem 0.625rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+
+  .chip-primary {
+    background: var(--primary-light);
+    color: var(--primary-dark);
+  }
+  .chip-secondary {
+    background: var(--secondary-light);
+    color: var(--secondary-dark);
+  }
+  .chip-success {
+    background: var(--success-light);
+    color: var(--success-dark);
+  }
+  .chip-warning {
+    background: var(--warning-light);
+    color: var(--warning-dark);
+  }
+  .chip-error {
+    background: var(--error-light);
+    color: var(--error-dark);
+  }
+  .chip-neutral {
+    background: var(--grey-100);
+    color: var(--grey-600);
+  }
+
+  .sidebar-link {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    padding: 0.625rem 1rem;
+    border-radius: var(--radius);
+    font-size: 0.875rem;
+    color: var(--grey-700);
+    font-weight: 500;
+  }
+  .sidebar-link:hover {
+    background: var(--grey-50);
+  }
+  .sidebar-link-active {
+    background: var(--secondary-light);
+    color: var(--secondary-dark);
+  }
+  .sidebar-link-active:hover {
+    background: var(--secondary-light);
+  }
+
+  .table-row {
+    border-bottom: 1px solid var(--grey-200);
+  }
+  .table-row:hover {
+    background: var(--grey-50);
+  }
+
+  .content-panel {
+    background: var(--grey-100);
+    border-radius: var(--radius) var(--radius) 0 0;
+  }
+
+  .stat-highlight {
+    position: relative;
+    overflow: hidden;
+    background: var(--secondary-dark);
+    color: #fff;
+    border-radius: var(--radius);
+  }
+  .stat-highlight::before,
+  .stat-highlight::after {
+    content: "";
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background: var(--secondary-800);
+  }
+  .stat-highlight::after {
+    top: -60px;
+    right: -70px;
+  }
+  .stat-highlight::before {
+    top: -90px;
+    right: -10px;
+    opacity: 0.5;
+  }
+}
+
+/* ---- Liquid-Glass Header (adaptiert aus ritz-ai.solutions Navbar) ---- */
+.glass-header {
+  background-color: rgba(255, 255, 255, 0.86);
+  backdrop-filter: blur(12px) saturate(1.12);
+  -webkit-backdrop-filter: blur(12px) saturate(1.12);
+  border-bottom: 1px solid var(--grey-200);
+  margin: 0;
+  border-radius: 0;
+  box-shadow: none;
+  transition: margin var(--ease-glass) 0.45s, border-radius var(--ease-glass) 0.45s, border-color var(--ease-glass) 0.45s,
+    box-shadow var(--ease-glass) 0.45s, background-color var(--ease-glass) 0.45s;
+}
+
+.glass-header-scrolled {
+  margin: 10px 12px 0;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  background-color: rgba(255, 255, 255, 0.76);
+  box-shadow: var(--shadow-z8);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .glass-header {
+    transition: none;
+  }
 }

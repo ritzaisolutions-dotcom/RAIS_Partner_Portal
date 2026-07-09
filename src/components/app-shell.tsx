@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ReactNode } from "react";
+import { PortalHeader } from "./portal-header";
 
 type AppShellProps = {
   title: string;
@@ -11,49 +12,41 @@ type AppShellProps = {
 
 export function AppShell({ title, subtitle, links, children, logoUrl }: AppShellProps) {
   return (
-    <div className="min-h-screen bg-background">
-      <header className="border-b border-border bg-surface">
-        <div className="max-w-6xl mx-auto px-4 py-3 flex flex-wrap items-center gap-4 justify-between">
-          <div className="flex items-center gap-3">
-            {logoUrl ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img src={logoUrl} alt="Kundenlogo" className="h-10 w-auto rounded" />
-            ) : (
-              <div className="h-10 w-10 rounded bg-brand-orange text-white flex items-center justify-center font-semibold">R</div>
-            )}
-            <div>
-              <h1 className="text-2xl leading-tight">{title}</h1>
-              {subtitle ? <p className="text-sm text-muted">{subtitle}</p> : null}
-            </div>
-          </div>
-          <form action="/auth/signout" method="post">
-            <button type="submit" className="border border-border bg-white rounded-lg px-3 py-2 text-sm">
-              Abmelden
-            </button>
-          </form>
-        </div>
-      </header>
-      <div className="max-w-6xl mx-auto px-4 py-6">
-        <nav className="flex gap-4 mb-6 text-sm">
+    <div className="min-h-screen bg-white flex flex-col">
+      <PortalHeader title={title} subtitle={subtitle} logoUrl={logoUrl} />
+
+      <div className="flex flex-1 min-h-0">
+        <aside className="hidden md:flex w-[260px] shrink-0 flex-col gap-1 p-4">
+          <p className="px-4 py-1.5 text-xs font-medium text-grey-600 uppercase tracking-wide">Navigation</p>
           {links.map((link) => (
-            <Link key={link.href} href={link.href} className="underline-offset-2 hover:underline">
+            <Link key={link.href} href={link.href} className="sidebar-link">
               {link.label}
             </Link>
           ))}
-        </nav>
-        {children}
+        </aside>
+
+        <div className="content-panel flex-1 min-w-0 md:mr-5 mb-5 p-4 md:p-5">
+          <nav className="flex md:hidden gap-2 mb-4 overflow-x-auto pb-1">
+            {links.map((link) => (
+              <Link key={link.href} href={link.href} className="chip chip-neutral whitespace-nowrap">
+                {link.label}
+              </Link>
+            ))}
+          </nav>
+          {children}
+          <footer className="mt-10 text-center text-xs text-grey-500 space-y-1">
+            <p>Powered by RAIS</p>
+            <p className="space-x-3">
+              <Link href="/datenschutz" className="underline-offset-2 hover:underline">
+                Datenschutz
+              </Link>
+              <Link href="/impressum" className="underline-offset-2 hover:underline">
+                Impressum
+              </Link>
+            </p>
+          </footer>
+        </div>
       </div>
-      <footer className="border-t border-border text-center text-xs text-muted p-4 space-y-1">
-        <p>Powered by RAIS</p>
-        <p className="space-x-3">
-          <Link href="/datenschutz" className="underline-offset-2 hover:underline">
-            Datenschutz
-          </Link>
-          <Link href="/impressum" className="underline-offset-2 hover:underline">
-            Impressum
-          </Link>
-        </p>
-      </footer>
     </div>
   );
 }

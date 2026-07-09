@@ -51,9 +51,9 @@ export function ReportEditorForm({ clientId, action }: ReportEditorFormProps) {
   }
 
   return (
-    <form action={action} method="post" className="bg-surface border border-border rounded-lg p-6 space-y-4">
+    <form action={action} method="post" className="card card-content space-y-4">
       <div>
-        <label className="block text-sm mb-1" htmlFor="title">
+        <label className="block text-xs text-grey-600 mb-1" htmlFor="title">
           Titel
         </label>
         <input id="title" name="title" required />
@@ -61,7 +61,7 @@ export function ReportEditorForm({ clientId, action }: ReportEditorFormProps) {
 
       <div className="grid gap-4 lg:grid-cols-2">
         <div>
-          <label className="block text-sm mb-1" htmlFor="body_editor">
+          <label className="block text-xs text-grey-600 mb-1" htmlFor="body_editor">
             Inhalt (Markdown)
           </label>
           <textarea
@@ -70,33 +70,33 @@ export function ReportEditorForm({ clientId, action }: ReportEditorFormProps) {
             value={body}
             onChange={(event) => setBody(event.target.value)}
             required
-            className="font-mono text-sm"
+            className="font-mono text-xs"
           />
           <input type="hidden" id="body_md" name="body_md" value={body} />
         </div>
 
         <div>
-          <p className="block text-sm mb-1">Live-Preview</p>
-          <div className="border border-border rounded-lg p-4 min-h-[26rem] bg-white prose prose-stone max-w-none overflow-auto">
+          <p className="block text-xs text-grey-600 mb-1">Live-Preview</p>
+          <div className="border border-grey-200 rounded-[var(--radius)] p-4 min-h-[26rem] bg-white prose prose-stone max-w-none overflow-auto">
             <Markdown remarkPlugins={[remarkGfm]}>{body || "_Noch kein Inhalt_"}</Markdown>
           </div>
         </div>
       </div>
 
-      <div className="space-y-2 border border-border rounded-lg p-4">
-        <p className="text-sm font-medium">Bilder für den Report</p>
+      <div className="space-y-2 border border-grey-200 rounded-[var(--radius)] p-4">
+        <p className="text-sm font-medium text-grey-900">Bilder für den Report</p>
         <div className="flex flex-col sm:flex-row gap-2 items-start sm:items-center">
           <input ref={fileInputRef} name="image" type="file" accept="image/*" className="max-w-sm" />
-          <button type="button" onClick={handleUpload} disabled={isUploading} className="bg-white border border-border rounded-lg px-3 py-2 text-sm">
+          <button type="button" onClick={handleUpload} disabled={isUploading} className="btn btn-ghost">
             {isUploading ? "Lade hoch..." : "Bild hochladen"}
           </button>
         </div>
-        <p className="text-xs text-muted">Beim Upload wird automatisch `![Bild](storage:&lt;pfad&gt;)` in den Markdown-Inhalt eingefügt.</p>
-        {uploadMessage ? <p className="text-sm text-muted">{uploadMessage}</p> : null}
+        <p className="text-xs text-grey-500">Beim Upload wird automatisch `![Bild](storage:&lt;pfad&gt;)` in den Markdown-Inhalt eingefügt.</p>
+        {uploadMessage ? <p className="text-xs text-grey-500">{uploadMessage}</p> : null}
       </div>
 
       <div>
-        <label className="block text-sm mb-1" htmlFor="status">
+        <label className="block text-xs text-grey-600 mb-1" htmlFor="status">
           Status
         </label>
         <select id="status" name="status" defaultValue="draft">
@@ -105,7 +105,7 @@ export function ReportEditorForm({ clientId, action }: ReportEditorFormProps) {
         </select>
       </div>
 
-      <button type="submit" className="bg-brand-orange text-white rounded-lg px-4 py-2 font-semibold">
+      <button type="submit" className="btn btn-primary">
         Report speichern
       </button>
     </form>

@@ -14,21 +14,28 @@ export default async function PortalReportsPage() {
 
   return (
     <section className="space-y-4">
-      <h2 className="text-2xl">Status-Reports</h2>
-      {reports?.length ? (
-        <ul className="space-y-3">
-          {reports.map((report) => (
-            <li key={report.id} className="bg-surface border border-border rounded-lg p-4">
-              <Link href={`/portal/reports/${report.id}`} className="font-semibold text-lg hover:underline">
-                {report.title}
+      <h2 className="text-xl">Status-Reports</h2>
+      <div className="card">
+        {reports?.length ? (
+          <div>
+            {reports.map((report) => (
+              <Link
+                key={report.id}
+                href={`/portal/reports/${report.id}`}
+                className="table-row flex items-center justify-between gap-3 px-6 py-3 last:border-b-0"
+              >
+                <div className="min-w-0">
+                  <p className="font-medium text-grey-900 truncate">{report.title}</p>
+                  <p className="text-xs text-grey-500">Veröffentlicht: {formatDate(report.published_at ?? report.created_at)}</p>
+                </div>
+                <span className="chip chip-success shrink-0">Veröffentlicht</span>
               </Link>
-              <p className="text-sm text-muted mt-1">Veröffentlicht: {formatDate(report.published_at ?? report.created_at)}</p>
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <div className="bg-surface border border-border rounded-lg p-6 text-muted">Noch keine Reports verfügbar.</div>
-      )}
+            ))}
+          </div>
+        ) : (
+          <div className="card-content text-grey-500">Noch keine Reports verfügbar.</div>
+        )}
+      </div>
     </section>
   );
 }

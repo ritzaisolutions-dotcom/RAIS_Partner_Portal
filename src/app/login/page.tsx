@@ -2,25 +2,26 @@ export default async function LoginPage({ searchParams }: { searchParams: Promis
   const resolvedSearch = await searchParams;
 
   return (
-    <main className="min-h-screen bg-background flex items-center justify-center p-6">
-      <div className="w-full max-w-md bg-surface border border-border rounded-xl p-8 shadow-sm">
-        <h1 className="text-3xl mb-2">RAIS Client Portal</h1>
-        <p className="text-muted mb-6">Bitte mit Ihren Zugangsdaten anmelden.</p>
+    <main className="min-h-screen bg-grey-100 flex items-center justify-center p-6">
+      <div className="w-full max-w-[420px] card p-8">
+        <div className="h-11 w-11 rounded-lg bg-primary text-white flex items-center justify-center font-semibold mb-5">R</div>
+        <h1 className="text-2xl mb-1">Willkommen zurück</h1>
+        <p className="text-grey-500 text-sm mb-6">Bitte mit Ihren Zugangsdaten am RAIS Client Portal anmelden.</p>
         <form action="/auth/signin" method="post" className="space-y-4">
           <div>
-            <label className="block text-sm mb-1" htmlFor="email">
+            <label className="block text-xs text-grey-600 mb-1" htmlFor="email">
               E-Mail
             </label>
             <input id="email" name="email" type="email" required />
           </div>
           <div>
-            <label className="block text-sm mb-1" htmlFor="password">
+            <label className="block text-xs text-grey-600 mb-1" htmlFor="password">
               Passwort
             </label>
             <input id="password" name="password" type="password" required />
           </div>
-          {resolvedSearch?.error ? <p className="text-red-600 text-sm">{resolvedSearch.error}</p> : null}
-          <button className="w-full bg-brand-orange text-white rounded-lg py-2.5 font-semibold" type="submit">
+          {resolvedSearch?.error ? <p className="chip chip-error">{resolvedSearch.error}</p> : null}
+          <button className="btn btn-primary w-full py-2.5" type="submit">
             Einloggen
           </button>
         </form>

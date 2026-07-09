@@ -11,9 +11,9 @@ export default async function NewReportPage({
   const resolvedSearch = await searchParams;
   return (
     <section className="space-y-4">
-      <h2 className="text-2xl">Neuen Report erstellen</h2>
-      {resolvedSearch.error ? <p className="text-sm text-red-600">{resolvedSearch.error}</p> : null}
-      {resolvedSearch.success ? <p className="text-sm text-green-700">{resolvedSearch.success}</p> : null}
+      <h2 className="text-xl">Neuen Report erstellen</h2>
+      {resolvedSearch.error ? <p className="chip chip-error">{resolvedSearch.error}</p> : null}
+      {resolvedSearch.success ? <p className="chip chip-success">{resolvedSearch.success}</p> : null}
       <ReportEditorForm clientId={id} action={`/admin/clients/${id}/reports/new/create`} />
     </section>
   );

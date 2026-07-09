@@ -76,7 +76,16 @@ export async function POST(request: Request) {
 
   const successUrl = new URL("/admin/clients/new", request.url);
   successUrl.searchParams.set("success", "Kunde+und+Client-User+wurden+angelegt");
-  successUrl.searchParams.set("tempPassword", tempPassword);
-  return NextResponse.redirect(successUrl, { status: 303 });
+  const response = NextResponse.redirect(successUrl, { status: 303 });
+  // Temp password wird bewusst NICHT als URL-Parameter uebergeben (landet sonst in
+  // Server-/Vercel-Logs, Browser-Verlauf und Referrer-Headern). Stattdessen kurzlebiger,
+  // httpOnly Cookie, der nur auf dieser Seite lesbar ist und nach 2 Minuten automatisch verfaellt.
+  response.cookies.set("temp_password_flash", tempPassword, {
+    httpOnly: true,
+    secure: true,
+    sameSite: "lax",
+    maxAge: 120,
+    path: "/admin/clients/new",
+  });
+  return response;
 }
-

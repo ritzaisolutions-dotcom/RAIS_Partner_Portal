@@ -18,22 +18,22 @@ export default async function NewInputRequestPage({
   const resolvedSearch = await searchParams;
   return (
     <section className="space-y-4">
-      <h2 className="text-2xl">Neue Input-Anfrage</h2>
-      <form action={`/admin/clients/${id}/inputs/new/create`} method="post" className="bg-surface border border-border rounded-lg p-6 space-y-4">
+      <h2 className="text-xl">Neue Input-Anfrage</h2>
+      <form action={`/admin/clients/${id}/inputs/new/create`} method="post" className="card card-content space-y-4">
         <div>
-          <label className="block text-sm mb-1" htmlFor="title">
+          <label className="block text-xs text-grey-600 mb-1" htmlFor="title">
             Titel
           </label>
           <input id="title" name="title" required />
         </div>
         <div>
-          <label className="block text-sm mb-1" htmlFor="description_md">
+          <label className="block text-xs text-grey-600 mb-1" htmlFor="description_md">
             Beschreibung
           </label>
           <textarea id="description_md" name="description_md" rows={8} />
         </div>
         <div>
-          <label className="block text-sm mb-1" htmlFor="kind">
+          <label className="block text-xs text-grey-600 mb-1" htmlFor="kind">
             Typ
           </label>
           <select id="kind" name="kind" defaultValue="form">
@@ -42,19 +42,19 @@ export default async function NewInputRequestPage({
           </select>
         </div>
         <div>
-          <label className="block text-sm mb-1" htmlFor="form_schema">
+          <label className="block text-xs text-grey-600 mb-1" htmlFor="form_schema">
             Formular-Schema (JSON)
           </label>
-          <textarea id="form_schema" name="form_schema" rows={10} defaultValue={defaultSchema} />
+          <textarea id="form_schema" name="form_schema" rows={10} defaultValue={defaultSchema} className="font-mono text-xs" />
         </div>
         <div>
-          <label className="block text-sm mb-1" htmlFor="due_date">
+          <label className="block text-xs text-grey-600 mb-1" htmlFor="due_date">
             Fälligkeitsdatum
           </label>
           <input id="due_date" name="due_date" type="date" />
         </div>
         <div>
-          <label className="block text-sm mb-1" htmlFor="status">
+          <label className="block text-xs text-grey-600 mb-1" htmlFor="status">
             Status
           </label>
           <select id="status" name="status" defaultValue="draft">
@@ -62,9 +62,9 @@ export default async function NewInputRequestPage({
             <option value="open">Offen</option>
           </select>
         </div>
-        {resolvedSearch.error ? <p className="text-sm text-red-600">{resolvedSearch.error}</p> : null}
-        {resolvedSearch.success ? <p className="text-sm text-green-700">{resolvedSearch.success}</p> : null}
-        <button type="submit" className="bg-brand-orange text-white rounded-lg px-4 py-2 font-semibold">
+        {resolvedSearch.error ? <p className="chip chip-error">{resolvedSearch.error}</p> : null}
+        {resolvedSearch.success ? <p className="chip chip-success">{resolvedSearch.success}</p> : null}
+        <button type="submit" className="btn btn-primary">
           Input-Anfrage speichern
         </button>
       </form>
