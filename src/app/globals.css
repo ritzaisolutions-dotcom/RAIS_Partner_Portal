@@ -355,17 +355,23 @@ button {
   }
 }
 
-/* ---- Liquid-Glass Header (adaptiert aus ritz-ai.solutions Navbar) ---- */
+/* ---- Liquid-Glass Header (adaptiert aus ritz-ai.solutions Navbar) ----
+   Im Ruhezustand (ganz oben, kein Scroll) ist der Header voll deckend
+   und ohne Blur. Der Header ist `fixed` (echtes Overlay), Content bekommt
+   pt-[68px] Ausgleich - bei transparentem Blur-Hintergrund UND exakt
+   passendem Offset kam es an der Kante zu sichtbarem "Ghosting" (Seitentitel
+   schimmerte durch den Header durch, sobald auch nur 1px gescrollt war,
+   z.B. durch Scroll-Restauration bei Tab-Wechsel). Blur/Transparenz gibt es
+   deshalb erst ab dem Scroll-Zustand (.glass-header-scrolled), wenn er
+   sichtbar vom Seitenanfang abgeloest ist. */
 .glass-header {
-  background-color: rgba(255, 255, 255, 0.86);
-  backdrop-filter: blur(12px) saturate(1.12);
-  -webkit-backdrop-filter: blur(12px) saturate(1.12);
+  background-color: var(--surface);
   border-bottom: 1px solid var(--grey-200);
   margin: 0;
   border-radius: 0;
   box-shadow: none;
   transition: margin var(--ease-glass) 0.45s, border-radius var(--ease-glass) 0.45s, border-color var(--ease-glass) 0.45s,
-    box-shadow var(--ease-glass) 0.45s, background-color var(--ease-glass) 0.45s;
+    box-shadow var(--ease-glass) 0.45s, background-color var(--ease-glass) 0.45s, backdrop-filter var(--ease-glass) 0.45s;
 }
 
 .glass-header-scrolled {
@@ -373,6 +379,8 @@ button {
   border-radius: 14px;
   border: 1px solid rgba(255, 255, 255, 0.6);
   background-color: rgba(255, 255, 255, 0.76);
+  backdrop-filter: blur(12px) saturate(1.12);
+  -webkit-backdrop-filter: blur(12px) saturate(1.12);
   box-shadow: var(--shadow-z8);
 }
 
