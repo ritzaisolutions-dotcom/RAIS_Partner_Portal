@@ -9,11 +9,11 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  if (!user) return NextResponse.redirect(new URL("/login", request.url));
+  if (!user) return NextResponse.redirect(new URL("/login", request.url), { status: 303 });
 
   const portal = admin.schema("portal");
   const { data: adminRow } = await portal.from("admins").select("user_id").eq("user_id", user.id).maybeSingle();
-  if (!adminRow) return NextResponse.redirect(new URL("/portal", request.url));
+  if (!adminRow) return NextResponse.redirect(new URL("/portal", request.url), { status: 303 });
 
   const formData = await request.formData();
   const title = String(formData.get("title") ?? "");
@@ -28,7 +28,9 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
     try {
       formSchema = JSON.parse(formSchemaRaw);
     } catch {
-      return NextResponse.redirect(new URL(`/admin/clients/${id}/inputs/new?error=Form-Schema+ist+kein+valider+JSON`, request.url));
+      return NextResponse.redirect(new URL(`/admin/clients/${id}/inputs/new?error=Form-Schema+ist+kein+valider+JSON`, request.url), {
+        status: 303,
+      });
     }
   }
 
@@ -43,8 +45,12 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
   });
 
   if (error) {
-    return NextResponse.redirect(new URL(`/admin/clients/${id}/inputs/new?error=Speichern+fehlgeschlagen`, request.url));
+    return NextResponse.redirect(new URL(`/admin/clients/${id}/inputs/new?error=Speichern+fehlgeschlagen`, request.url), {
+      status: 303,
+    });
   }
 
-  return NextResponse.redirect(new URL(`/admin/clients/${id}/inputs/new?success=Input-Anfrage+gespeichert`, request.url));
+  return NextResponse.redirect(new URL(`/admin/clients/${id}/inputs/new?success=Input-Anfrage+gespeichert`, request.url), {
+    status: 303,
+  });
 }

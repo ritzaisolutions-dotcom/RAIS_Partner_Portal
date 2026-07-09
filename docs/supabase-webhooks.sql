@@ -7,9 +7,9 @@ after update on portal.status_reports
 for each row
 when (old.status is distinct from new.status and new.status = 'published')
 execute function supabase_functions.http_request(
-  'https://N8N_HOST/webhook/rais-report-published',
+  'https://n8n.ritz-ai.solutions/webhook/rais-report-published',
   'POST',
-  '{"Content-Type":"application/json","x-portal-secret":"N8N_WEBHOOK_SECRET"}',
+  '{"Content-Type":"application/json","x-portal-secret":"<N8N_WEBHOOK_SECRET>"}',
   '{}',
   '5000'
 );
@@ -20,9 +20,9 @@ after insert or update on portal.input_requests
 for each row
 when (new.status = 'open')
 execute function supabase_functions.http_request(
-  'https://N8N_HOST/webhook/rais-input-requested',
+  'https://n8n.ritz-ai.solutions/webhook/rais-input-requested',
   'POST',
-  '{"Content-Type":"application/json","x-portal-secret":"N8N_WEBHOOK_SECRET"}',
+  '{"Content-Type":"application/json","x-portal-secret":"<N8N_WEBHOOK_SECRET>"}',
   '{}',
   '5000'
 );
@@ -32,9 +32,11 @@ create trigger input_submitted_webhook
 after insert on portal.input_submissions
 for each row
 execute function supabase_functions.http_request(
-  'https://N8N_HOST/webhook/rais-input-submitted',
+  'https://n8n.ritz-ai.solutions/webhook/rais-input-submitted',
   'POST',
-  '{"Content-Type":"application/json","x-portal-secret":"N8N_WEBHOOK_SECRET"}',
+  '{"Content-Type":"application/json","x-portal-secret":"<N8N_WEBHOOK_SECRET>"}',
   '{}',
   '5000'
 );
+
+

@@ -8,7 +8,7 @@ export async function POST(request: Request) {
   if (password.length < 10) {
     const url = new URL("/auth/reset-password", request.url);
     url.searchParams.set("error", "Passwort muss mindestens 10 Zeichen haben.");
-    return NextResponse.redirect(url);
+    return NextResponse.redirect(url, { status: 303 });
   }
 
   const { error } = await supabase.auth.updateUser({
@@ -21,8 +21,8 @@ export async function POST(request: Request) {
   if (error) {
     const url = new URL("/auth/reset-password", request.url);
     url.searchParams.set("error", "Passwort konnte nicht gesetzt werden.");
-    return NextResponse.redirect(url);
+    return NextResponse.redirect(url, { status: 303 });
   }
 
-  return NextResponse.redirect(new URL("/", request.url));
+  return NextResponse.redirect(new URL("/", request.url), { status: 303 });
 }

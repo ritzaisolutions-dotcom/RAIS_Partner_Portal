@@ -55,6 +55,20 @@
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1,
       "position": [730, 420]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\"ok\":true}",
+        "options": {
+          "responseCode": 200
+        }
+      },
+      "id": "successResponse",
+      "name": "Success 200",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [980, 250]
     }
   ],
   "connections": {
@@ -66,6 +80,9 @@
         [{ "node": "Alert Kevin", "type": "main", "index": 0 }],
         [{ "node": "Unauthorized 401", "type": "main", "index": 0 }]
       ]
+    },
+    "Alert Kevin": {
+      "main": [[{ "node": "Success 200", "type": "main", "index": 0 }]]
     }
   }
 }

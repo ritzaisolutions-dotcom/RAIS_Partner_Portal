@@ -9,11 +9,11 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  if (!user) return NextResponse.redirect(new URL("/login", request.url));
+  if (!user) return NextResponse.redirect(new URL("/login", request.url), { status: 303 });
 
   const portal = admin.schema("portal");
   const { data: adminRow } = await portal.from("admins").select("user_id").eq("user_id", user.id).maybeSingle();
-  if (!adminRow) return NextResponse.redirect(new URL("/portal", request.url));
+  if (!adminRow) return NextResponse.redirect(new URL("/portal", request.url), { status: 303 });
 
   const formData = await request.formData();
   const title = String(formData.get("title") ?? "");
@@ -30,8 +30,12 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
   });
 
   if (error) {
-    return NextResponse.redirect(new URL(`/admin/clients/${id}/reports/new?error=Speichern+fehlgeschlagen`, request.url));
+    return NextResponse.redirect(new URL(`/admin/clients/${id}/reports/new?error=Speichern+fehlgeschlagen`, request.url), {
+      status: 303,
+    });
   }
 
-  return NextResponse.redirect(new URL(`/admin/clients/${id}/reports/new?success=Report+gespeichert`, request.url));
+  return NextResponse.redirect(new URL(`/admin/clients/${id}/reports/new?success=Report+gespeichert`, request.url), {
+    status: 303,
+  });
 }

@@ -8,12 +8,12 @@ export async function POST(request: Request) {
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  if (!user) return NextResponse.redirect(new URL("/login", request.url));
+  if (!user) return NextResponse.redirect(new URL("/login", request.url), { status: 303 });
 
   const admin = createAdminClient();
   const portal = admin.schema("portal");
   const { data: adminRow } = await portal.from("admins").select("user_id").eq("user_id", user.id).maybeSingle();
-  if (!adminRow) return NextResponse.redirect(new URL("/portal", request.url));
+  if (!adminRow) return NextResponse.redirect(new URL("/portal", request.url), { status: 303 });
 
   const formData = await request.formData();
   const name = String(formData.get("name") ?? "");
@@ -31,7 +31,7 @@ export async function POST(request: Request) {
       upsert: true,
     });
     if (logoError) {
-      return NextResponse.redirect(new URL("/admin/clients/new?error=Logo-Upload+fehlgeschlagen", request.url));
+      return NextResponse.redirect(new URL("/admin/clients/new?error=Logo-Upload+fehlgeschlagen", request.url), { status: 303 });
     }
   }
 
@@ -47,7 +47,7 @@ export async function POST(request: Request) {
     .single();
 
   if (clientError || !client) {
-    return NextResponse.redirect(new URL("/admin/clients/new?error=Kunde+konnte+nicht+angelegt+werden", request.url));
+    return NextResponse.redirect(new URL("/admin/clients/new?error=Kunde+konnte+nicht+angelegt+werden", request.url), { status: 303 });
   }
 
   const tempPassword = `RAIS-${crypto.randomBytes(8).toString("hex")}`;
@@ -61,7 +61,7 @@ export async function POST(request: Request) {
   });
 
   if (authError || !createdUser.user) {
-    return NextResponse.redirect(new URL("/admin/clients/new?error=Benutzer+konnte+nicht+angelegt+werden", request.url));
+    return NextResponse.redirect(new URL("/admin/clients/new?error=Benutzer+konnte+nicht+angelegt+werden", request.url), { status: 303 });
   }
 
   const { error: clientUserError } = await portal.from("client_users").insert({
@@ -71,11 +71,12 @@ export async function POST(request: Request) {
   });
 
   if (clientUserError) {
-    return NextResponse.redirect(new URL("/admin/clients/new?error=Zuordnung+des+Benutzers+fehlgeschlagen", request.url));
+    return NextResponse.redirect(new URL("/admin/clients/new?error=Zuordnung+des+Benutzers+fehlgeschlagen", request.url), { status: 303 });
   }
 
   const successUrl = new URL("/admin/clients/new", request.url);
   successUrl.searchParams.set("success", "Kunde+und+Client-User+wurden+angelegt");
   successUrl.searchParams.set("tempPassword", tempPassword);
-  return NextResponse.redirect(successUrl);
+  return NextResponse.redirect(successUrl, { status: 303 });
 }
+

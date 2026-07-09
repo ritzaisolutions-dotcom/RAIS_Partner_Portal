@@ -30,6 +30,29 @@
     },
     {
       "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{$json.body.record.status}}",
+              "operation": "equal",
+              "value2": "published"
+            },
+            {
+              "value1": "={{$json.body.old_record.status}}",
+              "operation": "notEqual",
+              "value2": "published"
+            }
+          ]
+        }
+      },
+      "id": "publishedTransition",
+      "name": "Published Transition",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [700, 300]
+    },
+    {
+      "parameters": {
         "resource": "row",
         "operation": "getAll",
         "tableId": "clients",
@@ -71,6 +94,23 @@
     },
     {
       "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{$json.primary_contact_email}}",
+              "operation": "notEmpty"
+            }
+          ]
+        }
+      },
+      "id": "recipientCheck",
+      "name": "Recipient Present",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [900, 420]
+    },
+    {
+      "parameters": {
         "respondWith": "json",
         "responseBody": "={\"error\":\"unauthorized\"}",
         "options": {
@@ -82,6 +122,34 @@
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1,
       "position": [700, 420]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\"error\":\"missing_primary_contact_email\"}",
+        "options": {
+          "responseCode": 422
+        }
+      },
+      "id": "missingRecipientResponse",
+      "name": "Missing Recipient 422",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [1120, 560]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\"ok\":true}",
+        "options": {
+          "responseCode": 200
+        }
+      },
+      "id": "successResponse",
+      "name": "Success 200",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [1140, 250]
     }
   ],
   "connections": {
@@ -90,12 +158,27 @@
     },
     "Secret Check": {
       "main": [
-        [{ "node": "Load Client Email", "type": "main", "index": 0 }],
+        [{ "node": "Published Transition", "type": "main", "index": 0 }],
         [{ "node": "Unauthorized 401", "type": "main", "index": 0 }]
       ]
     },
+    "Published Transition": {
+      "main": [
+        [{ "node": "Load Client Email", "type": "main", "index": 0 }],
+        [{ "node": "Success 200", "type": "main", "index": 0 }]
+      ]
+    },
     "Load Client Email": {
-      "main": [[{ "node": "Send Email", "type": "main", "index": 0 }]]
+      "main": [[{ "node": "Recipient Present", "type": "main", "index": 0 }]]
+    },
+    "Recipient Present": {
+      "main": [
+        [{ "node": "Send Email", "type": "main", "index": 0 }],
+        [{ "node": "Missing Recipient 422", "type": "main", "index": 0 }]
+      ]
+    },
+    "Send Email": {
+      "main": [[{ "node": "Success 200", "type": "main", "index": 0 }]]
     }
   }
 }

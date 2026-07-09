@@ -11,11 +11,11 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  if (!user) return NextResponse.redirect(new URL("/login", request.url));
+  if (!user) return NextResponse.redirect(new URL("/login", request.url), { status: 303 });
 
   const portal = supabase.schema("portal");
   const { data: clientUser } = await portal.from("client_users").select("client_id").eq("user_id", user.id).maybeSingle();
-  if (!clientUser?.client_id) return NextResponse.redirect(new URL("/login", request.url));
+  if (!clientUser?.client_id) return NextResponse.redirect(new URL("/login", request.url), { status: 303 });
 
   const { data: inputRequest } = await portal
     .from("input_requests")
@@ -24,11 +24,11 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
     .eq("client_id", clientUser.client_id)
     .maybeSingle();
   if (!inputRequest) {
-    return NextResponse.redirect(new URL(`/portal/inputs/${id}?error=Anfrage+nicht+gefunden`, request.url));
+    return NextResponse.redirect(new URL(`/portal/inputs/${id}?error=Anfrage+nicht+gefunden`, request.url), { status: 303 });
   }
 
   if (!["open", "reopened"].includes(inputRequest.status)) {
-    return NextResponse.redirect(new URL(`/portal/inputs/${id}?error=Anfrage+ist+nicht+offen`, request.url));
+    return NextResponse.redirect(new URL(`/portal/inputs/${id}?error=Anfrage+ist+nicht+offen`, request.url), { status: 303 });
   }
 
   const formData = await request.formData();
@@ -91,6 +91,7 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
   if (validationErrors.length > 0) {
     return NextResponse.redirect(
       new URL(`/portal/inputs/${id}?error=${encodeURIComponent(validationErrors.join(" "))}`, request.url),
+      { status: 303 },
     );
   }
 
@@ -107,14 +108,20 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
     .single();
 
   if (submissionError || !submission) {
-    return NextResponse.redirect(new URL(`/portal/inputs/${id}?error=Antwort+konnte+nicht+gespeichert+werden.`, request.url));
+    return NextResponse.redirect(new URL(`/portal/inputs/${id}?error=Antwort+konnte+nicht+gespeichert+werden.`, request.url), {
+      status: 303,
+    });
   }
 
   const { error: statusError } = await admin.schema("portal").from("input_requests").update({ status: "submitted" }).eq("id", id);
   if (statusError) {
     await admin.schema("portal").from("input_submissions").delete().eq("id", submission.id);
-    return NextResponse.redirect(new URL(`/portal/inputs/${id}?error=Status+konnte+nicht+aktualisiert+werden.`, request.url));
+    return NextResponse.redirect(new URL(`/portal/inputs/${id}?error=Status+konnte+nicht+aktualisiert+werden.`, request.url), {
+      status: 303,
+    });
   }
 
-  return NextResponse.redirect(new URL(`/portal/inputs/${id}?success=Vielen+Dank%2C+die+Antwort+wurde+gespeichert.`, request.url));
+  return NextResponse.redirect(new URL(`/portal/inputs/${id}?success=Vielen+Dank%2C+die+Antwort+wurde+gespeichert.`, request.url), {
+    status: 303,
+  });
 }

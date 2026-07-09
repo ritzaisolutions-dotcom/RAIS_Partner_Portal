@@ -12,8 +12,8 @@ export async function POST(request: Request) {
   if (error) {
     const loginUrl = new URL("/login", request.url);
     loginUrl.searchParams.set("error", "Login fehlgeschlagen");
-    return NextResponse.redirect(loginUrl);
+    return NextResponse.redirect(loginUrl, { status: 303 });
   }
 
-  return NextResponse.redirect(new URL("/", request.url));
+  return NextResponse.redirect(new URL("/", request.url), { status: 303 });
 }
