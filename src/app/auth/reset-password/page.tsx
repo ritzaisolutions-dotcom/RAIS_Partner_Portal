@@ -1,4 +1,6 @@
-export default function ResetPasswordPage({ searchParams }: { searchParams: { error?: string } }) {
+export default async function ResetPasswordPage({ searchParams }: { searchParams: Promise<{ error?: string }> }) {
+  const resolvedSearch = await searchParams;
+
   return (
     <main className="min-h-screen bg-background flex items-center justify-center p-6">
       <div className="w-full max-w-md bg-surface border border-border rounded-xl p-8 shadow-sm">
@@ -11,7 +13,7 @@ export default function ResetPasswordPage({ searchParams }: { searchParams: { er
             </label>
             <input id="password" name="password" type="password" required minLength={10} />
           </div>
-          {searchParams?.error ? <p className="text-red-600 text-sm">{searchParams.error}</p> : null}
+          {resolvedSearch?.error ? <p className="text-red-600 text-sm">{resolvedSearch.error}</p> : null}
           <button className="w-full bg-brand-orange text-white rounded-lg py-2.5 font-semibold" type="submit">
             Passwort speichern
           </button>

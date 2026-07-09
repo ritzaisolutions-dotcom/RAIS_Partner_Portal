@@ -10,6 +10,7 @@ export async function POST(request: Request) {
   const { error } = await supabase.auth.signInWithPassword({ email, password });
 
   if (error) {
+    console.error("Sign-in failed", { email, message: error.message });
     const loginUrl = new URL("/login", request.url);
     loginUrl.searchParams.set("error", "Login fehlgeschlagen");
     return NextResponse.redirect(loginUrl, { status: 303 });
