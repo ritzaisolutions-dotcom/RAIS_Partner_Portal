@@ -13,10 +13,10 @@ export default async function PortalLayout({ children }: { children: ReactNode }
   return (
     <AppShell
       title={client?.name ?? "Kundenportal"}
-      subtitle="Ihre Status-Reports und offenen Input-Anfragen"
+      subtitle="Ihre Reports und offenen Aufgaben"
       links={[
-        { href: "/portal/reports", label: "Status-Reports" },
-        { href: "/portal/inputs", label: "Input-Anfragen" },
+        { href: "/portal/reports", label: "Reports" },
+        { href: "/portal/inputs", label: "Aufgaben" },
       ]}
       logoUrl={client?.logo_path ?? null}
     >
