@@ -59,6 +59,9 @@ export default async function AdminClientDetailPage({
           <Link className="btn btn-secondary" href={`/admin/clients/${id}/inputs/new`}>
             + Neue Input-Anfrage
           </Link>
+          <Link className="btn btn-ghost" href={`/admin/clients/${id}/edit`}>
+            Kunde bearbeiten
+          </Link>
         </div>
       </div>
 
@@ -94,13 +97,20 @@ export default async function AdminClientDetailPage({
           <div>
             {requests?.map((request) => (
               <div key={request.id} className="table-row flex items-center justify-between gap-3 px-6 py-3 last:border-b-0">
-                <div className="min-w-0">
+                <Link href={`/admin/clients/${id}/inputs/${request.id}/edit`} className="min-w-0 flex-1 hover:underline">
                   <p className="font-medium text-grey-900 truncate">{request.title}</p>
                   <p className="text-xs text-grey-500">{request.due_date ? `Fällig: ${request.due_date}` : "Kein Fälligkeitsdatum"}</p>
-                </div>
+                </Link>
                 <span className={`chip ${INPUT_STATUS_CHIP[request.status] ?? "chip-neutral"} shrink-0`}>
                   {INPUT_STATUS_LABEL[request.status] ?? request.status}
                 </span>
+                {request.status === "draft" ? (
+                  <form action={`/admin/clients/${id}/inputs/${request.id}/publish`} method="post" className="shrink-0">
+                    <button type="submit" className="btn btn-secondary !text-xs !py-1.5 !px-3">
+                      Veröffentlichen
+                    </button>
+                  </form>
+                ) : null}
               </div>
             ))}
             {!requests?.length ? <div className="card-content text-grey-500">Noch keine Input-Anfragen.</div> : null}

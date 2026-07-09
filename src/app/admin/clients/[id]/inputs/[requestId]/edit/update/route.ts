@@ -1,0 +1,58 @@
+import { NextResponse } from "next/server";
+import { createAdminClient } from "@/lib/supabase/admin";
+import { createClient } from "@/lib/supabase/server";
+
+export async function POST(request: Request, { params }: { params: Promise<{ id: string; requestId: string }> }) {
+  const { id, requestId } = await params;
+  const supabase = await createClient();
+  const admin = createAdminClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return NextResponse.redirect(new URL("/login", request.url), { status: 303 });
+
+  const portal = admin.schema("portal");
+  const { data: adminRow } = await portal.from("admins").select("user_id").eq("user_id", user.id).maybeSingle();
+  if (!adminRow) return NextResponse.redirect(new URL("/portal", request.url), { status: 303 });
+
+  const formData = await request.formData();
+  const title = String(formData.get("title") ?? "");
+  const descriptionMd = String(formData.get("description_md") ?? "");
+  const kind = String(formData.get("kind") ?? "form");
+  const dueDate = String(formData.get("due_date") ?? "");
+  const status = String(formData.get("status") ?? "draft");
+  const formSchemaRaw = String(formData.get("form_schema") ?? "[]");
+
+  let formSchema: unknown = null;
+  if (kind === "form") {
+    try {
+      formSchema = JSON.parse(formSchemaRaw);
+    } catch {
+      return NextResponse.redirect(
+        new URL(`/admin/clients/${id}/inputs/${requestId}/edit?error=Form-Schema+ist+kein+valider+JSON`, request.url),
+        { status: 303 },
+      );
+    }
+  }
+
+  const { error } = await portal
+    .from("input_requests")
+    .update({
+      title,
+      description_md: descriptionMd || null,
+      kind,
+      form_schema: kind === "form" ? formSchema : null,
+      status,
+      due_date: dueDate || null,
+    })
+    .eq("id", requestId)
+    .eq("client_id", id);
+
+  if (error) {
+    return NextResponse.redirect(new URL(`/admin/clients/${id}/inputs/${requestId}/edit?error=Speichern+fehlgeschlagen`, request.url), {
+      status: 303,
+    });
+  }
+
+  return NextResponse.redirect(new URL(`/admin/clients/${id}?tab=inputs&success=Gespeichert`, request.url), { status: 303 });
+}
