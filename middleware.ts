@@ -49,5 +49,10 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/((?!_next/static|_next/image|favicon.ico).*)"],
+  // Zusätzlich zu den Next-internen Pfaden auch alle statischen Dateien
+  // (alles mit einer Dateiendung, z.B. /rais-logo.svg, Kundenlogos) von der
+  // Auth-Middleware ausnehmen. Sonst leitet die Middleware unautorisierte
+  // Anfragen auf solche Assets fälschlich auf /login um, und z.B. das
+  // RAIS-Logo auf der Login-Seite selbst lädt nicht.
+  matcher: ["/((?!_next/static|_next/image|favicon.ico|.*\\..*).*)"],
 };
