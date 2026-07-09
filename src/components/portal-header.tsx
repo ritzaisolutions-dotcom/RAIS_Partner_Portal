@@ -26,7 +26,8 @@ export function PortalHeader({ title, subtitle, logoUrl }: PortalHeaderProps) {
             // eslint-disable-next-line @next/next/no-img-element
             <img src={logoUrl} alt="Kundenlogo" className="h-9 w-auto rounded" />
           ) : (
-            <div className="h-9 w-9 rounded-lg bg-primary text-white flex items-center justify-center font-semibold shrink-0">R</div>
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src="/rais-logo.svg" alt="RAIS" className="h-9 w-9 shrink-0" />
           )}
           <div className="min-w-0">
             <h1 className="text-lg leading-tight truncate">{title}</h1>

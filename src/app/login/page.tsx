@@ -4,7 +4,8 @@ export default async function LoginPage({ searchParams }: { searchParams: Promis
   return (
     <main className="min-h-screen bg-grey-100 flex items-center justify-center p-6">
       <div className="w-full max-w-[420px] card p-8">
-        <div className="h-11 w-11 rounded-lg bg-primary text-white flex items-center justify-center font-semibold mb-5">R</div>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/rais-logo.svg" alt="RAIS" className="h-11 w-11 mb-5" />
         <h1 className="text-2xl mb-1">Willkommen zurück</h1>
         <p className="text-grey-500 text-sm mb-6">Bitte mit Ihren Zugangsdaten am RAIS Client Portal anmelden.</p>
         <form action="/auth/signin" method="post" className="space-y-4">
