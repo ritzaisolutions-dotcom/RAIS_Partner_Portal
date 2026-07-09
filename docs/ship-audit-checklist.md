@@ -1,16 +1,22 @@
 # RAIS Ship Audit Checklist (Portal)
 
-- [x] `portal` Schema + RLS aktiv, anon hat keinen Zugriff
+- [x] `portal` Schema + RLS aktiv, anon hat keinen Zugriff (2026-07-09: anon-Grants zusätzlich komplett entzogen, siehe Ship-Audit v1.0)
 - [x] Auth Signups deaktiviert
 - [x] Admin-Only Zugriff auf `/admin/*` geprüft
 - [x] Kunde sieht nur eigene Status-Reports und Input-Anfragen (IDOR-Check)
-- [ ] n8n Webhooks prüfen Secret-Header und blocken ungültige Requests
+- [x] n8n Webhooks prüfen Secret-Header und blocken ungültige Requests (2026-07-09: live verifiziert, Secret war im Klartext exponiert -> rotiert, Response Mode auf "Using Respond to Webhook Node" umgestellt)
 - [x] Entwürfe von Reports/Requests lösen keine Kundenmails aus
-- [x] `/datenschutz` und `/impressum` veröffentlicht
+- [x] `/impressum` und `/datenschutz` sind öffentlich ohne Login erreichbar (2026-07-09 gefixt, waren zuvor hinter der Auth-Middleware)
 - [x] Deployment Protection für Previews aktiv
-- [ ] Login Rate-Limits in Supabase dokumentiert
-- [x] Löschkonzept inklusive Storage-Cleanup dokumentiert
-- [ ] Domain `portal.ritz-ai.solutions` auf produktives Deployment gesetzt (DNS-Verifikation noch offen)
+- [ ] Login Rate-Limits in Supabase dokumentiert (Test aus docs/operations.md Punkt 4 noch nicht durchgeführt)
+- [x] Löschkonzept inklusive Storage-Cleanup dokumentiert (weiterhin nur konzeptionell, nicht automatisiert - siehe Ship-Audit LOW-Finding)
+- [x] Domain `portal.ritz-ai.solutions` auf produktives Deployment gesetzt (Vercel-Projekt `rais-kundenportal`, DNS verifiziert)
 - [ ] Haller Seed-Daten angelegt und mit Thomas abgestimmt
-- [ ] Impressum mit finalen Stammdaten ergänzt (Anschrift, Vertretungsberechtigte, Registerangaben)
-- [ ] n8n Smoke-Test 2026-07-09: Alle drei Production-Endpunkte antworten aktuell mit `404` (`rais-report-published`, `rais-input-requested`, `rais-input-submitted`). Nach Re-Import/Aktivierung der Workflows erneut mit `401` (ohne Secret) und `200/422` (mit Secret) verifizieren.
+- [ ] Impressum mit finalen Stammdaten ergänzt (Anschrift, Vertretungsberechtigte, Registerangaben) - Platzhalter sind weiterhin live
+- [x] n8n Smoke-Test 2026-07-09: alle drei Workflows aktiv, POST konfiguriert, Secret-Check + Response-Mode live geprüft und korrigiert
+
+## Offen aus Ship-Audit v1.0 (2026-07-09)
+
+- [ ] Verwaistes Vercel-Projekt `rais-portal` (Duplikat ohne Custom Domain) - löschen oder Zweck klären
+- [ ] Geteiltes Supabase-Projekt (`qdywaenmojdxhfxqbvun`) mit unabhängigem CRM/Lead-System - bewusste Entscheidung nötig
+- [ ] Sign-in Rate-Limiting app-seitig ergänzen bzw. Supabase-Default verifizieren
