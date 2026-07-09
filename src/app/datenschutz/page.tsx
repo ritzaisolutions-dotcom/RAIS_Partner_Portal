@@ -29,6 +29,23 @@ export default function DatenschutzPage() {
           per Storage-Cleanup-Prozess gelöscht.
         </p>
       </section>
+      <section>
+        <h2 className="text-2xl mb-2">Rechtsgrundlagen</h2>
+        <p>
+          Die Verarbeitung erfolgt auf Grundlage von Art. 6 Abs. 1 lit. b DSGVO (Erfüllung des Vertrags zwischen RAIS und dem
+          jeweiligen Kunden bzw. Vorbereitung eines solchen Vertrags) sowie Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse
+          an einer funktionierenden, sicheren Kommunikations- und Projektplattform).
+        </p>
+      </section>
+      <section>
+        <h2 className="text-2xl mb-2">Betroffenenrechte</h2>
+        <p>
+          Betroffene Personen haben nach Maßgabe der DSGVO das Recht auf Auskunft (Art. 15), Berichtigung (Art. 16), Löschung
+          (Art. 17), Einschränkung der Verarbeitung (Art. 18), Datenübertragbarkeit (Art. 20) sowie Widerspruch (Art. 21)
+          gegen die Verarbeitung ihrer personenbezogenen Daten. Anfragen richten Sie bitte an die im{" "}
+          <a href="/impressum" className="underline">Impressum</a> genannte verantwortliche Stelle.
+        </p>
+      </section>
     </main>
   );
 }

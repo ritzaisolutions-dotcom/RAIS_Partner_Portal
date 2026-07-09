@@ -1,7 +1,9 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { updateSession } from "@/lib/supabase/middleware";
 
-const PUBLIC_PATHS = ["/login", "/auth/signin", "/auth/reset-password"];
+// Impressum und Datenschutzerklaerung muessen laut Impressumspflicht (§5 DDG)
+// jederzeit ohne Hindernis (also auch ohne Login) erreichbar sein.
+const PUBLIC_PATHS = ["/login", "/auth/signin", "/auth/reset-password", "/impressum", "/datenschutz"];
 
 export async function middleware(request: NextRequest) {
   const { supabase, response } = await updateSession(request);
@@ -49,10 +51,10 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  // Zusätzlich zu den Next-internen Pfaden auch alle statischen Dateien
+  // Zusaetzlich zu den Next-internen Pfaden auch alle statischen Dateien
   // (alles mit einer Dateiendung, z.B. /rais-logo.svg, Kundenlogos) von der
   // Auth-Middleware ausnehmen. Sonst leitet die Middleware unautorisierte
-  // Anfragen auf solche Assets fälschlich auf /login um, und z.B. das
-  // RAIS-Logo auf der Login-Seite selbst lädt nicht.
+  // Anfragen auf solche Assets faelschlich auf /login um, und z.B. das
+  // RAIS-Logo auf der Login-Seite selbst laedt nicht.
   matcher: ["/((?!_next/static|_next/image|favicon.ico|.*\\..*).*)"],
 };
