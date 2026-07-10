@@ -18,7 +18,11 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
   const { data: adminRow } = await portal.from("admins").select("user_id").eq("user_id", user.id).maybeSingle();
   if (!adminRow) return NextResponse.redirect(new URL("/portal", request.url), { status: 303 });
 
+  const formData = await request.formData();
+  const redirectTo = formData.get("redirect_to") === "/admin/users" ? "/admin/users" : `/admin/clients/${id}?tab=users`;
+
   await portal.from("client_users").delete().eq("user_id", userId).eq("client_id", id);
 
-  return NextResponse.redirect(new URL(`/admin/clients/${id}?tab=users&success=Benutzer+entfernt`, request.url), { status: 303 });
+  const separator = redirectTo.includes("?") ? "&" : "?";
+  return NextResponse.redirect(new URL(`${redirectTo}${separator}success=Benutzer+entfernt`, request.url), { status: 303 });
 }

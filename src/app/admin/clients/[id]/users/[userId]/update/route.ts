@@ -18,6 +18,8 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
   const formData = await request.formData();
   const canViewReports = formData.get("can_view_reports") === "on";
   const canViewInputs = formData.get("can_view_inputs") === "on";
+  // Nur bekannte, feste Zielseiten zulassen (kein offener Redirect ueber Nutzereingabe).
+  const redirectTo = formData.get("redirect_to") === "/admin/users" ? "/admin/users" : `/admin/clients/${id}?tab=users`;
 
   await portal
     .from("client_users")
@@ -25,5 +27,6 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
     .eq("user_id", userId)
     .eq("client_id", id);
 
-  return NextResponse.redirect(new URL(`/admin/clients/${id}?tab=users&success=Sichtbarkeit+gespeichert`, request.url), { status: 303 });
+  const separator = redirectTo.includes("?") ? "&" : "?";
+  return NextResponse.redirect(new URL(`${redirectTo}${separator}success=Sichtbarkeit+gespeichert`, request.url), { status: 303 });
 }
