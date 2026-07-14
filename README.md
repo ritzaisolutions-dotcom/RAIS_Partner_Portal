@@ -41,6 +41,7 @@ npm run dev
 ## Operations
 
 - **Onboarding Journey (Playbook, Flow, Audit):** [`docs/onboarding-journey.md`](docs/onboarding-journey.md)
+- **Input Security Test Report:** [`docs/input-security-test-report.md`](docs/input-security-test-report.md)
 - Deployment und n8n E-Mail-Setup: `docs/operations.md`
 - E-Mail-Vorlagen: `docs/email-templates.md`
 - Workflows: `n8n/workflows/*.workflow.json` (Skribble-Workflow: Vorlage, erst nach Production-API-Key aktivieren)

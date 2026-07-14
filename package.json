@@ -9,6 +9,8 @@
     "lint": "eslint",
     "test:unit": "tsx --test test/**/*.test.ts",
     "test:rls": "tsx scripts/rls-tenant-isolation-test.ts",
+    "test:input-security": "tsx --env-file=.env scripts/input-security-test.ts",
+    "test:portal-http": "tsx scripts/portal-http-test.ts",
     "seed:test-customers": "tsx --env-file=.env scripts/seed-test-permission-customers.ts"
   },
   "dependencies": {

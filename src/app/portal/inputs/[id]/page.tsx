@@ -18,6 +18,7 @@ export default async function PortalInputDetailPage({
 
   const request = await getInputRequestForClient(id, clientId!);
   const fields = parseFormSchema(request.form_schema);
+  const canSubmit = ["open", "reopened"].includes(request.status);
 
   return (
     <section className="space-y-4">
@@ -27,66 +28,81 @@ export default async function PortalInputDetailPage({
         {request.due_date ? <p className="text-sm mt-3">Fällig am: {request.due_date}</p> : null}
       </div>
 
-      <form
-        action={`/portal/inputs/${id}/submit`}
-        method="post"
-        encType="multipart/form-data"
-        className="bg-surface border border-border rounded-lg p-6 space-y-4"
-      >
-        {request.kind === "freetext" ? (
-          <div>
-            <label htmlFor="freetext" className="block text-sm mb-1">
-              Ihre Antwort
-            </label>
-            <textarea id="freetext" name="freetext" rows={8} required />
-          </div>
-        ) : (
-          fields.map((field) => (
-            <div key={field.key}>
-              <label htmlFor={field.key} className="block text-sm mb-1">
-                {field.label}
+      {canSubmit ? (
+        <form
+          action={`/portal/inputs/${id}/submit`}
+          method="post"
+          encType="multipart/form-data"
+          className="bg-surface border border-border rounded-lg p-6 space-y-4"
+        >
+          {request.kind === "freetext" ? (
+            <div>
+              <label htmlFor="freetext" className="block text-sm mb-1">
+                Ihre Antwort
               </label>
-              {field.type === "textarea" ? (
-                <textarea id={field.key} name={field.key} required={field.required} rows={5} />
-              ) : field.type === "select" ? (
-                <select id={field.key} name={field.key} required={field.required}>
-                  <option value="">Bitte wählen</option>
-                  {(field.options ?? []).map((option) => (
-                    <option key={option} value={option}>
-                      {option}
-                    </option>
-                  ))}
-                </select>
-              ) : field.type === "file" ? (
-                <input id={field.key} name={field.key} type="file" accept={ACCEPT_SUBMISSION_FILES} required={field.required} />
-              ) : (
-                <input id={field.key} name={field.key} type={field.type} required={field.required} />
-              )}
+              <textarea id="freetext" name="freetext" rows={8} required />
             </div>
-          ))
-        )}
+          ) : (
+            fields.map((field) => (
+              <div key={field.key}>
+                <label htmlFor={field.key} className="block text-sm mb-1">
+                  {field.label}
+                </label>
+                {field.type === "textarea" ? (
+                  <textarea id={field.key} name={field.key} required={field.required} rows={5} />
+                ) : field.type === "select" ? (
+                  <select id={field.key} name={field.key} required={field.required}>
+                    <option value="">Bitte wählen</option>
+                    {(field.options ?? []).map((option) => (
+                      <option key={option} value={option}>
+                        {option}
+                      </option>
+                    ))}
+                  </select>
+                ) : field.type === "file" ? (
+                  <input id={field.key} name={field.key} type="file" accept={ACCEPT_SUBMISSION_FILES} required={field.required} />
+                ) : (
+                  <input id={field.key} name={field.key} type={field.type} required={field.required} />
+                )}
+              </div>
+            ))
+          )}
 
-        <div>
-          <label htmlFor="attachments" className="block text-sm mb-1">
-            Weitere Dateien (optional)
-          </label>
-          <input id="attachments" name="attachments" type="file" accept={ACCEPT_SUBMISSION_FILES} multiple />
-        </div>
-
-        {resolvedSearch.error ? <p className="text-sm text-red-600">{resolvedSearch.error}</p> : null}
-        {resolvedSearch.success ? (
-          <div className="portal-success-banner" role="status">
-            <span className="portal-success-banner-icon" aria-hidden="true">
-              ✓
-            </span>
-            <p className="portal-success-banner-text">{resolvedSearch.success}</p>
+          <div>
+            <label htmlFor="attachments" className="block text-sm mb-1">
+              Weitere Dateien (optional)
+            </label>
+            <input id="attachments" name="attachments" type="file" accept={ACCEPT_SUBMISSION_FILES} multiple />
           </div>
-        ) : null}
 
-        <button type="submit" className="bg-brand-orange text-white rounded-lg px-4 py-2 font-semibold">
-          Antwort einreichen
-        </button>
-      </form>
+          {resolvedSearch.error ? <p className="text-sm text-red-600">{resolvedSearch.error}</p> : null}
+          {resolvedSearch.success ? (
+            <div className="portal-success-banner" role="status">
+              <span className="portal-success-banner-icon" aria-hidden="true">
+                ✓
+              </span>
+              <p className="portal-success-banner-text">{resolvedSearch.success}</p>
+            </div>
+          ) : null}
+
+          <button type="submit" className="bg-brand-orange text-white rounded-lg px-4 py-2 font-semibold">
+            Antwort einreichen
+          </button>
+        </form>
+      ) : (
+        <div className="bg-surface border border-border rounded-lg p-6 space-y-3">
+          {resolvedSearch.success ? (
+            <div className="portal-success-banner" role="status">
+              <span className="portal-success-banner-icon" aria-hidden="true">
+                ✓
+              </span>
+              <p className="portal-success-banner-text">{resolvedSearch.success}</p>
+            </div>
+          ) : (
+            <p className="text-sm text-grey-600">Diese Anfrage ist derzeit nicht zur Einreichung geöffnet.</p>
+          )}
+        </div>
+      )}
     </section>
   );
 }
