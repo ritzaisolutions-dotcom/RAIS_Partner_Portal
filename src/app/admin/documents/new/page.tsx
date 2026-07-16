@@ -26,7 +26,7 @@ export default async function AdminNewDocumentTemplatePage({
         action="/admin/documents/new/create"
         method="post"
         encType="multipart/form-data"
-        className="card card-content space-y-4"
+        className="portal-card portal-card-body space-y-4"
       >
         <div>
           <label htmlFor="name" className="block text-xs text-grey-600 mb-1">

@@ -41,7 +41,7 @@ export default async function LoginPage({ searchParams }: { searchParams: Promis
 
         <p className="text-xs text-[var(--color-stone)] mt-6 text-center">
           Passwort vergessen?{" "}
-          <Link href="/impressum" className="text-[var(--color-orange)] font-medium underline-offset-2 hover:underline">
+          <Link href="/impressum" className="text-[var(--color-rust)] font-medium underline-offset-2 hover:underline">
             Kontaktieren Sie uns
           </Link>
         </p>

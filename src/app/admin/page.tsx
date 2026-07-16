@@ -47,6 +47,7 @@ export default async function AdminHomePage() {
   return (
     <section className="space-y-6">
       <PortalPageHeader
+        eyebrow="Dashboard"
         title="Übersicht"
         description="Partner, offene Input-Anfragen und Partneranfragen auf einen Blick."
         actions={
@@ -62,7 +63,7 @@ export default async function AdminHomePage() {
           <p className="portal-kpi-value mt-2">{totalWaiting}</p>
           <p className="portal-kpi-subtext text-xs mt-2">warten auf Partner-Input</p>
         </div>
-        <div className="portal-kpi-card-accent">
+        <div className="portal-kpi-card-charcoal">
           <p className="portal-kpi-label">Offene Partneranfragen</p>
           <p className="portal-kpi-value mt-2">{openCustomerRequests}</p>
           <p className="portal-kpi-subtext text-xs mt-2">warten auf RAIS</p>

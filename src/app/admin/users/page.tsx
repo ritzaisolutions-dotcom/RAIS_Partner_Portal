@@ -51,6 +51,7 @@ export default async function AdminUsersPage({
   return (
     <section className="space-y-6">
       <PortalPageHeader
+        eyebrow="Zugriffsverwaltung"
         title="Partner-Zugänge"
         description="Alle Partner-Portal-Zugänge – E-Mail zu Partner zuordnen und Portal-Berechtigungen steuern. Kein RAIS-Admin-Zugang."
       />

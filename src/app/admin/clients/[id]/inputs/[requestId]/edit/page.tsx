@@ -30,7 +30,7 @@ export default async function EditInputRequestPage({
   return (
     <section className="space-y-4">
       <h2 className="text-xl">Input-Anfrage bearbeiten</h2>
-      <form action={`/admin/clients/${id}/inputs/${requestId}/edit/update`} method="post" className="card card-content space-y-4">
+      <form action={`/admin/clients/${id}/inputs/${requestId}/edit/update`} method="post" className="portal-card portal-card-body space-y-4">
         <div>
           <label className="block text-xs text-grey-600 mb-1" htmlFor="title">
             Titel

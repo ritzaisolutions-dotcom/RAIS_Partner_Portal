@@ -3,12 +3,14 @@ import { AppShell } from "@/components/app-shell";
 import { requireAdminUser } from "@/lib/portal-queries";
 
 export default async function AdminLayout({ children }: { children: ReactNode }) {
-  await requireAdminUser();
+  const { user } = await requireAdminUser();
   return (
     <AppShell
       variant="admin"
       title="RAIS Admin"
       subtitle="Partner, Reports und Input-Anfragen verwalten"
+      identityName={user.email ?? "Administrator"}
+      identityRole="Administrator"
       links={[
         { href: "/admin", label: "Partner" },
         { href: "/admin/requests", label: "Partneranfragen" },

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { PortalPageHeader } from "@/components/portal-page-header";
+import { PortalEmptyState } from "@/components/portal-empty-state";
 import { StitchFilterField, StitchFilterPanel } from "@/components/stitch-filter-panel";
 import {
   CUSTOMER_REQUEST_STATUS_CHIP,
@@ -37,6 +38,7 @@ export default async function AdminRequestsPage({
   return (
     <section className="space-y-6">
       <PortalPageHeader
+        eyebrow="Partneranfragen"
         title="Partneranfragen"
         description="Alle eingehenden Anfragen von Partnern – filtern, bearbeiten und Status verwalten."
       />
@@ -63,7 +65,7 @@ export default async function AdminRequestsPage({
               ))}
             </select>
           </StitchFilterField>
-          <button type="submit" className="btn btn-secondary shrink-0">
+          <button type="submit" className="btn btn-charcoal btn-uppercase shrink-0">
             Filtern
           </button>
         </form>
@@ -97,7 +99,7 @@ export default async function AdminRequestsPage({
           </div>
         </div>
       ) : (
-        <div className="portal-empty">Keine Anfragen gefunden.</div>
+        <PortalEmptyState icon="∅" title="Keine Anfragen gefunden" description="Passen Sie die Filter an oder warten Sie auf neue Partneranfragen." />
       )}
     </section>
   );

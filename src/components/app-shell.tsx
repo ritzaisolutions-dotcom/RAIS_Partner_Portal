@@ -11,12 +11,30 @@ type AppShellProps = {
   children: ReactNode;
   logoUrl?: string | null;
   variant: AppShellVariant;
+  identityName?: string;
+  identityRole?: string;
 };
 
-export function AppShell({ title, subtitle, links, children, logoUrl, variant }: AppShellProps) {
+export function AppShell({
+  title,
+  subtitle,
+  links,
+  children,
+  logoUrl,
+  variant,
+  identityName,
+  identityRole,
+}: AppShellProps) {
   return (
     <div className="min-h-screen bg-[var(--color-linen)]">
-      <PortalHeader title={title} subtitle={subtitle} logoUrl={logoUrl} variant={variant} />
+      <PortalHeader
+        title={title}
+        subtitle={subtitle}
+        logoUrl={logoUrl}
+        variant={variant}
+        identityName={identityName}
+        identityRole={identityRole}
+      />
 
       <div className="flex pt-[68px]">
         <PortalSidebar links={links} variant={variant} />
@@ -30,7 +48,7 @@ export function AppShell({ title, subtitle, links, children, logoUrl, variant }:
             ))}
           </nav>
           {children}
-          <footer className="mt-12 text-center text-xs text-[var(--color-stone)] space-y-1 border-t border-[color-mix(in_srgb,var(--color-stone)_20%,transparent)] pt-6">
+          <footer className="mt-12 text-center text-xs text-[var(--color-stone)] space-y-1 border-t border-[var(--border)] pt-6">
             <p>Powered by RAIS</p>
             <p className="space-x-3">
               <Link href="/datenschutz" className="underline-offset-2 hover:underline">

@@ -1,9 +1,10 @@
 @import "tailwindcss";
 
 :root {
-  /* ---- RAIS Markenfarben (fix, siehe brand.md — NICHT ändern) ---- */
+  /* ---- RAIS Markenfarben (fix, siehe brand.md) ---- */
   --color-charcoal: #2f2a24;
   --color-orange: #ec6a37;
+  --color-rust: #b0300a;
   --color-linen: #fbf8f3;
   --color-linen-soft: #f5f0e8;
   --color-stone: #7b746b;
@@ -14,33 +15,30 @@
   --surface: #ffffff;
   --foreground: var(--color-charcoal);
   --muted: var(--color-stone);
-  --border: #e5ddd2;
+  --border: color-mix(in srgb, var(--color-stone) 30%, transparent);
 
-  /* ---- Neutrale Skala (Design-System, Slate-basiert) ---- */
-  --grey-50: #f8fafc;
-  --grey-100: #eef2f6;
-  --grey-200: #e3e8ef;
-  --grey-300: #cdd5df;
-  --grey-500: #697586;
-  --grey-600: #4b5565;
-  --grey-700: #364152;
-  --grey-900: #121926;
+  /* Linen/Stone-Remap (kein Slate mehr in der UI) */
+  --grey-50: var(--color-linen);
+  --grey-100: var(--color-linen-soft);
+  --grey-200: color-mix(in srgb, var(--color-stone) 22%, transparent);
+  --grey-300: color-mix(in srgb, var(--color-stone) 35%, transparent);
+  --grey-500: var(--color-stone);
+  --grey-600: var(--color-stone);
+  --grey-700: var(--color-charcoal);
+  --grey-900: var(--color-charcoal);
 
-  /* ---- Primary = RAIS Orange (Haupt-CTA-Farbe) ---- */
   --primary-main: var(--color-orange);
   --primary-light: color-mix(in srgb, var(--color-orange) 12%, white);
   --primary-200: color-mix(in srgb, var(--color-orange) 50%, white);
   --primary-dark: color-mix(in srgb, var(--color-orange) 88%, black);
   --primary-800: color-mix(in srgb, var(--color-orange) 70%, black);
 
-  /* ---- Secondary = RAIS Dark Pistachio (Sidebar-Aktiv, Highlight-Cards) ---- */
   --secondary-main: var(--color-pistachio-dark);
   --secondary-light: color-mix(in srgb, var(--color-pistachio-dark) 12%, white);
   --secondary-200: color-mix(in srgb, var(--color-pistachio-dark) 50%, white);
   --secondary-dark: color-mix(in srgb, var(--color-pistachio-dark) 88%, black);
   --secondary-800: color-mix(in srgb, var(--color-pistachio-dark) 70%, black);
 
-  /* ---- Semantische Farben ---- */
   --success-light: color-mix(in srgb, var(--color-sage) 15%, white);
   --success-main: var(--color-sage);
   --success-dark: color-mix(in srgb, var(--color-sage) 85%, black);
@@ -51,14 +49,7 @@
   --warning-main: #d69a1f;
   --warning-dark: #a9760f;
 
-  /* ---- Geometrie ---- */
-  --radius: 8px;
-  --shadow-z1: 0 1px 2px 0 rgba(47, 42, 36, 0.12);
-  --shadow-z8: 0 8px 16px 0 rgba(47, 42, 36, 0.14);
-
-  /* ---- Liquid-Glass Motion (aus ritz-ai.solutions Marketing-Site) ---- */
-  --ease-glass: cubic-bezier(0.16, 1, 0.3, 1);
-  --grain-opacity: 0.045;
+  --radius: 4px;
 }
 
 @theme inline {
@@ -70,6 +61,7 @@
   --color-brand-orange: var(--color-orange);
   --color-brand-sage: var(--color-sage);
   --color-brand-pistachio: var(--color-pistachio-dark);
+  --color-brand-rust: var(--color-rust);
 
   --color-grey-50: var(--grey-50);
   --color-grey-100: var(--grey-100);
@@ -107,32 +99,10 @@
 }
 
 body {
-  background: var(--grey-100);
+  background: var(--color-linen);
   color: var(--foreground);
   font-family: var(--font-inter), Arial, sans-serif;
   font-size: 0.875rem;
-  position: relative;
-}
-
-/* Feine Papier-/Grain-Textur (aus ritz-ai.solutions), verhindert komplett flache Fläche */
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-  opacity: var(--grain-opacity);
-  background-image: radial-gradient(circle at 20% 20%, rgba(47, 42, 36, 0.18) 0.5px, transparent 0.9px),
-    radial-gradient(circle at 80% 0%, rgba(47, 42, 36, 0.14) 0.6px, transparent 1px);
-  background-size: 3px 3px, 4px 4px;
-  mix-blend-mode: multiply;
-}
-
-#__next,
-main,
-.min-h-screen {
-  position: relative;
-  z-index: 1;
 }
 
 h1,
@@ -140,124 +110,115 @@ h2,
 h3,
 h4 {
   font-family: var(--font-playfair), Georgia, serif;
-  color: var(--grey-900);
+  color: var(--color-charcoal);
 }
 
-/* In @layer base statt ungelayert: ungelayerte Regeln gewinnen in der
-   CSS-Cascade IMMER gegen alles in @layer components, unabhaengig von
-   Spezifitaet. Als ungelayerte Regel hat dieser Link-Farbdefault jede
-   btn/chip/sidebar-link Textfarbe ueberschrieben - bei .btn-primary
-   (orangener Hintergrund) macht das den Button-Text unsichtbar (orange auf
-   orange). In @layer base verliert er korrekt gegen @layer components. */
 @layer base {
   a {
-    color: var(--primary-main);
+    color: var(--color-rust);
   }
 }
 
 input:not([type="checkbox"]):not([type="radio"]):not([type="file"]),
 textarea,
 select {
-  background: var(--grey-50);
-  border: 1px solid var(--grey-300);
+  background: var(--surface);
+  border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 0.625rem 0.75rem;
   width: 100%;
   font-size: 0.875rem;
-  color: var(--grey-900);
+  color: var(--color-charcoal);
   transition: border-color 0.15s ease;
 }
 
 input:hover,
 textarea:hover,
 select:hover {
-  border-color: var(--primary-light);
+  border-color: color-mix(in srgb, var(--color-stone) 55%, transparent);
 }
 
 input:focus,
 textarea:focus,
 select:focus {
-  border-color: var(--primary-main);
-  outline: none;
+  border-color: var(--color-orange);
+  outline: 2px solid color-mix(in srgb, var(--color-orange) 35%, transparent);
+  outline-offset: 0;
 }
 
 button {
   cursor: pointer;
 }
 
-/* ---- Wiederverwendbare Komponenten (RAIS Dashboard Design System v1.0) ---- */
 @layer components {
-  .card {
-    background: var(--surface);
-    border-radius: var(--radius);
-    border: 1px solid var(--grey-200);
-  }
-
-  .card-hover:hover {
-    box-shadow: var(--shadow-z8);
-  }
-
-  .card-header {
-    padding: 1.5rem;
-    font-size: 1.125rem;
-    font-weight: 600;
-    color: var(--grey-900);
-    border-bottom: 1px solid var(--grey-200);
-  }
-
-  .card-content {
-    padding: 1.5rem;
-  }
-
   .btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    font-weight: 500;
+    font-weight: 600;
     font-size: 0.875rem;
     border-radius: var(--radius);
     padding: 0.5rem 1rem;
-    text-transform: capitalize;
-    transition: background-color 0.15s ease, color 0.15s ease;
+    transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
   }
 
   .btn-primary {
-    /* Weiss auf RAIS-Orange liegt bei ~3.2:1 Kontrast (WCAG AA verlangt 4.5:1
-       fuer normalen Text) - deshalb Charcoal statt Weiss als Textfarbe.
-       Farbschema selbst bleibt unveraendert, nur die Textfarbe wechselt. */
-    background: var(--primary-main);
-    color: var(--color-charcoal);
+    background: var(--color-rust);
+    color: #fff;
+    border: 1px solid var(--color-rust);
   }
   .btn-primary:hover {
-    background: var(--primary-dark);
+    background: color-mix(in srgb, var(--color-rust) 88%, black);
+    border-color: color-mix(in srgb, var(--color-rust) 88%, black);
+    color: #fff;
+  }
+
+  .btn-charcoal {
+    background: var(--color-charcoal);
+    color: #fff;
+    border: 1px solid var(--color-charcoal);
+  }
+  .btn-charcoal:hover {
+    background: color-mix(in srgb, var(--color-charcoal) 88%, black);
+    border-color: color-mix(in srgb, var(--color-charcoal) 88%, black);
     color: #fff;
   }
 
   .btn-secondary {
-    background: var(--secondary-light);
-    color: var(--secondary-dark);
+    background: transparent;
+    color: var(--color-charcoal);
+    border: 1px solid var(--color-charcoal);
   }
   .btn-secondary:hover {
-    background: var(--secondary-main);
-    color: #fff;
+    background: var(--color-linen-soft);
+    color: var(--color-charcoal);
   }
 
   .btn-ghost {
     background: transparent;
-    color: var(--grey-700);
-    border: 1px solid var(--grey-200);
+    color: var(--color-stone);
+    border: 1px solid var(--border);
   }
   .btn-ghost:hover {
-    background: var(--grey-50);
+    background: var(--color-linen-soft);
+    color: var(--color-charcoal);
   }
 
   .btn-destructive {
     background: var(--error-main);
     color: #fff;
+    border: 1px solid var(--error-main);
   }
   .btn-destructive:hover {
     background: var(--error-dark);
+    border-color: var(--error-dark);
+  }
+
+  .btn-uppercase {
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-size: 0.75rem;
   }
 
   .chip {
@@ -291,8 +252,8 @@ button {
     color: var(--error-dark);
   }
   .chip-neutral {
-    background: var(--grey-100);
-    color: var(--grey-600);
+    background: var(--color-linen-soft);
+    color: var(--color-stone);
   }
 
   .portal-success-banner {
@@ -300,7 +261,7 @@ button {
     align-items: center;
     gap: 0.75rem;
     padding: 0.875rem 1rem;
-    border-radius: 0.5rem;
+    border-radius: var(--radius);
     border: 1px solid var(--success-dark);
     background: var(--success-light);
     color: var(--success-dark);
@@ -326,32 +287,11 @@ button {
     font-weight: 600;
   }
 
-  .sidebar-link {
-    display: flex;
-    align-items: center;
-    gap: 0.625rem;
-    padding: 0.625rem 1rem;
-    border-radius: var(--radius);
-    font-size: 0.875rem;
-    color: var(--grey-700);
-    font-weight: 500;
-  }
-  .sidebar-link:hover {
-    background: var(--grey-50);
-  }
-  .sidebar-link-active {
-    background: var(--secondary-light);
-    color: var(--secondary-dark);
-  }
-  .sidebar-link-active:hover {
-    background: var(--secondary-light);
-  }
-
   .table-row {
-    border-bottom: 1px solid var(--grey-200);
+    border-bottom: 1px solid var(--border);
   }
   .table-row:hover {
-    background: var(--grey-50);
+    background: var(--color-linen-soft);
   }
 
   .admin-list-scroll {
@@ -409,40 +349,9 @@ button {
     margin: 0;
   }
 
-  .content-panel {
-    background: var(--grey-100);
-    border-radius: var(--radius) var(--radius) 0 0;
-  }
-
-  .stat-highlight {
-    position: relative;
-    overflow: hidden;
-    background: var(--secondary-dark);
-    color: #fff;
-    border-radius: var(--radius);
-  }
-  .stat-highlight::before,
-  .stat-highlight::after {
-    content: "";
-    position: absolute;
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    background: var(--secondary-800);
-  }
-  .stat-highlight::after {
-    top: -60px;
-    right: -70px;
-  }
-  .stat-highlight::before {
-    top: -90px;
-    right: -10px;
-    opacity: 0.5;
-  }
-
   .portal-header {
     background: var(--surface);
-    border-bottom: 1px solid color-mix(in srgb, var(--color-stone) 30%, transparent);
+    border-bottom: 1px solid var(--border);
     box-shadow: none;
   }
 
@@ -485,9 +394,9 @@ button {
 
   .portal-empty {
     background: var(--surface);
-    border: 1px solid color-mix(in srgb, var(--color-stone) 30%, transparent);
+    border: 1px solid var(--border);
     border-radius: var(--radius);
-    padding: 2rem;
+    padding: 2.5rem 2rem;
     text-align: center;
     color: var(--color-stone);
   }
@@ -500,17 +409,34 @@ button {
 
   .portal-card {
     background: var(--surface);
-    border: 1px solid color-mix(in srgb, var(--color-stone) 30%, transparent);
+    border: 1px solid var(--border);
     border-radius: var(--radius);
+  }
+
+  .portal-card-body {
+    padding: 1.5rem;
+  }
+
+  @media (min-width: 768px) {
+    .portal-card-body {
+      padding: 2rem;
+    }
   }
 
   .portal-card-hover:hover {
     background: var(--color-linen-soft);
   }
 
+  .portal-inset {
+    background: var(--color-linen-soft);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.25rem 1.5rem;
+  }
+
   .portal-kpi-card {
     background: var(--surface);
-    border: 1px solid color-mix(in srgb, var(--color-stone) 30%, transparent);
+    border: 1px solid var(--border);
     border-radius: var(--radius);
     padding: 1.5rem;
   }
@@ -529,6 +455,7 @@ button {
     font-weight: 700;
     line-height: 1.1;
     color: var(--color-charcoal);
+    letter-spacing: -0.02em;
   }
 
   .portal-kpi-card-accent {
@@ -551,6 +478,26 @@ button {
     color: color-mix(in srgb, var(--color-sage) 70%, white);
   }
 
+  .portal-kpi-card-charcoal {
+    background: var(--color-charcoal);
+    border: 1px solid color-mix(in srgb, var(--color-charcoal) 88%, black);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    color: #fff;
+  }
+
+  .portal-kpi-card-charcoal .portal-kpi-label {
+    color: color-mix(in srgb, var(--color-linen) 75%, white);
+  }
+
+  .portal-kpi-card-charcoal .portal-kpi-value {
+    color: #fff;
+  }
+
+  .portal-kpi-card-charcoal .portal-kpi-subtext {
+    color: color-mix(in srgb, var(--color-linen) 60%, white);
+  }
+
   .login-label {
     font-size: 0.75rem;
     font-weight: 600;
@@ -558,39 +505,27 @@ button {
     text-transform: uppercase;
     color: var(--color-stone);
   }
-}
 
-/* ---- Liquid-Glass Header (adaptiert aus ritz-ai.solutions Navbar) ----
-   Im Ruhezustand (ganz oben, kein Scroll) ist der Header voll deckend
-   und ohne Blur. Der Header ist `fixed` (echtes Overlay), Content bekommt
-   pt-[68px] Ausgleich - bei transparentem Blur-Hintergrund UND exakt
-   passendem Offset kam es an der Kante zu sichtbarem "Ghosting" (Seitentitel
-   schimmerte durch den Header durch, sobald auch nur 1px gescrollt war,
-   z.B. durch Scroll-Restauration bei Tab-Wechsel). Blur/Transparenz gibt es
-   deshalb erst ab dem Scroll-Zustand (.glass-header-scrolled), wenn er
-   sichtbar vom Seitenanfang abgeloest ist. */
-.glass-header {
-  background-color: var(--surface);
-  border-bottom: 1px solid var(--grey-200);
-  margin: 0;
-  border-radius: 0;
-  box-shadow: none;
-  transition: margin var(--ease-glass) 0.45s, border-radius var(--ease-glass) 0.45s, border-color var(--ease-glass) 0.45s,
-    box-shadow var(--ease-glass) 0.45s, background-color var(--ease-glass) 0.45s, backdrop-filter var(--ease-glass) 0.45s;
-}
-
-.glass-header-scrolled {
-  margin: 10px 12px 0;
-  border-radius: 14px;
-  border: 1px solid rgba(255, 255, 255, 0.6);
-  background-color: rgba(255, 255, 255, 0.76);
-  backdrop-filter: blur(12px) saturate(1.12);
-  -webkit-backdrop-filter: blur(12px) saturate(1.12);
-  box-shadow: var(--shadow-z8);
+  .portal-empty-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    margin-bottom: 1rem;
+    border-radius: var(--radius);
+    background: var(--color-linen-soft);
+    color: var(--color-stone);
+    font-size: 1.25rem;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .glass-header {
-    transition: none;
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }

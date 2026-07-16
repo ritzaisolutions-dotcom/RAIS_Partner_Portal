@@ -22,7 +22,7 @@ export default async function NewClientUserPage({
           Bereiche im Partner Portal sichtbar sind.
         </p>
       </div>
-      <form action={`/admin/clients/${id}/users/new/create`} method="post" className="card card-content space-y-4">
+      <form action={`/admin/clients/${id}/users/new/create`} method="post" className="portal-card portal-card-body space-y-4">
         <div>
           <label htmlFor="email" className="block text-xs text-grey-600 mb-1">
             E-Mail

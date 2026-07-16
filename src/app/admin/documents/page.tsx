@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { PortalPageHeader } from "@/components/portal-page-header";
+import { PortalEmptyLink, PortalEmptyState } from "@/components/portal-empty-state";
 import { requireAdminUser } from "@/lib/portal-queries";
 
 export default async function AdminDocumentsPage() {
@@ -19,9 +20,12 @@ export default async function AdminDocumentsPage() {
     grouped.set(template.category, list);
   }
 
+  const templateCount = templates?.length ?? 0;
+
   return (
     <section className="space-y-6">
       <PortalPageHeader
+        eyebrow="Dokumentvorlagen"
         title="Vorlagen"
         description="Dokumentvorlagen verwalten und für Partner generieren."
         actions={
@@ -31,10 +35,24 @@ export default async function AdminDocumentsPage() {
         }
       />
 
+      <div className="portal-inset flex flex-wrap items-center justify-between gap-4">
+        <div>
+          <p className="login-label mb-1">Hilfecenter</p>
+          <p className="text-sm text-[var(--color-charcoal)]">
+            HTML- und DOCX-Vorlagen mit Platzhaltern wie <code className="text-xs">{"{{KUNDE_FIRMA}}"}</code> hochladen und pro Partner generieren.
+          </p>
+        </div>
+        <div className="text-right">
+          <p className="login-label mb-1">Bibliothek</p>
+          <p className="font-serif text-2xl font-semibold text-[var(--color-charcoal)]">{templateCount}</p>
+          <p className="text-xs text-[var(--color-stone)]">Vorlagen gesamt</p>
+        </div>
+      </div>
+
       {[...grouped.entries()].length ? (
         [...grouped.entries()].map(([category, items]) => (
           <div key={category} className="portal-card">
-            <div className="px-6 py-4 border-b border-[color-mix(in_srgb,var(--color-stone)_30%,transparent)]">
+            <div className="px-6 py-4 border-b border-[var(--border)]">
               <h2 className="font-serif text-lg font-semibold text-[var(--color-charcoal)]">{category}</h2>
             </div>
             <div>
@@ -55,12 +73,12 @@ export default async function AdminDocumentsPage() {
           </div>
         ))
       ) : (
-        <div className="portal-empty">
-          Noch keine Vorlagen vorhanden.{" "}
-          <Link href="/admin/documents/new" className="text-[var(--color-orange)] font-medium underline-offset-2 hover:underline">
-            Erste Vorlage hochladen
-          </Link>
-        </div>
+        <PortalEmptyState
+          icon="📄"
+          title="Noch keine Vorlagen vorhanden"
+          description="Laden Sie Ihre erste HTML- oder DOCX-Vorlage hoch, um Dokumente für Partner zu generieren."
+          action={<PortalEmptyLink href="/admin/documents/new" label="Erste Vorlage hochladen" />}
+        />
       )}
     </section>
   );

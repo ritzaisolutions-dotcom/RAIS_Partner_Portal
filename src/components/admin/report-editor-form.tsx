@@ -52,7 +52,7 @@ export function ReportEditorForm({ clientId, action }: ReportEditorFormProps) {
   }
 
   return (
-    <form action={action} method="post" className="card card-content space-y-4">
+    <form action={action} method="post" className="portal-card portal-card-body space-y-4">
       <div>
         <label className="block text-xs text-grey-600 mb-1" htmlFor="title">
           Titel

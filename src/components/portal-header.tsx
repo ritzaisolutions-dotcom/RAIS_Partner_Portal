@@ -8,17 +8,35 @@ type PortalHeaderProps = {
   subtitle?: string;
   logoUrl?: string | null;
   variant: AppShellVariant;
+  identityName?: string;
+  identityRole?: string;
 };
 
-export function PortalHeader({ title, subtitle, logoUrl, variant }: PortalHeaderProps) {
+function identityInitial(name: string) {
+  const trimmed = name.trim();
+  return trimmed ? trimmed.charAt(0).toUpperCase() : "?";
+}
+
+export function PortalHeader({
+  title,
+  subtitle,
+  logoUrl,
+  variant,
+  identityName,
+  identityRole,
+}: PortalHeaderProps) {
+  const displayName = identityName ?? (variant === "admin" ? "Admin" : "Partner");
+  const roleLabel = identityRole ?? (variant === "admin" ? "Administrator" : "Partner Portal");
+
   return (
     <header className="portal-header fixed top-0 left-0 right-0 z-50">
-      <div className="h-[68px] flex items-center justify-between gap-4 px-4 md:px-10 max-w-[1400px] mx-auto w-full">
+      <div className="h-[68px] flex items-center justify-between gap-4 px-4 md:px-10 w-full">
         {variant === "admin" ? (
           <div className="flex items-center gap-4 min-w-0">
-            <span className="font-serif text-xl font-bold text-[var(--color-charcoal)] shrink-0">RAIS Admin</span>
+            <PartnerBrand alwaysShowWordmark />
+            <div className="h-8 w-px bg-[var(--border)] hidden sm:block shrink-0" />
             {subtitle ? (
-              <span className="hidden md:block text-xs font-semibold uppercase tracking-widest text-[var(--color-stone)] border-l border-[color-mix(in_srgb,var(--color-stone)_30%,transparent)] pl-4 truncate">
+              <span className="hidden md:block text-xs font-semibold uppercase tracking-widest text-[var(--color-stone)] truncate">
                 {subtitle}
               </span>
             ) : null}
@@ -26,7 +44,7 @@ export function PortalHeader({ title, subtitle, logoUrl, variant }: PortalHeader
         ) : (
           <div className="flex items-center gap-4 min-w-0">
             <PartnerBrand alwaysShowWordmark />
-            <div className="h-8 w-px bg-[color-mix(in_srgb,var(--color-stone)_30%,transparent)] hidden sm:block shrink-0" />
+            <div className="h-8 w-px bg-[var(--border)] hidden sm:block shrink-0" />
             <div className="min-w-0 hidden sm:block">
               <p className="text-sm font-semibold text-[var(--color-charcoal)] truncate">{title}</p>
               {subtitle ? <p className="text-xs text-[var(--color-stone)] truncate">{subtitle}</p> : null}
@@ -37,10 +55,24 @@ export function PortalHeader({ title, subtitle, logoUrl, variant }: PortalHeader
         <div className="flex items-center gap-3 shrink-0">
           {variant === "portal" && logoUrl ? (
             // eslint-disable-next-line @next/next/no-img-element
-            <img src={logoUrl} alt="Partnerlogo" className="h-8 w-auto rounded hidden md:block" />
+            <img src={logoUrl} alt="Partnerlogo" className="h-8 w-auto rounded hidden lg:block" />
           ) : null}
+          <div className="hidden sm:flex items-center gap-3 pr-1 border-r border-[var(--border)]">
+            <div
+              className="h-9 w-9 rounded-full bg-[var(--color-linen-soft)] border border-[var(--border)] flex items-center justify-center text-sm font-semibold text-[var(--color-charcoal)] shrink-0"
+              aria-hidden="true"
+            >
+              {identityInitial(displayName)}
+            </div>
+            <div className="min-w-0 hidden md:block">
+              <p className="text-sm font-semibold text-[var(--color-charcoal)] truncate max-w-[10rem]">{displayName}</p>
+              <p className="text-[10px] font-semibold uppercase tracking-wider text-[var(--color-stone)] truncate">
+                {roleLabel}
+              </p>
+            </div>
+          </div>
           <form action="/auth/signout" method="post">
-            <button type="submit" className="btn btn-ghost !text-xs">
+            <button type="submit" className="btn btn-secondary !text-xs">
               Abmelden
             </button>
           </form>

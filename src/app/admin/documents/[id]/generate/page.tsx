@@ -38,7 +38,7 @@ export default async function AdminGenerateDocumentPage({
         <h2 className="text-xl">{template.name}</h2>
       </div>
 
-      <form method="get" className="card card-content flex flex-wrap gap-3 items-end">
+      <form method="get" className="portal-card portal-card-body flex flex-wrap gap-3 items-end">
         <div>
           <label htmlFor="client_id" className="block text-xs text-grey-500 mb-1">
             Partner (Prefill)
@@ -57,7 +57,7 @@ export default async function AdminGenerateDocumentPage({
         </button>
       </form>
 
-      <form action={`/admin/documents/${id}/generate/download`} method="post" className="card card-content space-y-4">
+      <form action={`/admin/documents/${id}/generate/download`} method="post" className="portal-card portal-card-body space-y-4">
         {selectedClient ? <input type="hidden" name="client_id" value={selectedClient.id} /> : null}
 
         {fields.length ? (

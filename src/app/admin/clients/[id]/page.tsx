@@ -158,7 +158,7 @@ export default async function AdminClientDetailPage({
                 )}
               </div>
             ))}
-            {!reports?.length ? <div className="card-content text-[var(--color-stone)]">Noch keine Status-Reports.</div> : null}
+            {!reports?.length ? <div className="portal-card-body text-[var(--color-stone)]">Noch keine Status-Reports.</div> : null}
           </div>
         ) : null}
 
@@ -189,7 +189,7 @@ export default async function AdminClientDetailPage({
                 )}
               </div>
             ))}
-            {!requests?.length ? <div className="card-content text-[var(--color-stone)]">Noch keine Input-Anfragen.</div> : null}
+            {!requests?.length ? <div className="portal-card-body text-[var(--color-stone)]">Noch keine Input-Anfragen.</div> : null}
           </div>
         ) : null}
 
@@ -238,7 +238,7 @@ export default async function AdminClientDetailPage({
               );
             })}
             {!documents?.length ? (
-              <div className="card-content text-[var(--color-stone)]">
+              <div className="portal-card-body text-[var(--color-stone)]">
                 Noch keine Dokumente.{" "}
                 <Link href={`/admin/clients/${id}/documents/new`} className="text-[var(--color-orange)] underline">
                   Erstes Dokument hochladen
@@ -313,7 +313,7 @@ export default async function AdminClientDetailPage({
                 </form>
               </div>
             ))}
-            {!users?.length ? <div className="card-content text-[var(--color-stone)]">Noch keine Partner-Zugänge.</div> : null}
+            {!users?.length ? <div className="portal-card-body text-[var(--color-stone)]">Noch keine Partner-Zugänge.</div> : null}
           </div>
         ) : null}
       </div>

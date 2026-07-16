@@ -20,7 +20,7 @@ export function PortalSidebar({ links, variant }: PortalSidebarProps) {
   const consoleLabel = variant === "admin" ? "Management Console" : "Partner Portal";
 
   return (
-    <aside className="hidden md:flex fixed left-0 top-[68px] z-40 h-[calc(100vh-68px)] w-64 flex-col border-r border-[color-mix(in_srgb,var(--color-stone)_30%,transparent)] bg-[var(--color-linen-soft)] py-6 px-3 overflow-y-auto">
+    <aside className="hidden md:flex fixed left-0 top-[68px] z-40 h-[calc(100vh-68px)] w-64 flex-col border-r border-[var(--border)] bg-[var(--color-linen-soft)] py-6 px-3">
       <div className="mb-6 px-2">
         <div className="flex items-center gap-3">
           {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -33,7 +33,7 @@ export function PortalSidebar({ links, variant }: PortalSidebarProps) {
       </div>
 
       <p className="portal-nav-label px-3 mb-2">Navigation</p>
-      <nav className="flex flex-col gap-1 flex-1">
+      <nav className="flex flex-col gap-1 flex-1 overflow-y-auto">
         {links.map((link) => {
           const active = isActivePath(pathname, link.href);
           return (
@@ -47,6 +47,12 @@ export function PortalSidebar({ links, variant }: PortalSidebarProps) {
           );
         })}
       </nav>
+
+      <form action="/auth/signout" method="post" className="mt-4 pt-4 border-t border-[var(--border)] px-1">
+        <button type="submit" className="portal-sidebar-link w-full text-left">
+          Abmelden
+        </button>
+      </form>
     </aside>
   );
 }
