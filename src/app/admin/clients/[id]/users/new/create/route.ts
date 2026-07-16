@@ -59,7 +59,7 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
   }
 
   const successUrl = new URL(`/admin/clients/${id}/users/new`, request.url);
-  successUrl.searchParams.set("success", "Partner-Zugang+wurde+angelegt");
+  successUrl.searchParams.set("success", "Partner-Zugang wurde angelegt");
   const response = NextResponse.redirect(successUrl, { status: 303 });
   response.cookies.set("temp_password_flash", tempPassword, {
     httpOnly: true,

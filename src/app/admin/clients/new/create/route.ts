@@ -104,7 +104,7 @@ export async function POST(request: Request) {
   }
 
   const successUrl = new URL("/admin/clients/new", request.url);
-  successUrl.searchParams.set("success", "Partner+und+Partner-Zugang+wurden+angelegt");
+  successUrl.searchParams.set("success", "Partner und Partner-Zugang wurden angelegt");
   const response = NextResponse.redirect(successUrl, { status: 303 });
   // Temp password wird bewusst NICHT als URL-Parameter uebergeben (landet sonst in
   // Server-/Vercel-Logs, Browser-Verlauf und Referrer-Headern). Stattdessen kurzlebiger,
