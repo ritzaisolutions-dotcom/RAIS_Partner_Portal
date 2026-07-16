@@ -1,20 +1,27 @@
 import { NextResponse, type NextRequest } from "next/server";
+import { requiresPasswordChange } from "@/lib/auth-metadata";
+import { middlewareRedirect } from "@/lib/supabase/middleware-redirect";
 import { updateSession } from "@/lib/supabase/middleware";
 
-// Impressum und Datenschutzerklaerung muessen laut Impressumspflicht (§5 DDG)
-// jederzeit ohne Hindernis (also auch ohne Login) erreichbar sein.
 const PUBLIC_PATHS = ["/login", "/auth/signin", "/auth/reset-password", "/impressum", "/datenschutz"];
 
 export async function middleware(request: NextRequest) {
   const { supabase, response } = await updateSession(request);
   const pathname = request.nextUrl.pathname;
 
-  const {
+  let {
     data: { user },
   } = await supabase.auth.getUser();
 
+  if (user && requiresPasswordChange(user.user_metadata)) {
+    const { data: refreshed } = await supabase.auth.refreshSession();
+    if (refreshed.user) {
+      user = refreshed.user;
+    }
+  }
+
   if (!user && !PUBLIC_PATHS.some((publicPath) => pathname.startsWith(publicPath))) {
-    return NextResponse.redirect(new URL("/login", request.url));
+    return middlewareRedirect(request, "/login", response);
   }
 
   if (!user) return response;
@@ -24,38 +31,38 @@ export async function middleware(request: NextRequest) {
   const isAdmin = Boolean(isAdminRow);
   const { data: clientUser } = await portal.from("client_users").select("client_id").eq("user_id", user.id).maybeSingle();
   const hasClient = Boolean(clientUser?.client_id);
-  const mustChangePassword = Boolean(user.user_metadata?.must_change_password);
+  const mustChangePassword = requiresPasswordChange(user.user_metadata);
   const isPasswordChangeFlow = pathname.startsWith("/auth/reset-password");
 
   if (mustChangePassword && !isPasswordChangeFlow && pathname !== "/auth/signout") {
-    return NextResponse.redirect(new URL("/auth/reset-password", request.url));
+    return middlewareRedirect(request, "/auth/reset-password", response);
   }
 
   if (pathname.startsWith("/admin") && !isAdmin) {
-    return NextResponse.redirect(new URL("/portal", request.url));
+    return middlewareRedirect(request, "/portal", response);
   }
 
   if (pathname.startsWith("/portal") && !isAdmin && !hasClient) {
-    return NextResponse.redirect(new URL("/login", request.url));
+    return middlewareRedirect(request, "/login", response);
   }
 
-  if (!isAdmin && !hasClient && !PUBLIC_PATHS.some((publicPath) => pathname.startsWith(publicPath)) && pathname !== "/auth/signout") {
-    return NextResponse.redirect(new URL("/login", request.url));
+  if (
+    !isAdmin &&
+    !hasClient &&
+    !PUBLIC_PATHS.some((publicPath) => pathname.startsWith(publicPath)) &&
+    pathname !== "/auth/signout"
+  ) {
+    return middlewareRedirect(request, "/login", response);
   }
 
   if (pathname === "/login") {
-    if (isAdmin) return NextResponse.redirect(new URL("/admin", request.url));
-    if (hasClient) return NextResponse.redirect(new URL("/portal", request.url));
+    if (isAdmin) return middlewareRedirect(request, "/admin", response);
+    if (hasClient) return middlewareRedirect(request, "/portal", response);
   }
 
   return response;
 }
 
 export const config = {
-  // Zusaetzlich zu den Next-internen Pfaden auch alle statischen Dateien
-  // (alles mit einer Dateiendung, z.B. /rais-logo.svg, Kundenlogos) von der
-  // Auth-Middleware ausnehmen. Sonst leitet die Middleware unautorisierte
-  // Anfragen auf solche Assets faelschlich auf /login um, und z.B. das
-  // RAIS-Logo auf der Login-Seite selbst laedt nicht.
   matcher: ["/((?!_next/static|_next/image|favicon.ico|.*\\..*).*)"],
 };

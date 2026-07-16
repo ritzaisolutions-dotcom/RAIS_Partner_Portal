@@ -1,13 +1,20 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 import { getPublicEnv } from "@/lib/env";
+import { requiresPasswordChange } from "@/lib/auth-metadata";
+import { createAdminClient } from "@/lib/supabase/admin";
 
-function redirectWithSessionCookies(request: NextRequest, targetPath: string) {
-  const url = new URL(targetPath, request.url);
-  const response = NextResponse.redirect(url, { status: 303 });
+function redirectWithAuthCookies(request: NextRequest, pathname: string, source: NextResponse) {
+  const redirect = NextResponse.redirect(new URL(pathname, request.url), { status: 303 });
+  for (const cookie of source.cookies.getAll()) {
+    redirect.cookies.set(cookie.name, cookie.value);
+  }
+  return redirect;
+}
+
+function createSessionClient(request: NextRequest, response: NextResponse) {
   const publicEnv = getPublicEnv();
-
-  const supabase = createServerClient(publicEnv.NEXT_PUBLIC_SUPABASE_URL, publicEnv.NEXT_PUBLIC_SUPABASE_ANON_KEY, {
+  return createServerClient(publicEnv.NEXT_PUBLIC_SUPABASE_URL, publicEnv.NEXT_PUBLIC_SUPABASE_ANON_KEY, {
     cookies: {
       getAll() {
         return request.cookies.getAll();
@@ -19,8 +26,16 @@ function redirectWithSessionCookies(request: NextRequest, targetPath: string) {
       },
     },
   });
+}
 
-  return { supabase, response };
+async function resolvePostPasswordRedirect(supabase: ReturnType<typeof createSessionClient>) {
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return "/login";
+
+  const { data: adminRow } = await supabase.schema("portal").from("admins").select("user_id").eq("user_id", user.id).maybeSingle();
+  return adminRow ? "/admin" : "/portal";
 }
 
 export async function POST(request: NextRequest) {
@@ -33,7 +48,17 @@ export async function POST(request: NextRequest) {
     return NextResponse.redirect(url, { status: 303 });
   }
 
-  const { supabase, response } = redirectWithSessionCookies(request, "/portal");
+  const cookieCarrier = NextResponse.next();
+  const supabase = createSessionClient(request, cookieCarrier);
+
+  const {
+    data: { user: sessionUser },
+  } = await supabase.auth.getUser();
+
+  if (!sessionUser) {
+    return NextResponse.redirect(new URL("/login", request.url), { status: 303 });
+  }
+
   const { error } = await supabase.auth.updateUser({
     password,
     data: {
@@ -48,5 +73,30 @@ export async function POST(request: NextRequest) {
     return NextResponse.redirect(url, { status: 303 });
   }
 
-  return response;
+  const admin = createAdminClient();
+  await admin.auth.admin.updateUserById(sessionUser.id, {
+    user_metadata: {
+      ...sessionUser.user_metadata,
+      must_change_password: false,
+    },
+  });
+
+  await supabase.auth.refreshSession();
+
+  const {
+    data: { user: refreshedUser },
+  } = await supabase.auth.getUser();
+
+  if (refreshedUser && requiresPasswordChange(refreshedUser.user_metadata)) {
+    console.error("Password reset metadata still requires change after update");
+    const url = new URL("/auth/reset-password", request.url);
+    url.searchParams.set(
+      "error",
+      "Passwort gespeichert, aber Freigabe fehlgeschlagen. Bitte erneut versuchen oder RAIS kontaktieren.",
+    );
+    return NextResponse.redirect(url, { status: 303 });
+  }
+
+  const targetPath = await resolvePostPasswordRedirect(supabase);
+  return redirectWithAuthCookies(request, targetPath, cookieCarrier);
 }
