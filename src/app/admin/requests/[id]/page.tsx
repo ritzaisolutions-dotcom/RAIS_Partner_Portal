@@ -65,7 +65,7 @@ export default async function AdminRequestDetailPage({
     <section className="space-y-6">
       <div className="flex items-center gap-3">
         <Link href="/admin/requests" className="text-sm text-[var(--color-stone)] hover:text-[var(--color-charcoal)]">
-          ← Kundenanfragen
+          ← Partneranfragen
         </Link>
         <span className={`chip ${CUSTOMER_REQUEST_STATUS_CHIP[status] ?? "chip-neutral"}`}>
           {CUSTOMER_REQUEST_STATUS_LABEL[status] ?? request.status}
@@ -76,7 +76,7 @@ export default async function AdminRequestDetailPage({
 
       <div className="portal-card p-6 md:p-8 space-y-3">
         <p className="text-sm text-[var(--color-stone)]">
-          {clientRecord?.name ?? "Unbekannter Kunde"} · {request.category} · {request.area} · {request.project_name}
+          {clientRecord?.name ?? "Unbekannter Partner"} · {request.category} · {request.area} · {request.project_name}
         </p>
         {clientRecord?.primary_contact_email ? (
           <p className="text-xs text-[var(--color-stone)]">{clientRecord.primary_contact_email}</p>
@@ -130,9 +130,9 @@ export default async function AdminRequestDetailPage({
 
         <div>
           <label htmlFor="body_md" className="login-label block mb-2">
-            Nachricht an Kunden (Markdown)
+            Nachricht an Partner (Markdown)
           </label>
-          <textarea id="body_md" name="body_md" rows={8} placeholder="Ihre Antwort an den Kunden..." />
+          <textarea id="body_md" name="body_md" rows={8} placeholder="Ihre Antwort an den Partner..." />
         </div>
 
         {resolvedSearch.error ? <p className="text-sm text-red-600">{resolvedSearch.error}</p> : null}
@@ -175,7 +175,7 @@ async function EventBlock({
       }`}
     >
       <div className="flex items-center justify-between gap-2 mb-2">
-        <p className="text-sm font-medium text-[var(--color-charcoal)]">{isAdmin ? "RAIS" : "Kunde"}</p>
+        <p className="text-sm font-medium text-[var(--color-charcoal)]">{isAdmin ? "RAIS" : "Partner"}</p>
         <p className="text-xs text-[var(--color-stone)]">{formatDate(event.created_at)}</p>
       </div>
       {event.kind === "status_change" && statusLabel ? (

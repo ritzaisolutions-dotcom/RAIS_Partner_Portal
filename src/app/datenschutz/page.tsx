@@ -27,7 +27,7 @@ export default function DatenschutzPage() {
       <section className="space-y-2">
         <h2 className="font-serif text-xl font-semibold text-[var(--color-charcoal)]">Löschkonzept</h2>
         <p className="text-sm text-[var(--color-charcoal)]">
-          Bei Löschung eines Kunden werden die Daten über Cascade-Relations in der Datenbank entfernt und zugehörige Dateien
+          Bei Löschung eines Partners werden die Daten über Cascade-Relations in der Datenbank entfernt und zugehörige Dateien
           per Storage-Cleanup-Prozess gelöscht.
         </p>
       </section>
@@ -35,7 +35,7 @@ export default function DatenschutzPage() {
         <h2 className="font-serif text-xl font-semibold text-[var(--color-charcoal)]">Rechtsgrundlagen</h2>
         <p className="text-sm text-[var(--color-charcoal)]">
           Die Verarbeitung erfolgt auf Grundlage von Art. 6 Abs. 1 lit. b DSGVO (Erfüllung des Vertrags zwischen RAIS und dem
-          jeweiligen Kunden bzw. Vorbereitung eines solchen Vertrags) sowie Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse
+          jeweiligen Partners bzw. Vorbereitung eines solchen Vertrags) sowie Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse
           an einer funktionierenden, sicheren Kommunikations- und Projektplattform).
         </p>
       </section>

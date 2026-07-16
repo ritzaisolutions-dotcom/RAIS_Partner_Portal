@@ -23,7 +23,7 @@ export default async function AdminDocumentsPage() {
     <section className="space-y-6">
       <PortalPageHeader
         title="Vorlagen"
-        description="Dokumentvorlagen verwalten und für Kunden generieren."
+        description="Dokumentvorlagen verwalten und für Partner generieren."
         actions={
           <Link href="/admin/documents/new" className="btn btn-primary shrink-0">
             + Vorlage hochladen

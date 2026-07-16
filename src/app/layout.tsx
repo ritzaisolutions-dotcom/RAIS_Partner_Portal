@@ -14,7 +14,7 @@ const playfair = Playfair_Display({
 
 export const metadata: Metadata = {
   title: "RAIS Partner Portal",
-  description: "Kundenportal für Reports, Aufgaben, Anfragen und Dokumente",
+  description: "Partner Portal für Reports, Aufgaben, Anfragen und Dokumente",
   icons: {
     icon: "/rais-partner-mark.svg",
     shortcut: "/rais-partner-mark.svg",

@@ -51,8 +51,8 @@ export default async function AdminUsersPage({
   return (
     <section className="space-y-6">
       <PortalPageHeader
-        title="Benutzer & Rechte"
-        description="Alle Kundenzugänge über alle Kunden hinweg – E-Mail zu Kunde zuordnen und Sichtbarkeit steuern."
+        title="Partner-Zugänge"
+        description="Alle Partner-Portal-Zugänge – E-Mail zu Partner zuordnen und Portal-Berechtigungen steuern. Kein RAIS-Admin-Zugang."
       />
 
       {resolvedSearch.success ? <p className="chip chip-success">{resolvedSearch.success}</p> : null}
@@ -69,7 +69,7 @@ export default async function AdminUsersPage({
                 <div className="admin-list-inline-meta">
                   <span className="font-medium text-[var(--color-charcoal)] truncate">{row.display_name}</span>
                   <span className="text-xs text-[var(--color-stone)] truncate">
-                    {row.email} · {row.clients?.name ?? "Unbekannter Kunde"}
+                    {row.email} · {row.clients?.name ?? "Unbekannter Partner"}
                   </span>
                 </div>
 
@@ -115,7 +115,7 @@ export default async function AdminUsersPage({
             ))}
           </div>
         ) : (
-          <div className="px-6 py-8 text-[var(--color-stone)]">Noch keine Kundenzugänge angelegt.</div>
+          <div className="px-6 py-8 text-[var(--color-stone)]">Noch keine Partner-Zugänge angelegt.</div>
         )}
       </div>
     </section>

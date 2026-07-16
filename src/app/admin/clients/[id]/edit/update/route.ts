@@ -56,5 +56,5 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
     return NextResponse.redirect(new URL(`/admin/clients/${id}/edit?error=Speichern+fehlgeschlagen`, request.url), { status: 303 });
   }
 
-  return NextResponse.redirect(new URL(`/admin/clients/${id}?success=Kunde+aktualisiert`, request.url), { status: 303 });
+  return NextResponse.redirect(new URL(`/admin/clients/${id}?success=Partner+aktualisiert`, request.url), { status: 303 });
 }

@@ -25,7 +25,7 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
 
   const { data: client } = await portal.from("clients").select("id").eq("id", clientId).maybeSingle();
   if (!client) {
-    return NextResponse.redirect(new URL("/admin?error=Kunde+nicht+gefunden", request.url), { status: 303 });
+    return NextResponse.redirect(new URL("/admin?error=Partner+nicht+gefunden", request.url), { status: 303 });
   }
 
   const formData = await request.formData();

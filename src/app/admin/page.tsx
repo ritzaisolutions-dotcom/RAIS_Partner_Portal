@@ -48,10 +48,10 @@ export default async function AdminHomePage() {
     <section className="space-y-6">
       <PortalPageHeader
         title="Übersicht"
-        description="Kunden, offene Input-Anfragen und Kundenanfragen auf einen Blick."
+        description="Partner, offene Input-Anfragen und Partneranfragen auf einen Blick."
         actions={
           <Link href="/admin/clients/new" className="btn btn-primary shrink-0">
-            + Neuer Kunde
+            + Neuer Partner
           </Link>
         }
       />
@@ -60,17 +60,17 @@ export default async function AdminHomePage() {
         <div className="portal-kpi-card-accent">
           <p className="portal-kpi-label">Offene Input-Anfragen</p>
           <p className="portal-kpi-value mt-2">{totalWaiting}</p>
-          <p className="portal-kpi-subtext text-xs mt-2">warten auf Kunden-Input</p>
+          <p className="portal-kpi-subtext text-xs mt-2">warten auf Partner-Input</p>
         </div>
         <div className="portal-kpi-card-accent">
-          <p className="portal-kpi-label">Offene Kundenanfragen</p>
+          <p className="portal-kpi-label">Offene Partneranfragen</p>
           <p className="portal-kpi-value mt-2">{openCustomerRequests}</p>
           <p className="portal-kpi-subtext text-xs mt-2">warten auf RAIS</p>
         </div>
         <div className="portal-kpi-card">
-          <p className="portal-kpi-label">Kunden mit offenen Punkten</p>
+          <p className="portal-kpi-label">Partner mit offenen Punkten</p>
           <p className="portal-kpi-value mt-2">{clientsWithWaiting}</p>
-          <p className="text-xs text-[var(--color-stone)] mt-2">von {rows.length} Kunden gesamt</p>
+          <p className="text-xs text-[var(--color-stone)] mt-2">von {rows.length} Partnern gesamt</p>
         </div>
         <div className="portal-kpi-card">
           <p className="portal-kpi-label">Ø Erledigungsquote</p>
@@ -81,7 +81,7 @@ export default async function AdminHomePage() {
 
       <div className="portal-card">
         <div className="px-6 py-4 border-b border-[color-mix(in_srgb,var(--color-stone)_30%,transparent)]">
-          <h2 className="font-serif text-xl font-semibold text-[var(--color-charcoal)]">Kundenprojekte</h2>
+          <h2 className="font-serif text-xl font-semibold text-[var(--color-charcoal)]">Partnerprojekte</h2>
         </div>
         {rows.length ? (
           <div className="admin-list-scroll">
@@ -123,7 +123,7 @@ export default async function AdminHomePage() {
             ))}
           </div>
         ) : (
-          <div className="px-6 py-8 text-[var(--color-stone)]">Noch keine Kunden angelegt.</div>
+          <div className="px-6 py-8 text-[var(--color-stone)]">Noch keine Partner angelegt.</div>
         )}
       </div>
     </section>

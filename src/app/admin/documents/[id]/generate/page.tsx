@@ -41,7 +41,7 @@ export default async function AdminGenerateDocumentPage({
       <form method="get" className="card card-content flex flex-wrap gap-3 items-end">
         <div>
           <label htmlFor="client_id" className="block text-xs text-grey-500 mb-1">
-            Kunde (Prefill)
+            Partner (Prefill)
           </label>
           <select id="client_id" name="client_id" defaultValue={resolvedSearch.client_id ?? ""}>
             <option value="">— manuell —</option>

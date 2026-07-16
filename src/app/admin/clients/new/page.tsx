@@ -8,17 +8,20 @@ export default async function NewClientPage({
 }) {
   const resolvedSearch = await searchParams;
   const cookieStore = await cookies();
-  // Nur lesen: Cookies duerfen in Server Components nicht mutiert werden.
-  // Das aktive Loeschen uebernimmt TempPasswordReveal (Client-Komponente) nach der Anzeige.
   const tempPassword = cookieStore.get("temp_password_flash")?.value ?? null;
 
   return (
     <section className="space-y-4">
-      <h2 className="text-xl">Neuen Kunden anlegen</h2>
+      <div>
+        <h2 className="text-xl">Neuen Partner anlegen</h2>
+        <p className="text-sm text-[var(--color-stone)] mt-1">
+          Legt den Partner (Organisation) und den ersten Partner-Portal-Zugang in einem Schritt an.
+        </p>
+      </div>
       <form action="/admin/clients/new/create" method="post" encType="multipart/form-data" className="card card-content space-y-4">
         <div>
           <label htmlFor="name" className="block text-xs text-grey-600 mb-1">
-            Kundenname
+            Partnername
           </label>
           <input id="name" name="name" required />
         </div>
@@ -30,19 +33,19 @@ export default async function NewClientPage({
         </div>
         <div>
           <label htmlFor="primary_contact_email" className="block text-xs text-grey-600 mb-1">
-            Kontakt-E-Mail (Client-User)
+            Kontakt-E-Mail (erster Partner-Zugang)
           </label>
           <input id="primary_contact_email" name="primary_contact_email" type="email" required />
         </div>
         <div>
           <label htmlFor="display_name" className="block text-xs text-grey-600 mb-1">
-            Anzeigename User
+            Anzeigename
           </label>
           <input id="display_name" name="display_name" required />
         </div>
         <div>
           <label htmlFor="logo" className="block text-xs text-grey-600 mb-1">
-            Kundenlogo
+            Partnerlogo
           </label>
           <input id="logo" name="logo" type="file" accept="image/*" />
         </div>
@@ -50,7 +53,7 @@ export default async function NewClientPage({
         {resolvedSearch?.success ? <p className="chip chip-success">{resolvedSearch.success}</p> : null}
         {tempPassword ? <TempPasswordReveal password={tempPassword} /> : null}
         <button type="submit" className="btn btn-primary">
-          Kunde anlegen
+          Partner anlegen
         </button>
       </form>
     </section>

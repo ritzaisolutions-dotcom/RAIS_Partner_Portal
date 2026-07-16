@@ -94,7 +94,7 @@ export default async function AdminClientDetailPage({
               + Dokument
             </Link>
             <Link className="btn btn-secondary" href={`/admin/clients/${id}/users/new`}>
-              + Benutzer
+              + Partner-Zugang
             </Link>
             <Link className="btn btn-ghost" href={`/admin/clients/${id}/edit`}>
               Bearbeiten
@@ -130,7 +130,7 @@ export default async function AdminClientDetailPage({
             href={`/admin/clients/${id}?tab=users`}
             className={activeTab === "users" ? "portal-sidebar-link portal-sidebar-link-active !border-r-0 !border-b-2 !border-b-[var(--color-orange)] rounded-none" : "portal-sidebar-link !border-r-0 rounded-none"}
           >
-            Benutzer
+            Partner-Zugänge
           </Link>
         </nav>
 
@@ -313,7 +313,7 @@ export default async function AdminClientDetailPage({
                 </form>
               </div>
             ))}
-            {!users?.length ? <div className="card-content text-[var(--color-stone)]">Noch keine Benutzer.</div> : null}
+            {!users?.length ? <div className="card-content text-[var(--color-stone)]">Noch keine Partner-Zugänge.</div> : null}
           </div>
         ) : null}
       </div>

@@ -8,13 +8,13 @@ export default async function AdminLayout({ children }: { children: ReactNode })
     <AppShell
       variant="admin"
       title="RAIS Admin"
-      subtitle="Kunden, Reports und Input-Anfragen verwalten"
+      subtitle="Partner, Reports und Input-Anfragen verwalten"
       links={[
-        { href: "/admin", label: "Kunden" },
-        { href: "/admin/requests", label: "Kundenanfragen" },
+        { href: "/admin", label: "Partner" },
+        { href: "/admin/requests", label: "Partneranfragen" },
         { href: "/admin/documents", label: "Vorlagen" },
-        { href: "/admin/clients/new", label: "Neuer Kunde" },
-        { href: "/admin/users", label: "Benutzer & Rechte" },
+        { href: "/admin/clients/new", label: "Neuer Partner" },
+        { href: "/admin/users", label: "Partner-Zugänge" },
       ]}
     >
       {children}

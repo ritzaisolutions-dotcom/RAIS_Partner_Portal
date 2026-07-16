@@ -64,9 +64,9 @@ export async function POST(request: Request) {
   if (clientError || !client) {
     if (logoPath) {
       const { errors } = await rollbackOnboardingArtifacts({ logoPath });
-      return NextResponse.redirect(errorUrl(request, "Kunde+konnte+nicht+angelegt+werden", errors), { status: 303 });
+      return NextResponse.redirect(errorUrl(request, "Partner+konnte+nicht+angelegt+werden", errors), { status: 303 });
     }
-    return NextResponse.redirect(errorUrl(request, "Kunde+konnte+nicht+angelegt+werden"), { status: 303 });
+    return NextResponse.redirect(errorUrl(request, "Partner+konnte+nicht+angelegt+werden"), { status: 303 });
   }
 
   const tempPassword = `RAIS-${crypto.randomBytes(8).toString("hex")}`;
@@ -104,7 +104,7 @@ export async function POST(request: Request) {
   }
 
   const successUrl = new URL("/admin/clients/new", request.url);
-  successUrl.searchParams.set("success", "Kunde+und+Client-User+wurden+angelegt");
+  successUrl.searchParams.set("success", "Partner+und+Partner-Zugang+wurden+angelegt");
   const response = NextResponse.redirect(successUrl, { status: 303 });
   // Temp password wird bewusst NICHT als URL-Parameter uebergeben (landet sonst in
   // Server-/Vercel-Logs, Browser-Verlauf und Referrer-Headern). Stattdessen kurzlebiger,

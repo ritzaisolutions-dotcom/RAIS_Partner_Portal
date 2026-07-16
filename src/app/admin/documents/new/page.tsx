@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 const defaultSchema = JSON.stringify(
-  [{ key: "KUNDE_FIRMA", label: "Kunde Firma" }],
+  [{ key: "KUNDE_FIRMA", label: "Partner Firma" }],
   null,
   2,
 );

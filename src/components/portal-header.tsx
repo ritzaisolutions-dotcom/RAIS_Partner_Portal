@@ -37,7 +37,7 @@ export function PortalHeader({ title, subtitle, logoUrl, variant }: PortalHeader
         <div className="flex items-center gap-3 shrink-0">
           {variant === "portal" && logoUrl ? (
             // eslint-disable-next-line @next/next/no-img-element
-            <img src={logoUrl} alt="Kundenlogo" className="h-8 w-auto rounded hidden md:block" />
+            <img src={logoUrl} alt="Partnerlogo" className="h-8 w-auto rounded hidden md:block" />
           ) : null}
           <form action="/auth/signout" method="post">
             <button type="submit" className="btn btn-ghost !text-xs">

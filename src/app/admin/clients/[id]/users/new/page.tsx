@@ -15,7 +15,13 @@ export default async function NewClientUserPage({
 
   return (
     <section className="space-y-4">
-      <h2 className="text-xl">Benutzer hinzufügen</h2>
+      <div>
+        <h2 className="text-xl">Partner-Zugang anlegen</h2>
+        <p className="text-sm text-[var(--color-stone)] mt-1">
+          Legt einen Portal-Login für diesen Partner an — kein RAIS-Admin-Zugang. Die Häkchen unten steuern nur, welche
+          Bereiche im Partner Portal sichtbar sind.
+        </p>
+      </div>
       <form action={`/admin/clients/${id}/users/new/create`} method="post" className="card card-content space-y-4">
         <div>
           <label htmlFor="email" className="block text-xs text-grey-600 mb-1">
@@ -30,7 +36,7 @@ export default async function NewClientUserPage({
           <input id="display_name" name="display_name" required />
         </div>
         <div className="space-y-2">
-          <p className="block text-xs text-grey-600">Freigegebene Ansichten</p>
+          <p className="block text-xs text-grey-600">Portal-Berechtigungen (Partner-Zugang)</p>
           <label className="flex items-center gap-2 text-sm">
             <input type="checkbox" name="can_view_reports" defaultChecked className="w-auto" />
             Reports
@@ -52,7 +58,7 @@ export default async function NewClientUserPage({
         {resolvedSearch?.success ? <p className="chip chip-success">{resolvedSearch.success}</p> : null}
         {tempPassword ? <TempPasswordReveal password={tempPassword} clearUrl={`/admin/clients/${id}/users/new/clear-temp-password`} /> : null}
         <button type="submit" className="btn btn-primary">
-          Benutzer anlegen
+          Partner-Zugang anlegen
         </button>
       </form>
     </section>

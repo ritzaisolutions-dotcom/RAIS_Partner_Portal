@@ -18,7 +18,7 @@ export default async function EditClientPage({
 
   return (
     <section className="space-y-4">
-      <h2 className="text-xl">Kunde bearbeiten</h2>
+      <h2 className="text-xl">Partner bearbeiten</h2>
       <form action={`/admin/clients/${id}/edit/update`} method="post" encType="multipart/form-data" className="card card-content space-y-4">
         {client.logo_path ? (
           <div className="flex items-center gap-3">

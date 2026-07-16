@@ -64,7 +64,7 @@ export default async function AdminNewClientDocumentPage({
         {resolvedSearch.error ? <p className="chip chip-error">{resolvedSearch.error}</p> : null}
 
         <p className="text-xs text-grey-500">
-          Das Dokument wird als Entwurf gespeichert. Erst nach Freigabe sieht der Kunde es im Portal.
+          Das Dokument wird als Entwurf gespeichert. Erst nach Freigabe sieht der Partner es im Portal.
         </p>
 
         <button type="submit" className="btn btn-primary">

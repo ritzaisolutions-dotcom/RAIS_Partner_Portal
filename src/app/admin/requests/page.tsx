@@ -37,8 +37,8 @@ export default async function AdminRequestsPage({
   return (
     <section className="space-y-6">
       <PortalPageHeader
-        title="Kundenanfragen"
-        description="Alle eingehenden Anfragen von Kunden – filtern, bearbeiten und Status verwalten."
+        title="Partneranfragen"
+        description="Alle eingehenden Anfragen von Partnern – filtern, bearbeiten und Status verwalten."
       />
 
       <StitchFilterPanel>
@@ -53,7 +53,7 @@ export default async function AdminRequestsPage({
               ))}
             </select>
           </StitchFilterField>
-          <StitchFilterField label="Kunde" htmlFor="client">
+          <StitchFilterField label="Partner" htmlFor="client">
             <select id="client" name="client" defaultValue={resolvedSearch.client ?? ""}>
               <option value="">Alle</option>
               {(clients ?? []).map((client) => (

@@ -38,7 +38,7 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
   });
 
   if (authError || !createdUser.user) {
-    return NextResponse.redirect(errorUrl(request, id, "Benutzer+konnte+nicht+angelegt+werden"), {
+    return NextResponse.redirect(errorUrl(request, id, "Partner-Zugang+konnte+nicht+angelegt+werden"), {
       status: 303,
     });
   }
@@ -59,7 +59,7 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
   }
 
   const successUrl = new URL(`/admin/clients/${id}/users/new`, request.url);
-  successUrl.searchParams.set("success", "Benutzer+wurde+angelegt");
+  successUrl.searchParams.set("success", "Partner-Zugang+wurde+angelegt");
   const response = NextResponse.redirect(successUrl, { status: 303 });
   response.cookies.set("temp_password_flash", tempPassword, {
     httpOnly: true,
