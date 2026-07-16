@@ -35,8 +35,8 @@ export default async function PortalReportsPage() {
                 className="table-row flex items-center justify-between gap-3 px-6 py-3 last:border-b-0"
               >
                 <div className="min-w-0">
-                  <p className="font-medium text-grey-900 truncate">{report.title}</p>
-                  <p className="text-xs text-grey-500">Veröffentlicht: {formatDate(report.published_at ?? report.created_at)}</p>
+                  <p className="font-medium text-[var(--color-charcoal)] truncate">{report.title}</p>
+                  <p className="text-xs text-[var(--color-stone)]">Veröffentlicht: {formatDate(report.published_at ?? report.created_at)}</p>
                 </div>
                 <span className="chip chip-success shrink-0">Veröffentlicht</span>
               </Link>

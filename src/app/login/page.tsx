@@ -7,8 +7,8 @@ export default async function LoginPage({ searchParams }: { searchParams: Promis
   return (
     <main className="min-h-screen bg-[var(--color-linen)] flex flex-col items-center justify-center p-6">
       <div className="w-full max-w-[420px] portal-card p-8 md:p-10">
-        <div className="mb-6">
-          <PartnerBrand compact />
+        <div className="mb-8">
+          <PartnerBrand alwaysShowWordmark size="login" />
         </div>
 
         <h1 className="font-serif text-2xl md:text-3xl font-semibold tracking-tight text-[var(--color-charcoal)] mb-2">

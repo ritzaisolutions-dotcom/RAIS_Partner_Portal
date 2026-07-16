@@ -90,8 +90,8 @@ export default async function PortalInputsPage() {
                   className="table-row flex items-center gap-4 px-6 py-4 last:border-b-0"
                 >
                   <div className="min-w-0 flex-1">
-                    <p className="font-medium text-grey-900 truncate">{request.title}</p>
-                    <p className="text-xs text-grey-500">
+                    <p className="font-medium text-[var(--color-charcoal)] truncate">{request.title}</p>
+                    <p className="text-xs text-[var(--color-stone)]">
                       {request.due_date ? `Fällig: ${formatDate(request.due_date)}` : "Kein Fälligkeitsdatum"}
                     </p>
                   </div>
@@ -100,7 +100,7 @@ export default async function PortalInputsPage() {
                     <div className="w-full h-1.5 rounded-full bg-grey-200 overflow-hidden">
                       <div className="h-full rounded-full bg-success" style={{ width: `${pct}%` }} />
                     </div>
-                    <p className="text-xs text-grey-500">{pct}% übermittelt</p>
+                    <p className="text-xs text-[var(--color-stone)]">{pct}% übermittelt</p>
                   </div>
 
                   {overdue ? (

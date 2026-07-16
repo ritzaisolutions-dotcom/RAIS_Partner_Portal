@@ -57,15 +57,15 @@ export default async function AdminHomePage() {
       />
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <div className="portal-kpi-card border-l-4 border-l-[var(--color-orange)]">
+        <div className="portal-kpi-card-accent">
           <p className="portal-kpi-label">Offene Input-Anfragen</p>
           <p className="portal-kpi-value mt-2">{totalWaiting}</p>
-          <p className="text-xs text-[var(--color-stone)] mt-2">warten auf Kunden-Input</p>
+          <p className="portal-kpi-subtext text-xs mt-2">warten auf Kunden-Input</p>
         </div>
-        <div className="portal-kpi-card border-l-4 border-l-[var(--color-orange)]">
+        <div className="portal-kpi-card-accent">
           <p className="portal-kpi-label">Offene Kundenanfragen</p>
           <p className="portal-kpi-value mt-2">{openCustomerRequests}</p>
-          <p className="text-xs text-[var(--color-stone)] mt-2">warten auf RAIS</p>
+          <p className="portal-kpi-subtext text-xs mt-2">warten auf RAIS</p>
         </div>
         <div className="portal-kpi-card">
           <p className="portal-kpi-label">Kunden mit offenen Punkten</p>

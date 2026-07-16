@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { CUSTOMER_REQUEST_AREAS, CUSTOMER_REQUEST_CATEGORIES } from "@/lib/customer-request-status";
+import { PortalPageHeader } from "@/components/portal-page-header";
 import { requirePortalUser, resolvePortalHome } from "@/lib/portal-queries";
 import { ACCEPT_SUBMISSION_FILES } from "@/lib/upload-validation";
 
@@ -16,22 +17,26 @@ export default async function PortalNewRequestPage({
   }
 
   return (
-    <section className="space-y-4">
+    <section className="space-y-6">
       <div className="flex items-center gap-3">
-        <Link href="/portal/requests" className="text-sm text-grey-500 hover:text-grey-900">
-          ← Zurück
+        <Link href="/portal/requests" className="text-sm text-[var(--color-stone)] hover:text-[var(--color-charcoal)]">
+          ← Anfragen
         </Link>
-        <h2 className="text-xl">Neue Anfrage</h2>
       </div>
+
+      <PortalPageHeader
+        title="Neue Anfrage"
+        description="Stellen Sie eine Frage oder einen Wunsch an unser Team."
+      />
 
       <form
         action="/portal/requests/new/create"
         method="post"
         encType="multipart/form-data"
-        className="bg-surface border border-border rounded-lg p-6 space-y-4"
+        className="portal-card p-6 md:p-8 space-y-4"
       >
         <div>
-          <label htmlFor="subject" className="block text-sm mb-1">
+          <label htmlFor="subject" className="login-label block mb-2">
             Betreff
           </label>
           <input id="subject" name="subject" type="text" required maxLength={200} />
@@ -39,7 +44,7 @@ export default async function PortalNewRequestPage({
 
         <div className="grid gap-4 sm:grid-cols-2">
           <div>
-            <label htmlFor="category" className="block text-sm mb-1">
+            <label htmlFor="category" className="login-label block mb-2">
               Kategorie
             </label>
             <select id="category" name="category" required>
@@ -52,7 +57,7 @@ export default async function PortalNewRequestPage({
             </select>
           </div>
           <div>
-            <label htmlFor="area" className="block text-sm mb-1">
+            <label htmlFor="area" className="login-label block mb-2">
               Bereich
             </label>
             <select id="area" name="area" required>
@@ -67,21 +72,21 @@ export default async function PortalNewRequestPage({
         </div>
 
         <div>
-          <label htmlFor="project_name" className="block text-sm mb-1">
+          <label htmlFor="project_name" className="login-label block mb-2">
             Projekt
           </label>
           <input id="project_name" name="project_name" type="text" required maxLength={200} />
         </div>
 
         <div>
-          <label htmlFor="description_md" className="block text-sm mb-1">
+          <label htmlFor="description_md" className="login-label block mb-2">
             Beschreibung
           </label>
           <textarea id="description_md" name="description_md" rows={8} required />
         </div>
 
         <div>
-          <label htmlFor="attachments" className="block text-sm mb-1">
+          <label htmlFor="attachments" className="login-label block mb-2">
             Anhänge (optional)
           </label>
           <input id="attachments" name="attachments" type="file" accept={ACCEPT_SUBMISSION_FILES} multiple />
@@ -89,7 +94,7 @@ export default async function PortalNewRequestPage({
 
         {resolvedSearch.error ? <p className="text-sm text-red-600">{resolvedSearch.error}</p> : null}
 
-        <button type="submit" className="bg-brand-orange text-white rounded-lg px-4 py-2 font-semibold">
+        <button type="submit" className="btn btn-primary">
           Anfrage senden
         </button>
       </form>

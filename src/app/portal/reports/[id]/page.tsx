@@ -1,6 +1,7 @@
 import Markdown from "react-markdown";
 import { redirect } from "next/navigation";
 import remarkGfm from "remark-gfm";
+import { PortalPageHeader } from "@/components/portal-page-header";
 import { createClient } from "@/lib/supabase/server";
 import { getReportForClient, requirePortalUser, resolvePortalHome } from "@/lib/portal-queries";
 import { formatDate } from "@/lib/utils";
@@ -46,10 +47,12 @@ export default async function PortalReportDetailPage({ params }: { params: Promi
   const renderedMarkdown = await resolveSignedImageUrls(report.body_md);
 
   return (
-    <article className="bg-surface border border-border rounded-lg p-6">
-      <h2 className="text-3xl">{report.title}</h2>
-      <p className="text-sm text-muted mt-1 mb-6">Veröffentlicht: {formatDate(report.published_at ?? report.created_at)}</p>
-      <div className="prose prose-stone max-w-none">
+    <article className="space-y-6">
+      <PortalPageHeader
+        title={report.title}
+        description={`Veröffentlicht: ${formatDate(report.published_at ?? report.created_at)}`}
+      />
+      <div className="portal-card p-6 md:p-8 prose prose-stone max-w-none">
         <Markdown remarkPlugins={[remarkGfm]}>{renderedMarkdown}</Markdown>
       </div>
     </article>

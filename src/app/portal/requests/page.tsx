@@ -47,11 +47,11 @@ export default async function PortalRequestsPage() {
                   className="table-row flex items-center gap-4 px-6 py-4 last:border-b-0"
                 >
                   <div className="min-w-0 flex-1">
-                    <p className="font-medium text-grey-900 truncate">{request.subject}</p>
-                    <p className="text-xs text-grey-500 truncate">
+                    <p className="font-medium text-[var(--color-charcoal)] truncate">{request.subject}</p>
+                    <p className="text-xs text-[var(--color-stone)] truncate">
                       {request.category} · {request.area} · {request.project_name}
                     </p>
-                    <p className="text-xs text-grey-500">{formatDate(request.created_at)}</p>
+                    <p className="text-xs text-[var(--color-stone)]">{formatDate(request.created_at)}</p>
                   </div>
                   <span className={`chip ${CUSTOMER_REQUEST_STATUS_CHIP[status] ?? "chip-neutral"} shrink-0`}>
                     {CUSTOMER_REQUEST_STATUS_LABEL[status] ?? request.status}

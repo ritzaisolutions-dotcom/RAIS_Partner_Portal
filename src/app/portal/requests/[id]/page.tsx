@@ -2,6 +2,7 @@ import Link from "next/link";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { redirect } from "next/navigation";
+import { PortalPageHeader } from "@/components/portal-page-header";
 import {
   CUSTOMER_REQUEST_STATUS_CHIP,
   CUSTOMER_REQUEST_STATUS_LABEL,
@@ -64,31 +65,32 @@ export default async function PortalRequestDetailPage({
   const canReply = status === "revision";
 
   return (
-    <section className="space-y-4">
+    <section className="space-y-6">
       <div className="flex items-center gap-3">
-        <Link href="/portal/requests" className="text-sm text-grey-500 hover:text-grey-900">
-          ← Zurück
+        <Link href="/portal/requests" className="text-sm text-[var(--color-stone)] hover:text-[var(--color-charcoal)]">
+          ← Anfragen
         </Link>
         <span className={`chip ${CUSTOMER_REQUEST_STATUS_CHIP[status] ?? "chip-neutral"}`}>
           {CUSTOMER_REQUEST_STATUS_LABEL[status] ?? request.status}
         </span>
       </div>
 
-      <div className="bg-surface border border-border rounded-lg p-6 space-y-3">
-        <h2 className="text-2xl">{request.subject}</h2>
-        <p className="text-sm text-grey-500">
-          {request.category} · {request.area} · {request.project_name}
-        </p>
-        <p className="text-xs text-grey-500">Eingereicht am {formatDate(request.created_at)}</p>
-        <div className="prose prose-sm max-w-none whitespace-pre-wrap">{request.description_md}</div>
+      <PortalPageHeader
+        title={request.subject}
+        description={`${request.category} · ${request.area} · ${request.project_name}`}
+      />
+
+      <div className="portal-card p-6 md:p-8 space-y-3 -mt-2">
+        <p className="text-xs text-[var(--color-stone)]">Eingereicht am {formatDate(request.created_at)}</p>
+        <div className="prose prose-sm max-w-none whitespace-pre-wrap text-[var(--color-charcoal)]">{request.description_md}</div>
 
         {requestAttachments.length ? (
           <div className="pt-2">
-            <p className="text-sm font-medium mb-2">Anhänge</p>
+            <p className="text-sm font-medium text-[var(--color-charcoal)] mb-2">Anhänge</p>
             <ul className="space-y-1">
               {requestAttachments.map((attachment) => (
                 <li key={attachment.path}>
-                  <a href={attachment.url!} className="text-primary-dark text-sm underline" target="_blank" rel="noreferrer">
+                  <a href={attachment.url!} className="text-[var(--color-orange)] text-sm underline" target="_blank" rel="noreferrer">
                     {attachment.name}
                   </a>
                 </li>
@@ -99,8 +101,8 @@ export default async function PortalRequestDetailPage({
       </div>
 
       {(events as RequestEvent[] | null)?.length ? (
-        <div className="bg-surface border border-border rounded-lg p-6 space-y-4">
-          <h3 className="font-semibold text-grey-900">Verlauf</h3>
+        <div className="portal-card p-6 md:p-8 space-y-4">
+          <h3 className="font-serif text-lg font-semibold text-[var(--color-charcoal)]">Verlauf</h3>
           {(events as RequestEvent[]).map((event) => (
             <EventBlock key={event.id} event={event} supabase={supabase} />
           ))}
@@ -121,24 +123,24 @@ export default async function PortalRequestDetailPage({
           action={`/portal/requests/${id}/reply`}
           method="post"
           encType="multipart/form-data"
-          className="bg-surface border border-border rounded-lg p-6 space-y-4"
+          className="portal-card p-6 md:p-8 space-y-4"
         >
-          <h3 className="font-semibold">Ergänzung senden</h3>
-          <p className="text-sm text-grey-600">RAIS hat Rückfragen. Bitte ergänzen Sie Ihre Anfrage.</p>
+          <h3 className="font-serif text-lg font-semibold text-[var(--color-charcoal)]">Ergänzung senden</h3>
+          <p className="text-sm text-[var(--color-stone)]">RAIS hat Rückfragen. Bitte ergänzen Sie Ihre Anfrage.</p>
           <div>
-            <label htmlFor="body_md" className="block text-sm mb-1">
+            <label htmlFor="body_md" className="login-label block mb-2">
               Ihre Ergänzung
             </label>
             <textarea id="body_md" name="body_md" rows={6} required />
           </div>
           <div>
-            <label htmlFor="attachments" className="block text-sm mb-1">
+            <label htmlFor="attachments" className="login-label block mb-2">
               Weitere Anhänge (optional)
             </label>
             <input id="attachments" name="attachments" type="file" accept={ACCEPT_SUBMISSION_FILES} multiple />
           </div>
           {resolvedSearch.error ? <p className="text-sm text-red-600">{resolvedSearch.error}</p> : null}
-          <button type="submit" className="bg-brand-orange text-white rounded-lg px-4 py-2 font-semibold">
+          <button type="submit" className="btn btn-primary">
             Ergänzung übermitteln
           </button>
         </form>
@@ -162,13 +164,19 @@ async function EventBlock({
       : event.new_status;
 
   return (
-    <article className={`rounded-lg border p-4 ${isAdmin ? "border-primary/30 bg-primary-light/20" : "border-border"}`}>
+    <article
+      className={`rounded-lg border p-4 ${
+        isAdmin
+          ? "border-[color-mix(in_srgb,var(--color-orange)_40%,transparent)] bg-[color-mix(in_srgb,var(--color-linen-soft)_80%,white)]"
+          : "border-[color-mix(in_srgb,var(--color-stone)_30%,transparent)]"
+      }`}
+    >
       <div className="flex items-center justify-between gap-2 mb-2">
-        <p className="text-sm font-medium">{isAdmin ? "RAIS" : "Sie"}</p>
-        <p className="text-xs text-grey-500">{formatDate(event.created_at)}</p>
+        <p className="text-sm font-medium text-[var(--color-charcoal)]">{isAdmin ? "RAIS" : "Sie"}</p>
+        <p className="text-xs text-[var(--color-stone)]">{formatDate(event.created_at)}</p>
       </div>
       {event.kind === "status_change" && statusLabel ? (
-        <p className="text-sm text-grey-600 mb-2">Status geändert: {statusLabel}</p>
+        <p className="text-sm text-[var(--color-stone)] mb-2">Status geändert: {statusLabel}</p>
       ) : null}
       {event.body_md ? (
         <div className="prose prose-sm max-w-none">
@@ -179,7 +187,7 @@ async function EventBlock({
         <ul className="mt-2 space-y-1">
           {attachments.map((attachment) => (
             <li key={attachment.path}>
-              <a href={attachment.url!} className="text-primary-dark text-sm underline" target="_blank" rel="noreferrer">
+              <a href={attachment.url!} className="text-[var(--color-orange)] text-sm underline" target="_blank" rel="noreferrer">
                 {attachment.name}
               </a>
             </li>

@@ -17,22 +17,23 @@ function isActivePath(pathname: string, href: string) {
 
 export function PortalSidebar({ links, variant }: PortalSidebarProps) {
   const pathname = usePathname();
-  const sidebarSubtitle = variant === "admin" ? "Administration" : "Partner Portal";
+  const consoleLabel = variant === "admin" ? "Management Console" : "Partner Portal";
 
   return (
-    <aside className="hidden md:flex w-[260px] shrink-0 flex-col border-r border-[color-mix(in_srgb,var(--color-stone)_30%,transparent)] bg-[var(--color-linen-soft)] py-6 px-3">
-      <div className="mb-6 px-3">
+    <aside className="hidden md:flex fixed left-0 top-[68px] z-40 h-[calc(100vh-68px)] w-64 flex-col border-r border-[color-mix(in_srgb,var(--color-stone)_30%,transparent)] bg-[var(--color-linen-soft)] py-6 px-3 overflow-y-auto">
+      <div className="mb-6 px-2">
         <div className="flex items-center gap-3">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/rais-partner-mark.svg" alt="" className="h-10 w-10 shrink-0" aria-hidden="true" />
           <div className="min-w-0">
             <p className="font-serif text-lg font-semibold leading-tight text-[var(--color-charcoal)]">RAIS</p>
-            <p className="text-xs text-[var(--color-orange)]">{sidebarSubtitle}</p>
+            <p className="text-[10px] font-semibold uppercase tracking-wider text-[var(--color-stone)]">{consoleLabel}</p>
           </div>
         </div>
       </div>
+
       <p className="portal-nav-label px-3 mb-2">Navigation</p>
-      <nav className="flex flex-col gap-1">
+      <nav className="flex flex-col gap-1 flex-1">
         {links.map((link) => {
           const active = isActivePath(pathname, link.href);
           return (

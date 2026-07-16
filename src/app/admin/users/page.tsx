@@ -1,3 +1,4 @@
+import { PortalPageHeader } from "@/components/portal-page-header";
 import { requireAdminUser } from "@/lib/portal-queries";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { formatDate } from "@/lib/utils";
@@ -28,13 +29,10 @@ export default async function AdminUsersPage({
     .select("user_id,client_id,display_name,can_view_reports,can_view_inputs,can_submit_requests,can_view_documents,created_at,clients(name,slug)")
     .order("created_at", { ascending: false });
 
-  // E-Mail-Adressen liegen in auth.users, nicht in portal.client_users - dafuer
-  // brauchen wir den Service-Role-Client und die Admin-User-API (paginiert).
   const admin = createAdminClient();
   const emailByUserId = new Map<string, string>();
   let page = 1;
   const perPage = 200;
-  // Sicherheitsgrenze, falls listUsers je nie "leer" zurueckgibt.
   for (let i = 0; i < 25; i++) {
     const { data: userPage, error } = await admin.auth.admin.listUsers({ page, perPage });
     if (error || !userPage) break;
@@ -52,32 +50,30 @@ export default async function AdminUsersPage({
 
   return (
     <section className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-xl">Benutzer &amp; Rechte</h2>
-          <p className="text-xs text-grey-500 mt-1">Alle Kundenzugänge über alle Kunden hinweg - E-Mail zu Kunde zuordnen und Sichtbarkeit steuern.</p>
-        </div>
-      </div>
+      <PortalPageHeader
+        title="Benutzer & Rechte"
+        description="Alle Kundenzugänge über alle Kunden hinweg – E-Mail zu Kunde zuordnen und Sichtbarkeit steuern."
+      />
 
       {resolvedSearch.success ? <p className="chip chip-success">{resolvedSearch.success}</p> : null}
 
-      <div className="card">
+      <div className="portal-card">
         {rows.length ? (
           <div className="admin-list-scroll">
             {rows.map((row) => (
               <div key={row.user_id} className="table-row admin-list-row admin-list-row-user">
-                <div className="h-8 w-8 rounded-lg bg-secondary-light text-secondary-dark flex items-center justify-center text-xs font-semibold shrink-0">
+                <div className="h-8 w-8 rounded-lg bg-[var(--color-linen-soft)] text-[var(--color-charcoal)] border border-[color-mix(in_srgb,var(--color-stone)_30%,transparent)] flex items-center justify-center text-xs font-semibold shrink-0">
                   {row.display_name.charAt(0).toUpperCase()}
                 </div>
 
                 <div className="admin-list-inline-meta">
-                  <span className="font-medium text-grey-900 truncate">{row.display_name}</span>
-                  <span className="text-xs text-grey-500 truncate">
+                  <span className="font-medium text-[var(--color-charcoal)] truncate">{row.display_name}</span>
+                  <span className="text-xs text-[var(--color-stone)] truncate">
                     {row.email} · {row.clients?.name ?? "Unbekannter Kunde"}
                   </span>
                 </div>
 
-                <div className="text-xs text-grey-500 shrink-0 whitespace-nowrap">
+                <div className="text-xs text-[var(--color-stone)] shrink-0 whitespace-nowrap">
                   <span className="hidden lg:inline">Seit {formatDate(row.created_at)}</span>
                   <span className="lg:hidden">–</span>
                 </div>
@@ -88,19 +84,19 @@ export default async function AdminUsersPage({
                   className="flex items-center gap-2 shrink-0 whitespace-nowrap"
                 >
                   <input type="hidden" name="redirect_to" value="/admin/users" />
-                  <label className="flex items-center gap-1.5 text-xs text-grey-600 shrink-0">
+                  <label className="flex items-center gap-1.5 text-xs text-[var(--color-stone)] shrink-0">
                     <input type="checkbox" name="can_view_reports" defaultChecked={row.can_view_reports} className="!w-4 shrink-0" />
                     Reports
                   </label>
-                  <label className="flex items-center gap-1.5 text-xs text-grey-600 shrink-0">
+                  <label className="flex items-center gap-1.5 text-xs text-[var(--color-stone)] shrink-0">
                     <input type="checkbox" name="can_view_inputs" defaultChecked={row.can_view_inputs} className="!w-4 shrink-0" />
                     Input-Anfragen
                   </label>
-                  <label className="flex items-center gap-1.5 text-xs text-grey-600 shrink-0">
+                  <label className="flex items-center gap-1.5 text-xs text-[var(--color-stone)] shrink-0">
                     <input type="checkbox" name="can_submit_requests" defaultChecked={row.can_submit_requests ?? true} className="!w-4 shrink-0" />
                     Anfragen senden
                   </label>
-                  <label className="flex items-center gap-1.5 text-xs text-grey-600 shrink-0">
+                  <label className="flex items-center gap-1.5 text-xs text-[var(--color-stone)] shrink-0">
                     <input type="checkbox" name="can_view_documents" defaultChecked={row.can_view_documents ?? true} className="!w-4 shrink-0" />
                     Dokumente
                   </label>
@@ -119,7 +115,7 @@ export default async function AdminUsersPage({
             ))}
           </div>
         ) : (
-          <div className="card-content text-grey-500">Noch keine Kundenzugänge angelegt.</div>
+          <div className="px-6 py-8 text-[var(--color-stone)]">Noch keine Kundenzugänge angelegt.</div>
         )}
       </div>
     </section>

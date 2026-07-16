@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { PortalPageHeader } from "@/components/portal-page-header";
 import {
   CLIENT_DOCUMENT_CATEGORY_CHIP,
   CLIENT_DOCUMENT_STATUS_CHIP,
@@ -78,54 +79,56 @@ export default async function AdminClientDetailPage({
 
   return (
     <section className="space-y-6">
-      <div className="card card-content">
-        <h2 className="text-2xl">{client.name}</h2>
-        <p className="text-xs text-grey-500 mt-1">Slug: {client.slug}</p>
-        <div className="flex flex-wrap gap-3 mt-4">
-          <Link className="btn btn-primary" href={`/admin/clients/${id}/reports/new`}>
-            + Neuer Report
-          </Link>
-          <Link className="btn btn-secondary" href={`/admin/clients/${id}/inputs/new`}>
-            + Neue Input-Anfrage
-          </Link>
-          <Link className="btn btn-secondary" href={`/admin/clients/${id}/documents/new`}>
-            + Dokument hochladen
-          </Link>
-          <Link className="btn btn-secondary" href={`/admin/clients/${id}/users/new`}>
-            + Benutzer hinzufügen
-          </Link>
-          <Link className="btn btn-ghost" href={`/admin/clients/${id}/edit`}>
-            Kunde bearbeiten
-          </Link>
-        </div>
-      </div>
+      <PortalPageHeader
+        title={client.name}
+        description={`Slug: ${client.slug}`}
+        actions={
+          <div className="flex flex-wrap gap-2">
+            <Link className="btn btn-primary" href={`/admin/clients/${id}/reports/new`}>
+              + Neuer Report
+            </Link>
+            <Link className="btn btn-secondary" href={`/admin/clients/${id}/inputs/new`}>
+              + Input-Anfrage
+            </Link>
+            <Link className="btn btn-secondary" href={`/admin/clients/${id}/documents/new`}>
+              + Dokument
+            </Link>
+            <Link className="btn btn-secondary" href={`/admin/clients/${id}/users/new`}>
+              + Benutzer
+            </Link>
+            <Link className="btn btn-ghost" href={`/admin/clients/${id}/edit`}>
+              Bearbeiten
+            </Link>
+          </div>
+        }
+      />
 
       {resolvedSearch.success ? <p className="chip chip-success">{resolvedSearch.success}</p> : null}
       {resolvedSearch.error ? <p className="chip chip-error">{resolvedSearch.error}</p> : null}
 
-      <div className="card">
-        <nav className="flex flex-wrap gap-2 p-4 border-b border-grey-200">
+      <div className="portal-card">
+        <nav className="flex flex-wrap gap-1 p-4 border-b border-[color-mix(in_srgb,var(--color-stone)_30%,transparent)]">
           <Link
             href={`/admin/clients/${id}?tab=reports`}
-            className={activeTab === "reports" ? "sidebar-link sidebar-link-active" : "sidebar-link"}
+            className={activeTab === "reports" ? "portal-sidebar-link portal-sidebar-link-active !border-r-0 !border-b-2 !border-b-[var(--color-orange)] rounded-none" : "portal-sidebar-link !border-r-0 rounded-none"}
           >
             Status-Reports
           </Link>
           <Link
             href={`/admin/clients/${id}?tab=inputs`}
-            className={activeTab === "inputs" ? "sidebar-link sidebar-link-active" : "sidebar-link"}
+            className={activeTab === "inputs" ? "portal-sidebar-link portal-sidebar-link-active !border-r-0 !border-b-2 !border-b-[var(--color-orange)] rounded-none" : "portal-sidebar-link !border-r-0 rounded-none"}
           >
             Input-Anfragen
           </Link>
           <Link
             href={`/admin/clients/${id}?tab=documents`}
-            className={activeTab === "documents" ? "sidebar-link sidebar-link-active" : "sidebar-link"}
+            className={activeTab === "documents" ? "portal-sidebar-link portal-sidebar-link-active !border-r-0 !border-b-2 !border-b-[var(--color-orange)] rounded-none" : "portal-sidebar-link !border-r-0 rounded-none"}
           >
             Dokumente
           </Link>
           <Link
             href={`/admin/clients/${id}?tab=users`}
-            className={activeTab === "users" ? "sidebar-link sidebar-link-active" : "sidebar-link"}
+            className={activeTab === "users" ? "portal-sidebar-link portal-sidebar-link-active !border-r-0 !border-b-2 !border-b-[var(--color-orange)] rounded-none" : "portal-sidebar-link !border-r-0 rounded-none"}
           >
             Benutzer
           </Link>
@@ -136,8 +139,8 @@ export default async function AdminClientDetailPage({
             {reports?.map((report) => (
               <div key={report.id} className="table-row admin-list-row admin-list-row-report">
                 <div className="admin-list-inline-meta">
-                  <span className="font-medium text-grey-900 truncate">{report.title}</span>
-                  <span className="text-xs text-grey-500 truncate">
+                  <span className="font-medium text-[var(--color-charcoal)] truncate">{report.title}</span>
+                  <span className="text-xs text-[var(--color-stone)] truncate">
                     {formatDate(report.published_at ?? report.created_at)}
                   </span>
                 </div>
@@ -155,7 +158,7 @@ export default async function AdminClientDetailPage({
                 )}
               </div>
             ))}
-            {!reports?.length ? <div className="card-content text-grey-500">Noch keine Status-Reports.</div> : null}
+            {!reports?.length ? <div className="card-content text-[var(--color-stone)]">Noch keine Status-Reports.</div> : null}
           </div>
         ) : null}
 
@@ -167,8 +170,8 @@ export default async function AdminClientDetailPage({
                   href={`/admin/clients/${id}/inputs/${request.id}/edit`}
                   className="admin-list-inline-meta hover:underline min-w-0"
                 >
-                  <span className="font-medium text-grey-900 truncate">{request.title}</span>
-                  <span className="text-xs text-grey-500 truncate">
+                  <span className="font-medium text-[var(--color-charcoal)] truncate">{request.title}</span>
+                  <span className="text-xs text-[var(--color-stone)] truncate">
                     {request.due_date ? `Fällig: ${request.due_date}` : "Kein Fälligkeitsdatum"}
                   </span>
                 </Link>
@@ -186,7 +189,7 @@ export default async function AdminClientDetailPage({
                 )}
               </div>
             ))}
-            {!requests?.length ? <div className="card-content text-grey-500">Noch keine Input-Anfragen.</div> : null}
+            {!requests?.length ? <div className="card-content text-[var(--color-stone)]">Noch keine Input-Anfragen.</div> : null}
           </div>
         ) : null}
 
@@ -198,8 +201,8 @@ export default async function AdminClientDetailPage({
               return (
                 <div key={document.id} className="table-row admin-list-row admin-list-row-input">
                   <div className="admin-list-inline-meta min-w-0">
-                    <span className="font-medium text-grey-900 truncate">{document.title}</span>
-                    <span className="text-xs text-grey-500 truncate">
+                    <span className="font-medium text-[var(--color-charcoal)] truncate">{document.title}</span>
+                    <span className="text-xs text-[var(--color-stone)] truncate">
                       {document.file_name} · {formatDate(document.published_at ?? document.created_at)}
                     </span>
                   </div>
@@ -235,9 +238,9 @@ export default async function AdminClientDetailPage({
               );
             })}
             {!documents?.length ? (
-              <div className="card-content text-grey-500">
+              <div className="card-content text-[var(--color-stone)]">
                 Noch keine Dokumente.{" "}
-                <Link href={`/admin/clients/${id}/documents/new`} className="text-primary-dark underline">
+                <Link href={`/admin/clients/${id}/documents/new`} className="text-[var(--color-orange)] underline">
                   Erstes Dokument hochladen
                 </Link>
               </div>
@@ -249,12 +252,12 @@ export default async function AdminClientDetailPage({
           <div className="admin-list-scroll">
             {users?.map((clientUser) => (
               <div key={clientUser.user_id} className="table-row admin-list-row admin-list-row-user-compact">
-                <div className="h-8 w-8 rounded-lg bg-secondary-light text-secondary-dark flex items-center justify-center text-xs font-semibold shrink-0">
+                <div className="h-8 w-8 rounded-lg bg-[var(--color-linen-soft)] text-[var(--color-charcoal)] border border-[color-mix(in_srgb,var(--color-stone)_30%,transparent)] flex items-center justify-center text-xs font-semibold shrink-0">
                   {clientUser.display_name.charAt(0).toUpperCase()}
                 </div>
                 <div className="admin-list-inline-meta">
-                  <span className="font-medium text-grey-900 truncate">{clientUser.display_name}</span>
-                  <span className="text-xs text-grey-500 truncate">Seit {formatDate(clientUser.created_at)}</span>
+                  <span className="font-medium text-[var(--color-charcoal)] truncate">{clientUser.display_name}</span>
+                  <span className="text-xs text-[var(--color-stone)] truncate">Seit {formatDate(clientUser.created_at)}</span>
                 </div>
 
                 <form
@@ -262,7 +265,7 @@ export default async function AdminClientDetailPage({
                   method="post"
                   className="flex items-center gap-2 shrink-0 whitespace-nowrap flex-wrap"
                 >
-                  <label className="flex items-center gap-1.5 text-xs text-grey-600 shrink-0">
+                  <label className="flex items-center gap-1.5 text-xs text-[var(--color-stone)] shrink-0">
                     <input
                       type="checkbox"
                       name="can_view_reports"
@@ -271,7 +274,7 @@ export default async function AdminClientDetailPage({
                     />
                     Reports
                   </label>
-                  <label className="flex items-center gap-1.5 text-xs text-grey-600 shrink-0">
+                  <label className="flex items-center gap-1.5 text-xs text-[var(--color-stone)] shrink-0">
                     <input
                       type="checkbox"
                       name="can_view_inputs"
@@ -280,7 +283,7 @@ export default async function AdminClientDetailPage({
                     />
                     Input-Anfragen
                   </label>
-                  <label className="flex items-center gap-1.5 text-xs text-grey-600 shrink-0">
+                  <label className="flex items-center gap-1.5 text-xs text-[var(--color-stone)] shrink-0">
                     <input
                       type="checkbox"
                       name="can_submit_requests"
@@ -289,7 +292,7 @@ export default async function AdminClientDetailPage({
                     />
                     Anfragen senden
                   </label>
-                  <label className="flex items-center gap-1.5 text-xs text-grey-600 shrink-0">
+                  <label className="flex items-center gap-1.5 text-xs text-[var(--color-stone)] shrink-0">
                     <input
                       type="checkbox"
                       name="can_view_documents"
@@ -310,7 +313,7 @@ export default async function AdminClientDetailPage({
                 </form>
               </div>
             ))}
-            {!users?.length ? <div className="card-content text-grey-500">Noch keine Benutzer.</div> : null}
+            {!users?.length ? <div className="card-content text-[var(--color-stone)]">Noch keine Benutzer.</div> : null}
           </div>
         ) : null}
       </div>

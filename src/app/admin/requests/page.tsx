@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { PortalPageHeader } from "@/components/portal-page-header";
+import { StitchFilterField, StitchFilterPanel } from "@/components/stitch-filter-panel";
 import {
   CUSTOMER_REQUEST_STATUS_CHIP,
   CUSTOMER_REQUEST_STATUS_LABEL,
@@ -33,43 +35,42 @@ export default async function AdminRequestsPage({
   });
 
   return (
-    <section className="space-y-4">
-      <h2 className="text-xl">Kundenanfragen</h2>
+    <section className="space-y-6">
+      <PortalPageHeader
+        title="Kundenanfragen"
+        description="Alle eingehenden Anfragen von Kunden – filtern, bearbeiten und Status verwalten."
+      />
 
-      <form method="get" className="card card-content flex flex-wrap gap-3 items-end">
-        <div>
-          <label htmlFor="status" className="block text-xs text-grey-500 mb-1">
-            Status
-          </label>
-          <select id="status" name="status" defaultValue={resolvedSearch.status ?? ""}>
-            <option value="">Alle</option>
-            {(Object.keys(CUSTOMER_REQUEST_STATUS_LABEL) as CustomerRequestStatus[]).map((status) => (
-              <option key={status} value={status}>
-                {CUSTOMER_REQUEST_STATUS_LABEL[status]}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div>
-          <label htmlFor="client" className="block text-xs text-grey-500 mb-1">
-            Kunde
-          </label>
-          <select id="client" name="client" defaultValue={resolvedSearch.client ?? ""}>
-            <option value="">Alle</option>
-            {(clients ?? []).map((client) => (
-              <option key={client.id} value={client.id}>
-                {client.name}
-              </option>
-            ))}
-          </select>
-        </div>
-        <button type="submit" className="btn btn-secondary">
-          Filtern
-        </button>
-      </form>
+      <StitchFilterPanel>
+        <form method="get" className="flex flex-wrap gap-4 items-end w-full">
+          <StitchFilterField label="Status" htmlFor="status">
+            <select id="status" name="status" defaultValue={resolvedSearch.status ?? ""}>
+              <option value="">Alle</option>
+              {(Object.keys(CUSTOMER_REQUEST_STATUS_LABEL) as CustomerRequestStatus[]).map((status) => (
+                <option key={status} value={status}>
+                  {CUSTOMER_REQUEST_STATUS_LABEL[status]}
+                </option>
+              ))}
+            </select>
+          </StitchFilterField>
+          <StitchFilterField label="Kunde" htmlFor="client">
+            <select id="client" name="client" defaultValue={resolvedSearch.client ?? ""}>
+              <option value="">Alle</option>
+              {(clients ?? []).map((client) => (
+                <option key={client.id} value={client.id}>
+                  {client.name}
+                </option>
+              ))}
+            </select>
+          </StitchFilterField>
+          <button type="submit" className="btn btn-secondary shrink-0">
+            Filtern
+          </button>
+        </form>
+      </StitchFilterPanel>
 
       {filtered.length ? (
-        <div className="card">
+        <div className="portal-card">
           <div>
             {filtered.map((request) => {
               const status = request.status as CustomerRequestStatus;
@@ -78,14 +79,14 @@ export default async function AdminRequestsPage({
                 <Link
                   key={request.id}
                   href={`/admin/requests/${request.id}`}
-                  className="table-row flex items-center gap-4 px-6 py-4 last:border-b-0"
+                  className="table-row flex items-center gap-4 px-6 py-4 last:border-b-0 portal-card-hover"
                 >
                   <div className="min-w-0 flex-1">
-                    <p className="font-medium text-grey-900 truncate">{request.subject}</p>
-                    <p className="text-xs text-grey-500 truncate">
+                    <p className="font-medium text-[var(--color-charcoal)] truncate">{request.subject}</p>
+                    <p className="text-xs text-[var(--color-stone)] truncate">
                       {clientNameById.get(request.client_id) ?? request.client_id} · {request.category} · {request.project_name}
                     </p>
-                    <p className="text-xs text-grey-500">{formatDate(request.created_at)}</p>
+                    <p className="text-xs text-[var(--color-stone)]">{formatDate(request.created_at)}</p>
                   </div>
                   <span className={`chip ${isOpen ? "chip-warning" : CUSTOMER_REQUEST_STATUS_CHIP[status]} shrink-0`}>
                     {CUSTOMER_REQUEST_STATUS_LABEL[status] ?? request.status}
@@ -96,7 +97,7 @@ export default async function AdminRequestsPage({
           </div>
         </div>
       ) : (
-        <div className="card card-content text-grey-500">Keine Anfragen gefunden.</div>
+        <div className="portal-empty">Keine Anfragen gefunden.</div>
       )}
     </section>
   );

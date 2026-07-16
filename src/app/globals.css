@@ -472,15 +472,24 @@ button {
   }
 
   .portal-sidebar-link-active {
-    background: var(--color-linen);
+    background: #ebe1d6;
     color: var(--color-orange);
-    font-weight: 600;
+    font-weight: 700;
     border-right-color: var(--color-orange);
   }
 
   .portal-sidebar-link-active:hover {
-    background: var(--color-linen);
+    background: #ebe1d6;
     color: var(--color-orange);
+  }
+
+  .portal-empty {
+    background: var(--surface);
+    border: 1px solid color-mix(in srgb, var(--color-stone) 30%, transparent);
+    border-radius: var(--radius);
+    padding: 2rem;
+    text-align: center;
+    color: var(--color-stone);
   }
 
   .portal-content {
@@ -522,13 +531,24 @@ button {
     color: var(--color-charcoal);
   }
 
-  .portal-empty {
-    background: var(--surface);
-    border: 1px solid color-mix(in srgb, var(--color-stone) 30%, transparent);
+  .portal-kpi-card-accent {
+    background: var(--color-pistachio-dark);
+    border: 1px solid color-mix(in srgb, var(--color-pistachio-dark) 88%, black);
     border-radius: var(--radius);
-    padding: 2rem;
-    text-align: center;
-    color: var(--color-stone);
+    padding: 1.5rem;
+    color: #fff;
+  }
+
+  .portal-kpi-card-accent .portal-kpi-label {
+    color: color-mix(in srgb, var(--color-sage) 85%, white);
+  }
+
+  .portal-kpi-card-accent .portal-kpi-value {
+    color: #fff;
+  }
+
+  .portal-kpi-card-accent .portal-kpi-subtext {
+    color: color-mix(in srgb, var(--color-sage) 70%, white);
   }
 
   .login-label {
