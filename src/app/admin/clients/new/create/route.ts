@@ -91,6 +91,7 @@ export async function POST(request: Request) {
     can_view_reports: true,
     can_view_inputs: true,
     can_submit_requests: true,
+    can_view_documents: true,
   });
 
   if (clientUserError) {

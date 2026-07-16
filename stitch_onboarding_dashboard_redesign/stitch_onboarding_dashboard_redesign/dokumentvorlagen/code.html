@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+
+<html class="light" lang="de"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>RAIS Admin - Dokumentvorlagen</title>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Google Fonts: Playfair Display & Inter -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-primary-fixed-variant": "#4c463f",
+                    "on-error-container": "#93000a",
+                    "on-secondary": "#ffffff",
+                    "on-secondary-fixed": "#380d00",
+                    "secondary-fixed-dim": "#ffb59b",
+                    "primary": "#1a1610",
+                    "secondary-fixed": "#ffdbcf",
+                    "surface": "#fff8f3",
+                    "error-container": "#ffdad6",
+                    "surface-container-highest": "#ebe1d6",
+                    "primary-fixed": "#ebe1d7",
+                    "on-primary-fixed": "#1f1b15",
+                    "tertiary-fixed-dim": "#b2d09b",
+                    "on-surface-variant": "#4c463f",
+                    "inverse-on-surface": "#f9efe4",
+                    "tertiary-container": "#19300b",
+                    "secondary-container": "#fc7642",
+                    "on-surface": "#1f1b14",
+                    "secondary": "#a83905",
+                    "background": "#fff8f3",
+                    "outline": "#7d766e",
+                    "primary-container": "#2f2a24",
+                    "on-error": "#ffffff",
+                    "outline-variant": "#cec5bc",
+                    "on-tertiary": "#ffffff",
+                    "error": "#ba1a1a",
+                    "inverse-primary": "#cec5bc",
+                    "surface-tint": "#645d56",
+                    "surface-variant": "#ebe1d6",
+                    "on-tertiary-fixed-variant": "#354d25",
+                    "surface-container-high": "#f1e7dc",
+                    "on-tertiary-fixed": "#0a2101",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-container-low": "#fcf2e7",
+                    "surface-container": "#f6ece1",
+                    "on-primary": "#ffffff",
+                    "on-secondary-fixed-variant": "#812900",
+                    "surface-bright": "#fff8f3",
+                    "on-background": "#1f1b14",
+                    "inverse-surface": "#353028",
+                    "on-secondary-container": "#631d00",
+                    "on-tertiary-container": "#7e9a69",
+                    "tertiary-fixed": "#cdecb5",
+                    "primary-fixed-dim": "#cec5bc",
+                    "tertiary": "#061a00",
+                    "surface-dim": "#e2d9ce"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "gutter": "24px",
+                    "margin-mobile": "16px",
+                    "margin-desktop": "40px",
+                    "unit": "8px",
+                    "container-max": "1280px"
+            },
+            "fontFamily": {
+                    "display-lg-mobile": ["Playfair Display"],
+                    "label-sm": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "headline-md": ["Playfair Display"],
+                    "display-lg": ["Playfair Display"],
+                    "body-md": ["Inter"]
+            },
+            "fontSize": {
+                    "display-lg-mobile": ["32px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                    "label-sm": ["12px", {"lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                    "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            line-height: 1;
+            text-transform: none;
+            letter-spacing: normal;
+            word-wrap: normal;
+            white-space: nowrap;
+            direction: ltr;
+        }
+        body {
+            background-color: #fbf8f3; /* Level 0 Base */
+        }
+        .canvas-area {
+            min-height: calc(100vh - 80px);
+        }
+    </style>
+</head>
+<body class="font-body-md text-on-surface selection:bg-secondary-fixed selection:text-on-secondary-fixed">
+<!-- Sidebar Navigation Shell -->
+<aside class="fixed left-0 top-0 h-full w-64 bg-surface-container-low border-r border-outline/30 flex flex-col h-full py-8 px-4 gap-4 z-50">
+<div class="mb-8 px-2">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 bg-primary flex items-center justify-center rounded">
+<span class="material-symbols-outlined text-surface" style="font-variation-settings: 'FILL' 1;">account_balance</span>
+</div>
+<div>
+<h1 class="font-headline-md text-headline-md font-bold text-primary leading-none">RAIS</h1>
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest mt-1">Portal</p>
+</div>
+</div>
+</div>
+<nav class="flex flex-col gap-1">
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-highest transition-all duration-200 group rounded" href="#">
+<span class="material-symbols-outlined text-xl group-hover:text-primary">dashboard</span>
+<span class="font-label-sm text-label-sm">Kunden</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-highest transition-all duration-200 group rounded" href="#">
+<span class="material-symbols-outlined text-xl group-hover:text-primary">list_alt</span>
+<span class="font-label-sm text-label-sm">Kundenanfragen</span>
+</a>
+<!-- Active State: Dokumente -->
+<a class="flex items-center gap-3 px-4 py-3 text-secondary font-bold border-r-4 border-secondary bg-surface-container-highest transition-all duration-200 group rounded-l" href="#">
+<span class="material-symbols-outlined text-xl" style="font-variation-settings: 'FILL' 1;">description</span>
+<span class="font-label-sm text-label-sm">Dokumente</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-highest transition-all duration-200 group rounded" href="#">
+<span class="material-symbols-outlined text-xl group-hover:text-primary">person_add</span>
+<span class="font-label-sm text-label-sm">Neuer Kunde</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-highest transition-all duration-200 group rounded" href="#">
+<span class="material-symbols-outlined text-xl group-hover:text-primary">admin_panel_settings</span>
+<span class="font-label-sm text-label-sm">Benutzer &amp; Rechte</span>
+</a>
+</nav>
+<div class="mt-auto border-t border-outline/10 pt-4 px-2">
+<button class="flex items-center gap-3 w-full px-2 py-3 text-on-surface-variant hover:text-error transition-colors font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-xl">logout</span>
+                Logout
+            </button>
+</div>
+</aside>
+<!-- Main Content Cluster -->
+<main class="ml-64 min-h-screen flex flex-col">
+<!-- Top Bar Anchor -->
+<header class="bg-surface sticky top-0 z-40 border-b border-outline/30 flex justify-between items-center w-full px-margin-desktop py-4 max-w-container-max mx-auto">
+<div class="flex items-center gap-2">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Management Console</span>
+<span class="text-outline/30">/</span>
+<span class="font-label-sm text-label-sm font-bold text-primary">Dokumentvorlagen</span>
+</div>
+<div class="flex items-center gap-6">
+<div class="relative group">
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary transition-colors">notifications</span>
+<span class="absolute -top-1 -right-1 w-2 h-2 bg-secondary rounded-full ring-2 ring-surface"></span>
+</div>
+<div class="flex items-center gap-3 pl-6 border-l border-outline/30">
+<div class="text-right">
+<p class="font-label-sm text-label-sm font-bold text-primary leading-none">Admin User</p>
+<p class="text-[10px] text-on-surface-variant uppercase mt-1">Super Admin</p>
+</div>
+<div class="w-8 h-8 rounded-full bg-surface-container-highest border border-outline/30 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A professional studio portrait of a corporate executive in a neutral setting. The lighting is soft and high-key, aligning with a premium light-mode UI aesthetic. The background is a clean, linen-textured white. The composition is focused and architectural." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAVpOGurSNbxRlUk-yelsCCh6fWYqxbiTj5QDJlCsHBqnOBolit_Wr7esNR-NhYPWO4CpghNj7aXWw6GxAB-5KjiWvJMadwcGCkov3sHdxq4SP032FaVLs27_RSPu0q4XaPvtLu1N5XOehFLigJUTipizAFIpT4wm8Oisz8UhPnKSmOt4SMwDAWDMEkhp1s0I1AslM0mhme8_4Mcwg0S1dhn4FJv8XZffJCf3PeBV5dLbrm_ST8cSke6g"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Canvas Container -->
+<div class="canvas-area flex-1 px-margin-desktop py-12 max-w-container-max mx-auto w-full">
+<!-- Page Header Section -->
+<section class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+<div class="space-y-2">
+<h2 class="font-display-lg text-display-lg text-primary tracking-tight">Dokumentvorlagen</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl">
+                        Verwalten Sie Ihre standardisierten Vorlagen für Berichte, Verträge und Kundenkommunikation an einem zentralen Ort.
+                    </p>
+</div>
+<div>
+<button class="bg-secondary text-on-secondary px-8 py-4 rounded font-label-sm text-label-sm flex items-center gap-2 transition-all hover:bg-secondary/90 active:scale-95 shadow-none">
+<span class="material-symbols-outlined text-lg" style="font-variation-settings: 'FILL' 1;">add</span>
+                        Vorlage Hochladen
+                    </button>
+</div>
+</section>
+<!-- Bento Layout / Content Area -->
+<div class="grid grid-cols-12 gap- gutter">
+<!-- Empty State Card (Span Full) -->
+<div class="col-span-12 bg-white border border-outline/30 rounded-lg overflow-hidden flex flex-col items-center justify-center py-32 px-gutter relative group">
+<!-- Subtle Architectural Background Texture -->
+<div class="absolute inset-0 opacity-[0.03] pointer-events-none" style="background-image: radial-gradient(#1a1610 1px, transparent 1px); background-size: 24px 24px;"></div>
+<div class="relative z-10 flex flex-col items-center text-center">
+<div class="w-24 h-24 mb-8 bg-surface-container-low rounded-full flex items-center justify-center border border-outline/10 group-hover:border-secondary/30 transition-colors duration-500">
+<span class="material-symbols-outlined text-4xl text-outline/40 group-hover:text-secondary transition-colors duration-500" style="font-variation-settings: 'wght' 200;">file_open</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-primary mb-4">Noch keine Vorlagen vorhanden.</h3>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-md mb-10 leading-relaxed">
+                            Beginnen Sie damit, Ihre erste Dokumentvorlage (PDF, DOCX) hochzuladen, um die automatische Dokumentenerstellung für Ihre Kunden zu aktivieren.
+                        </p>
+<a class="inline-flex items-center gap-2 font-label-sm text-label-sm text-secondary hover:text-primary transition-colors border-b-2 border-secondary pb-1 group/link" href="#">
+                            Erste Vorlage hochladen
+                            <span class="material-symbols-outlined text-sm transition-transform group-hover/link:translate-x-1">arrow_forward</span>
+</a>
+</div>
+</div>
+<!-- Secondary Info Modules (Asymmetric Bento Style) -->
+<div class="col-span-12 md:col-span-4 bg-surface-container-low border border-outline/20 p-8 rounded-lg">
+<div class="flex items-center gap-3 mb-6 text-primary">
+<span class="material-symbols-outlined">info</span>
+<h4 class="font-label-sm text-label-sm uppercase tracking-wider">Hilfecenter</h4>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6">
+                        Erfahren Sie mehr über die Verwendung von Platzhaltern in Ihren Vorlagen, um Berichte automatisch zu personalisieren.
+                    </p>
+<button class="font-label-sm text-label-sm text-primary flex items-center gap-1 hover:underline">
+                        Dokumentation ansehen
+                    </button>
+</div>
+<div class="col-span-12 md:col-span-8 bg-white border border-outline/30 p-8 rounded-lg flex items-center justify-between">
+<div class="flex gap-8">
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase mb-1">Speicher</p>
+<p class="font-headline-md text-headline-md text-primary">0 / 50 GB</p>
+</div>
+<div class="border-l border-outline/20 pl-8">
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase mb-1">Downloads</p>
+<p class="font-headline-md text-headline-md text-primary">Keine</p>
+</div>
+</div>
+<div class="w-32 h-2 bg-surface-container-low rounded-full overflow-hidden">
+<div class="w-0 h-full bg-secondary"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer Anchored to Content Area -->
+<footer class="mt-auto border-t border-outline/20 py-8 px-margin-desktop">
+<div class="max-w-container-max mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+<p class="font-label-sm text-label-sm text-on-surface-variant">
+                    Powered by <span class="font-bold text-primary">RAIS</span>
+</p>
+<div class="flex gap-8">
+<a class="font-label-sm text-label-sm text-secondary hover:text-primary transition-colors" href="#">Datenschutz</a>
+<a class="font-label-sm text-label-sm text-secondary hover:text-primary transition-colors" href="#">Impressum</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Support</a>
+</div>
+<p class="font-label-sm text-label-sm text-on-surface-variant opacity-60">
+                    © 2024 RAIS Asset Management
+                </p>
+</div>
+</footer>
+</main>
+<script>
+        // Micro-interaction for the upload button pulse effect
+        document.addEventListener('DOMContentLoaded', () => {
+            const uploadBtn = document.querySelector('button.bg-secondary');
+            if(uploadBtn) {
+                uploadBtn.addEventListener('mouseenter', () => {
+                    uploadBtn.style.boxShadow = '0 0 0 4px rgba(168, 57, 5, 0.1)';
+                });
+                uploadBtn.addEventListener('mouseleave', () => {
+                    uploadBtn.style.boxShadow = 'none';
+                });
+            }
+        });
+    </script>
+</body></html>

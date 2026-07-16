@@ -11,9 +11,9 @@ export default async function PortalInputDetailPage({
 }) {
   const { id } = await params;
   const resolvedSearch = await searchParams;
-  const { clientId, canViewReports, canViewInputs, canSubmitRequests } = await requirePortalUser();
+  const { clientId, canViewReports, canViewInputs, canSubmitRequests, canViewDocuments } = await requirePortalUser();
   if (!canViewInputs) {
-    redirect(resolvePortalHome({ canViewReports, canViewInputs, canSubmitRequests }));
+    redirect(resolvePortalHome({ canViewReports, canViewInputs, canSubmitRequests, canViewDocuments }));
   }
 
   const request = await getInputRequestForClient(id, clientId!);

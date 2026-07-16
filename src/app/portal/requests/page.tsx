@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { PortalPageHeader } from "@/components/portal-page-header";
 import {
   CUSTOMER_REQUEST_STATUS_CHIP,
   CUSTOMER_REQUEST_STATUS_LABEL,
@@ -9,9 +10,10 @@ import { CustomerRequestStatus } from "@/lib/types";
 import { formatDate } from "@/lib/utils";
 
 export default async function PortalRequestsPage() {
-  const { supabase, clientId, canViewReports, canViewInputs, canSubmitRequests } = await requirePortalUser();
+  const { supabase, clientId, canViewReports, canViewInputs, canSubmitRequests, canViewDocuments } =
+    await requirePortalUser();
   if (!canSubmitRequests) {
-    redirect(resolvePortalHome({ canViewReports, canViewInputs, canSubmitRequests }));
+    redirect(resolvePortalHome({ canViewReports, canViewInputs, canSubmitRequests, canViewDocuments }));
   }
 
   const portal = supabase.schema("portal");
@@ -22,16 +24,19 @@ export default async function PortalRequestsPage() {
     .order("created_at", { ascending: false });
 
   return (
-    <section className="space-y-4">
-      <div className="flex items-center justify-between gap-4">
-        <h2 className="text-xl">Anfragen</h2>
-        <Link href="/portal/requests/new" className="btn btn-primary shrink-0">
-          + Neue Anfrage
-        </Link>
-      </div>
+    <section className="space-y-6">
+      <PortalPageHeader
+        title="Anfragen"
+        description="Stellen Sie Fragen oder Wünsche an unser Team und verfolgen Sie den Bearbeitungsstand."
+        actions={
+          <Link href="/portal/requests/new" className="btn btn-primary shrink-0">
+            + Neue Anfrage
+          </Link>
+        }
+      />
 
       {requests?.length ? (
-        <div className="card">
+        <div className="portal-card">
           <div>
             {requests.map((request) => {
               const status = request.status as CustomerRequestStatus;
@@ -57,9 +62,9 @@ export default async function PortalRequestsPage() {
           </div>
         </div>
       ) : (
-        <div className="card card-content text-grey-600">
+        <div className="portal-empty">
           <p>Sie haben noch keine Anfragen gestellt.</p>
-          <Link href="/portal/requests/new" className="text-primary-dark font-medium mt-2 inline-block">
+          <Link href="/portal/requests/new" className="text-[var(--color-orange)] font-medium mt-2 inline-block">
             Erste Anfrage senden
           </Link>
         </div>

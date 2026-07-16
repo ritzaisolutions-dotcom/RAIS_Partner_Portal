@@ -13,8 +13,13 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "RAIS Client Portal",
-  description: "Kundenportal für Reports und Input-Anfragen",
+  title: "RAIS Partner Portal",
+  description: "Kundenportal für Reports, Aufgaben, Anfragen und Dokumente",
+  icons: {
+    icon: "/rais-partner-mark.svg",
+    shortcut: "/rais-partner-mark.svg",
+    apple: "/rais-partner-mark.svg",
+  },
 };
 
 export default function RootLayout({

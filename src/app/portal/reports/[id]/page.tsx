@@ -37,9 +37,9 @@ async function resolveSignedImageUrls(markdown: string) {
 
 export default async function PortalReportDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const { clientId, canViewReports, canViewInputs, canSubmitRequests } = await requirePortalUser();
+  const { clientId, canViewReports, canViewInputs, canSubmitRequests, canViewDocuments } = await requirePortalUser();
   if (!canViewReports) {
-    redirect(resolvePortalHome({ canViewReports, canViewInputs, canSubmitRequests }));
+    redirect(resolvePortalHome({ canViewReports, canViewInputs, canSubmitRequests, canViewDocuments }));
   }
 
   const report = await getReportForClient(id, clientId!);

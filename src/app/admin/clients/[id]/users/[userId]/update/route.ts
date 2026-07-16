@@ -20,12 +20,18 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
   const canViewReports = formData.get("can_view_reports") === "on";
   const canViewInputs = formData.get("can_view_inputs") === "on";
   const canSubmitRequests = formData.get("can_submit_requests") === "on";
+  const canViewDocuments = formData.get("can_view_documents") === "on";
   // Nur bekannte, feste Zielseiten zulassen (kein offener Redirect ueber Nutzereingabe).
   const redirectTo = formData.get("redirect_to") === "/admin/users" ? "/admin/users" : `/admin/clients/${id}?tab=users`;
 
   const { data: updatedRows, error } = await portal
     .from("client_users")
-    .update({ can_view_reports: canViewReports, can_view_inputs: canViewInputs, can_submit_requests: canSubmitRequests })
+    .update({
+      can_view_reports: canViewReports,
+      can_view_inputs: canViewInputs,
+      can_submit_requests: canSubmitRequests,
+      can_view_documents: canViewDocuments,
+    })
     .eq("user_id", userId)
     .eq("client_id", id)
     .select("user_id");

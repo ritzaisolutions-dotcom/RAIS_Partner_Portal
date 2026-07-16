@@ -1,9 +1,16 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import {
+  CLIENT_DOCUMENT_CATEGORY_CHIP,
+  CLIENT_DOCUMENT_STATUS_CHIP,
+  CLIENT_DOCUMENT_STATUS_LABEL,
+  ClientDocumentCategory,
+  ClientDocumentStatus,
+} from "@/lib/client-document-status";
 import { requireAdminUser } from "@/lib/portal-queries";
 import { formatDate } from "@/lib/utils";
 
-const VALID_TABS = new Set(["reports", "inputs", "users"]);
+const VALID_TABS = new Set(["reports", "inputs", "documents", "users"]);
 
 const REPORT_STATUS_CHIP: Record<string, string> = {
   draft: "chip-neutral",
@@ -35,19 +42,37 @@ export default async function AdminClientDetailPage({
 }) {
   const { id } = await params;
   const resolvedSearch = await searchParams;
-  const activeTab = VALID_TABS.has(resolvedSearch.tab ?? "") ? (resolvedSearch.tab as "reports" | "inputs" | "users") : "reports";
+  const activeTab = VALID_TABS.has(resolvedSearch.tab ?? "")
+    ? (resolvedSearch.tab as "reports" | "inputs" | "documents" | "users")
+    : "reports";
   const { supabase } = await requireAdminUser();
   const portal = supabase.schema("portal");
-  const [{ data: client }, { data: reports }, { data: requests }, { data: users }] = await Promise.all([
-    portal.from("clients").select("*").eq("id", id).maybeSingle(),
-    portal.from("status_reports").select("id,title,status,published_at,created_at").eq("client_id", id).order("created_at", { ascending: false }),
-    portal.from("input_requests").select("id,title,status,due_date,created_at").eq("client_id", id).order("created_at", { ascending: false }),
-    portal
-      .from("client_users")
-      .select("display_name,user_id,created_at,can_view_reports,can_view_inputs,can_submit_requests")
-      .eq("client_id", id)
-      .order("created_at", { ascending: false }),
-  ]);
+  const [{ data: client }, { data: reports }, { data: requests }, { data: documents }, { data: users }] =
+    await Promise.all([
+      portal.from("clients").select("*").eq("id", id).maybeSingle(),
+      portal
+        .from("status_reports")
+        .select("id,title,status,published_at,created_at")
+        .eq("client_id", id)
+        .order("created_at", { ascending: false }),
+      portal
+        .from("input_requests")
+        .select("id,title,status,due_date,created_at")
+        .eq("client_id", id)
+        .order("created_at", { ascending: false }),
+      portal
+        .from("client_documents")
+        .select("id,title,category,status,file_name,published_at,created_at")
+        .eq("client_id", id)
+        .order("created_at", { ascending: false }),
+      portal
+        .from("client_users")
+        .select(
+          "display_name,user_id,created_at,can_view_reports,can_view_inputs,can_submit_requests,can_view_documents",
+        )
+        .eq("client_id", id)
+        .order("created_at", { ascending: false }),
+    ]);
 
   if (!client) notFound();
 
@@ -63,6 +88,9 @@ export default async function AdminClientDetailPage({
           <Link className="btn btn-secondary" href={`/admin/clients/${id}/inputs/new`}>
             + Neue Input-Anfrage
           </Link>
+          <Link className="btn btn-secondary" href={`/admin/clients/${id}/documents/new`}>
+            + Dokument hochladen
+          </Link>
           <Link className="btn btn-secondary" href={`/admin/clients/${id}/users/new`}>
             + Benutzer hinzufügen
           </Link>
@@ -77,13 +105,28 @@ export default async function AdminClientDetailPage({
 
       <div className="card">
         <nav className="flex flex-wrap gap-2 p-4 border-b border-grey-200">
-          <Link href={`/admin/clients/${id}?tab=reports`} className={activeTab === "reports" ? "sidebar-link sidebar-link-active" : "sidebar-link"}>
+          <Link
+            href={`/admin/clients/${id}?tab=reports`}
+            className={activeTab === "reports" ? "sidebar-link sidebar-link-active" : "sidebar-link"}
+          >
             Status-Reports
           </Link>
-          <Link href={`/admin/clients/${id}?tab=inputs`} className={activeTab === "inputs" ? "sidebar-link sidebar-link-active" : "sidebar-link"}>
+          <Link
+            href={`/admin/clients/${id}?tab=inputs`}
+            className={activeTab === "inputs" ? "sidebar-link sidebar-link-active" : "sidebar-link"}
+          >
             Input-Anfragen
           </Link>
-          <Link href={`/admin/clients/${id}?tab=users`} className={activeTab === "users" ? "sidebar-link sidebar-link-active" : "sidebar-link"}>
+          <Link
+            href={`/admin/clients/${id}?tab=documents`}
+            className={activeTab === "documents" ? "sidebar-link sidebar-link-active" : "sidebar-link"}
+          >
+            Dokumente
+          </Link>
+          <Link
+            href={`/admin/clients/${id}?tab=users`}
+            className={activeTab === "users" ? "sidebar-link sidebar-link-active" : "sidebar-link"}
+          >
             Benutzer
           </Link>
         </nav>
@@ -94,9 +137,13 @@ export default async function AdminClientDetailPage({
               <div key={report.id} className="table-row admin-list-row admin-list-row-report">
                 <div className="admin-list-inline-meta">
                   <span className="font-medium text-grey-900 truncate">{report.title}</span>
-                  <span className="text-xs text-grey-500 truncate">{formatDate(report.published_at ?? report.created_at)}</span>
+                  <span className="text-xs text-grey-500 truncate">
+                    {formatDate(report.published_at ?? report.created_at)}
+                  </span>
                 </div>
-                <span className={`chip ${REPORT_STATUS_CHIP[report.status] ?? "chip-neutral"} shrink-0`}>{report.status}</span>
+                <span className={`chip ${REPORT_STATUS_CHIP[report.status] ?? "chip-neutral"} shrink-0`}>
+                  {report.status}
+                </span>
                 {report.status === "draft" ? (
                   <form action={`/admin/clients/${id}/reports/${report.id}/publish`} method="post" className="shrink-0">
                     <button type="submit" className="btn btn-secondary !text-xs !py-1.5 !px-3">
@@ -143,6 +190,61 @@ export default async function AdminClientDetailPage({
           </div>
         ) : null}
 
+        {activeTab === "documents" ? (
+          <div className="admin-list-scroll">
+            {documents?.map((document) => {
+              const status = document.status as ClientDocumentStatus;
+              const category = document.category as ClientDocumentCategory;
+              return (
+                <div key={document.id} className="table-row admin-list-row admin-list-row-input">
+                  <div className="admin-list-inline-meta min-w-0">
+                    <span className="font-medium text-grey-900 truncate">{document.title}</span>
+                    <span className="text-xs text-grey-500 truncate">
+                      {document.file_name} · {formatDate(document.published_at ?? document.created_at)}
+                    </span>
+                  </div>
+                  <span
+                    className={`chip ${CLIENT_DOCUMENT_CATEGORY_CHIP[category] ?? "chip-neutral"} shrink-0`}
+                  >
+                    {document.category}
+                  </span>
+                  <span className={`chip ${CLIENT_DOCUMENT_STATUS_CHIP[status] ?? "chip-neutral"} shrink-0`}>
+                    {CLIENT_DOCUMENT_STATUS_LABEL[status] ?? document.status}
+                  </span>
+                  <div className="flex items-center gap-2 shrink-0">
+                    <Link
+                      href={`/admin/clients/${id}/documents/${document.id}/download`}
+                      className="btn btn-ghost !text-xs !py-1.5 !px-3"
+                    >
+                      Download
+                    </Link>
+                    {status === "draft" ? (
+                      <form action={`/admin/clients/${id}/documents/${document.id}/publish`} method="post">
+                        <button type="submit" className="btn btn-secondary !text-xs !py-1.5 !px-3">
+                          Freigeben
+                        </button>
+                      </form>
+                    ) : null}
+                    <form action={`/admin/clients/${id}/documents/${document.id}/delete`} method="post">
+                      <button type="submit" className="btn btn-ghost !text-xs !py-1.5 !px-3">
+                        Löschen
+                      </button>
+                    </form>
+                  </div>
+                </div>
+              );
+            })}
+            {!documents?.length ? (
+              <div className="card-content text-grey-500">
+                Noch keine Dokumente.{" "}
+                <Link href={`/admin/clients/${id}/documents/new`} className="text-primary-dark underline">
+                  Erstes Dokument hochladen
+                </Link>
+              </div>
+            ) : null}
+          </div>
+        ) : null}
+
         {activeTab === "users" ? (
           <div className="admin-list-scroll">
             {users?.map((clientUser) => (
@@ -158,19 +260,43 @@ export default async function AdminClientDetailPage({
                 <form
                   action={`/admin/clients/${id}/users/${clientUser.user_id}/update`}
                   method="post"
-                  className="flex items-center gap-2 shrink-0 whitespace-nowrap"
+                  className="flex items-center gap-2 shrink-0 whitespace-nowrap flex-wrap"
                 >
                   <label className="flex items-center gap-1.5 text-xs text-grey-600 shrink-0">
-                    <input type="checkbox" name="can_view_reports" defaultChecked={clientUser.can_view_reports} className="!w-4 shrink-0" />
+                    <input
+                      type="checkbox"
+                      name="can_view_reports"
+                      defaultChecked={clientUser.can_view_reports}
+                      className="!w-4 shrink-0"
+                    />
                     Reports
                   </label>
                   <label className="flex items-center gap-1.5 text-xs text-grey-600 shrink-0">
-                    <input type="checkbox" name="can_view_inputs" defaultChecked={clientUser.can_view_inputs} className="!w-4 shrink-0" />
+                    <input
+                      type="checkbox"
+                      name="can_view_inputs"
+                      defaultChecked={clientUser.can_view_inputs}
+                      className="!w-4 shrink-0"
+                    />
                     Input-Anfragen
                   </label>
                   <label className="flex items-center gap-1.5 text-xs text-grey-600 shrink-0">
-                    <input type="checkbox" name="can_submit_requests" defaultChecked={clientUser.can_submit_requests ?? true} className="!w-4 shrink-0" />
+                    <input
+                      type="checkbox"
+                      name="can_submit_requests"
+                      defaultChecked={clientUser.can_submit_requests ?? true}
+                      className="!w-4 shrink-0"
+                    />
                     Anfragen senden
+                  </label>
+                  <label className="flex items-center gap-1.5 text-xs text-grey-600 shrink-0">
+                    <input
+                      type="checkbox"
+                      name="can_view_documents"
+                      defaultChecked={clientUser.can_view_documents ?? true}
+                      className="!w-4 shrink-0"
+                    />
+                    Dokumente
                   </label>
                   <button type="submit" className="btn btn-secondary !text-xs !py-1.5 !px-3 shrink-0">
                     Speichern

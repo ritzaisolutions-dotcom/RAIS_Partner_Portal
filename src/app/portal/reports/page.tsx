@@ -1,12 +1,14 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { PortalPageHeader } from "@/components/portal-page-header";
 import { requirePortalUser, resolvePortalHome } from "@/lib/portal-queries";
 import { formatDate } from "@/lib/utils";
 
 export default async function PortalReportsPage() {
-  const { supabase, clientId, canViewReports, canViewInputs, canSubmitRequests } = await requirePortalUser();
+  const { supabase, clientId, canViewReports, canViewInputs, canSubmitRequests, canViewDocuments } =
+    await requirePortalUser();
   if (!canViewReports) {
-    redirect(resolvePortalHome({ canViewReports, canViewInputs, canSubmitRequests }));
+    redirect(resolvePortalHome({ canViewReports, canViewInputs, canSubmitRequests, canViewDocuments }));
   }
 
   const { data: reports } = await supabase
@@ -18,9 +20,12 @@ export default async function PortalReportsPage() {
     .order("published_at", { ascending: false, nullsFirst: false });
 
   return (
-    <section className="space-y-4">
-      <h2 className="text-xl">Status-Reports</h2>
-      <div className="card">
+    <section className="space-y-6">
+      <PortalPageHeader
+        title="Status-Reports"
+        description="Veröffentlichte Berichte und Updates von RAIS zu Ihrem Projekt."
+      />
+      <div className="portal-card">
         {reports?.length ? (
           <div>
             {reports.map((report) => (
@@ -38,7 +43,7 @@ export default async function PortalReportsPage() {
             ))}
           </div>
         ) : (
-          <div className="card-content text-grey-500">Noch keine Reports verfügbar.</div>
+          <div className="px-6 py-8 text-[var(--color-stone)]">Noch keine Reports verfügbar.</div>
         )}
       </div>
     </section>

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { PortalPageHeader } from "@/components/portal-page-header";
 import { parseFormSchema, requirePortalUser, resolvePortalHome } from "@/lib/portal-queries";
 import { formatDate } from "@/lib/utils";
 
@@ -25,9 +26,10 @@ function isOverdue(dueDate: string | null, status: string) {
 }
 
 export default async function PortalInputsPage() {
-  const { supabase, clientId, canViewReports, canViewInputs, canSubmitRequests } = await requirePortalUser();
+  const { supabase, clientId, canViewReports, canViewInputs, canSubmitRequests, canViewDocuments } =
+    await requirePortalUser();
   if (!canViewInputs) {
-    redirect(resolvePortalHome({ canViewReports, canViewInputs, canSubmitRequests }));
+    redirect(resolvePortalHome({ canViewReports, canViewInputs, canSubmitRequests, canViewDocuments }));
   }
 
   const portal = supabase.schema("portal");
@@ -69,11 +71,14 @@ export default async function PortalInputsPage() {
   }
 
   return (
-    <section className="space-y-4">
-      <h2 className="text-xl">Aufgaben</h2>
+    <section className="space-y-6">
+      <PortalPageHeader
+        title="Aufgaben"
+        description="Offene Eingaben und Formulare, die von Ihnen ausgefüllt werden müssen."
+      />
 
       {requests?.length ? (
-        <div className="card">
+        <div className="portal-card">
           <div>
             {requests.map((request) => {
               const pct = completionPercent(request);
@@ -111,19 +116,9 @@ export default async function PortalInputsPage() {
           </div>
         </div>
       ) : (
-        <div className="stat-highlight p-8 text-center">
-          <div className="relative z-10 flex flex-col items-center gap-3">
-            <div className="h-14 w-14 rounded-full bg-white/15 flex items-center justify-center">
-              <svg viewBox="0 0 24 24" fill="none" className="h-7 w-7 text-white" aria-hidden="true">
-                <path d="M5 13l4 4L19 7" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </div>
-            <h3 className="text-xl text-white font-semibold">Alles erledigt!</h3>
-            <p className="text-secondary-200 text-sm max-w-sm">
-              Sie haben aktuell keine offenen Aufgaben. Unser Team kümmert sich um den Rest — wir melden uns, sobald wir wieder
-              etwas von Ihnen brauchen.
-            </p>
-          </div>
+        <div className="portal-empty">
+          <p>Sie haben aktuell keine offenen Aufgaben.</p>
+          <p className="text-sm mt-2">Wir melden uns, sobald wir wieder etwas von Ihnen brauchen.</p>
         </div>
       )}
     </section>

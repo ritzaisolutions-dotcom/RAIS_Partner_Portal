@@ -21,7 +21,7 @@ export default async function AdminDocumentsPage() {
   return (
     <section className="space-y-4">
       <div className="flex items-center justify-between gap-4">
-        <h2 className="text-xl">Dokumentvorlagen</h2>
+        <h2 className="text-xl">Vorlagen</h2>
         <Link href="/admin/documents/new" className="btn btn-primary shrink-0">
           + Vorlage hochladen
         </Link>

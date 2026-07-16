@@ -439,6 +439,97 @@ button {
     right: -10px;
     opacity: 0.5;
   }
+
+  .portal-header {
+    background: var(--surface);
+    border-bottom: 1px solid color-mix(in srgb, var(--color-stone) 30%, transparent);
+    box-shadow: none;
+  }
+
+  .portal-nav-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--color-stone);
+  }
+
+  .portal-sidebar-link {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    border-radius: var(--radius);
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-stone);
+    border-right: 4px solid transparent;
+    transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+  }
+
+  .portal-sidebar-link:hover {
+    background: var(--color-linen);
+    color: var(--color-charcoal);
+  }
+
+  .portal-sidebar-link-active {
+    background: var(--color-linen);
+    color: var(--color-orange);
+    font-weight: 600;
+    border-right-color: var(--color-orange);
+  }
+
+  .portal-sidebar-link-active:hover {
+    background: var(--color-linen);
+    color: var(--color-orange);
+  }
+
+  .portal-content {
+    background: var(--color-linen);
+    background-image: radial-gradient(color-mix(in srgb, var(--color-stone) 8%, transparent) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+
+  .portal-card {
+    background: var(--surface);
+    border: 1px solid color-mix(in srgb, var(--color-stone) 30%, transparent);
+    border-radius: var(--radius);
+  }
+
+  .portal-card-hover:hover {
+    background: var(--color-linen-soft);
+  }
+
+  .portal-kpi-card {
+    background: var(--surface);
+    border: 1px solid color-mix(in srgb, var(--color-stone) 30%, transparent);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+  }
+
+  .portal-kpi-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--color-stone);
+  }
+
+  .portal-kpi-value {
+    font-family: var(--font-playfair), Georgia, serif;
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--color-charcoal);
+  }
+
+  .portal-empty {
+    background: var(--surface);
+    border: 1px solid color-mix(in srgb, var(--color-stone) 30%, transparent);
+    border-radius: var(--radius);
+    padding: 2rem;
+    text-align: center;
+    color: var(--color-stone);
+  }
 }
 
 /* ---- Liquid-Glass Header (adaptiert aus ritz-ai.solutions Navbar) ----

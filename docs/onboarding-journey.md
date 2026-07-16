@@ -1,12 +1,29 @@
 # RAIS Kunden-Onboarding Journey
 
-**Stand:** 10.07.2026 · **ICP-Referenz:** erfahrener Immobilienmakler / kleine Hausverwaltung (abgeleitet aus [Haller_Onboarding_Input_Requirements.md](../../Haller_Onboarding_Input_Requirements.md))
+**Stand:** 16.07.2026 · **ICP-Referenz:** erfahrener Immobilienmakler / kleine Hausverwaltung (abgeleitet aus [Haller_Onboarding_Input_Requirements.md](../../Haller_Onboarding_Input_Requirements.md))
+
+---
+
+## Strategische Einordnung
+
+**Onboarding bleibt persönlich** — über Präsentation (Slides), Google Meet oder vor Ort. Der Kunde lernt RAIS, den Ablauf und die Ansprechpartner von Mensch zu Mensch. Das Portal ersetzt diesen Schritt **nicht**.
+
+**Das Portal ergänzt** den persönlichen Onboarding-Prozess als dauerhafte, sichere Anlaufstelle danach (und schon ab dem Kickoff):
+
+| Rolle des Portals | Was der Kunde damit macht |
+|-------------------|---------------------------|
+| **Dokumentation** | Status-Reports, Anleitungen, freigegebene Verträge/Rechnungen nachlesen |
+| **Sichere Datenübergabe** | Strukturierte Aufgaben (Formulare, Uploads) statt unverschlüsselte E-Mail-Anhänge |
+| **Nachverfolgbarkeit** | Anfragen an RAIS mit sichtbarem Status — kein „Habe ich schon geschrieben?“ |
+| **Übersicht** | Startseite „Was brauche ich heute?“ — offene Punkte auf einen Blick |
+
+**Prinzip:** Slides/Call erklären *warum* und *wie*; das Portal ist der Ort, wo Unterlagen *hingehören* und wo der Fortschritt *sichtbar* bleibt.
 
 ---
 
 ## ICP-Kurzprofil
 
-Typischer Kunde: Inhaber oder GF, 50–65 Jahre, 2–15 Mitarbeiter, stark IS24-lastig, Microsoft 365 vorhanden, IT oft extern betreut. Erwartet einen klaren Vertrags- und Zahlungsweg, einen einfachen Termin und danach **eine** Anlaufstelle für Status und Dateneingabe — ohne Technik-Jargon.
+Typischer Kunde: Inhaber oder GF, 50–65 Jahre, 2–15 Mitarbeiter, stark IS24-lastig, Microsoft 365 vorhanden, IT oft extern betreut. Erwartet einen klaren Vertrags- und Zahlungsweg, einen einfachen Termin und danach **eine** Anlaufstelle für Status und Dateneingabe — ohne Technik-Jargon. Onboarding versteht er als persönliches Gespräch; das Portal als praktisches Werkzeug danach.
 
 ---
 
@@ -130,10 +147,10 @@ Typischer Kunde: Inhaber oder GF, 50–65 Jahre, 2–15 Mitarbeiter, stark IS24-
     <div class="flow-step manual">
       <span class="flow-phase pre">Pre-Portal</span>
       <div>
-        <p class="flow-title">6. Live-Onboarding-Call (ca. 45 Min)</p>
-        <p class="flow-detail">Portal-Zugang gemeinsam einrichten, Tour durch Reports und Inputs.</p>
+        <p class="flow-title">6. Onboarding-Session (Slides, Meet oder vor Ort)</p>
+        <p class="flow-detail">Persönlicher Kickoff: Projekt, Ablauf, Ansprechpartner. Portal-Zugang gemeinsam einrichten — kurze Demo als Ergänzung, nicht Ersatz für das Gespräch.</p>
       </div>
-      <span class="flow-tool">Teams / Zoom</span>
+      <span class="flow-tool">Slides + Meet / vor Ort</span>
     </div>
     <div class="flow-step system">
       <span class="flow-phase portal">Portal</span>
@@ -178,7 +195,7 @@ Typischer Kunde: Inhaber oder GF, 50–65 Jahre, 2–15 Mitarbeiter, stark IS24-
 | Signatur-Alert | System | Callback → n8n → Mail an Kevin | n8n | `Skribble: AVV/SA unterzeichnet – {{kunde}}` | Skribble-Admin manuell prüfen |
 | Stripe | Kevin | Payment Link senden | Stripe Dashboard | `Willkommen bei RAIS – Ihr Projektstart` | Telefonische Nachfrage |
 | Bestätigung | Kevin | Zahlung bestätigen, Rechnung, Termin | Outlook + Cal.com | `Bestätigung & Terminvorschlag – {{projekt}}` | Cal.com Self-Booking-Link |
-| Live-Call | Kevin + Kunde | Login, Passwort, Portal-Tour | Admin + Portal | — | Rückruf innerhalb 24h |
+| Live-Session | Kevin + Kunde | Slides/Meet/vor Ort: Projekt, Ablauf, Portal-Kurzdemo | Slides + Meet / vor Ort | — | Rückruf innerhalb 24h |
 | Post-Call | Kevin | Starter-Report publishen, Inputs freischalten | Admin | *(Report-Mail automatisch)* | Telefonische Erinnerung |
 | Inputs | Kunde | Felder ausfüllen, Dateien hochladen | Portal | *(Alert an Kevin bei Einreichung)* | E-Mail / Anruf Mo–Fr 9–17 |
 | Reports | Kevin | Status-Reports veröffentlichen | Admin | `Neuer Status-Report im RAIS Portal` | — |
@@ -237,29 +254,35 @@ Siehe [email-templates.md](./email-templates.md) — Template `report_published`
 
 ---
 
-## Live-Call-Skript (5 Min Kern)
+## Onboarding-Session — Portal-Kurzdemo (5 Min, am Ende der Session)
+
+> Die eigentliche Onboarding-Arbeit passiert in Slides und Gespräch. Dieser Block ist die **kurze Übergabe** ans Portal als Dokumentations- und Datenkanal.
 
 1. **Login:** `https://portal.ritz-ai.solutions/login` — E-Mail + temporäres Passwort setzen
-2. **Reports:** Wo Status-Updates erscheinen, wie Benachrichtigungen funktionieren
-3. **Inputs:** Offene Anfragen, Fristen, Datei-Upload (PDF, Office, Bilder)
-4. **Ansprechpartner:** Wer liefert IT-Daten (M365-Admin), wer pflegt Inserate
-5. **Nächster Schritt:** „Bitte die 2–3 prioritären Inputs bis {{datum}} ausfüllen“
+2. **Übersicht:** „Was brauche ich heute?“ — offene Aufgaben, Anfragen, Dokumente
+3. **Aufgaben:** Strukturierte Datenübergabe (Formulare, Fristen, sichere Uploads)
+4. **Dokumente:** Freigegebene Verträge/Rechnungen — nicht im Postfach suchen
+5. **Anfragen:** Fragen an RAIS mit Status statt lose E-Mails
+6. **Reports:** Status-Updates nachlesen, wenn veröffentlicht
+7. **Nächster Schritt:** „Bitte die 2–3 prioritären Aufgaben bis {{datum}} im Portal erledigen“
 
 ---
 
-## Post-Call-Checkliste (für Kunden)
+## Post-Session-Checkliste (für Kunden)
 
+- [ ] Onboarding-Session (Slides/Meet/vor Ort) abgeschlossen — Ansprechpartner und nächste Schritte klar
 - [ ] Portal-Login funktioniert, Passwort geändert
+- [ ] Übersicht geöffnet — offene Aufgaben sichtbar
 - [ ] Erster Report gelesen („So liefern Sie Ihre Unterlagen“)
-- [ ] Priorisierte Inputs (z. B. M365-Admin, Postfächer) bis {{datum}} ausgefüllt
+- [ ] Priorisierte Aufgaben (z. B. M365-Admin, Postfächer) bis {{datum}} im Portal ausgefüllt
 - [ ] IT-Ansprechpartner informiert (falls Graph-Consent nötig)
 - [ ] Bei Problemen: {{telefon}} Mo–Fr 9–17 Uhr
 
 ---
 
-## Skribble Setup (n8n) — **später, nach Production-API-Key**
+## Skribble Setup (n8n) — **zurückgestellt (kein ROI bei aktuellem Scale)**
 
-> **Status:** Free Trial erlaubt nur Demo-API-Keys. Workflow liegt als Vorlage im Repo, wird **nicht** in n8n importiert/aktiviert, bis ein **Production**-Key (Pro/Business-Plan) vorliegt. Bis dahin: Signatur in Skribble UI + manuelle Benachrichtigung an dich.
+> **Status:** Signatur weiterhin manuell über Skribble UI. Der n8n-Workflow liegt als Vorlage im Repo, wird **nicht** importiert/aktiviert, bis sich Automatisierung lohnt. Bis dahin: manuelle Benachrichtigung an dich nach Unterzeichnung.
 
 ### Callback-URL (wenn Production-Key da ist)
 
@@ -294,9 +317,9 @@ Datei: [`n8n/workflows/skribble_signed.workflow.json`](../n8n/workflows/skribble
 
 ---
 
-## Post-Call Starter-Paket (Admin)
+## Post-Session Starter-Paket (Admin)
 
-Nach dem Live-Call empfohlene Reihenfolge:
+Nach der Onboarding-Session im Portal bereitstellen:
 
 | # | Aktion | Status |
 |---|--------|--------|
@@ -362,10 +385,10 @@ Datei: [`n8n/workflows/skribble_signed.workflow.json`](../n8n/workflows/skribble
 
 | # | Lücke | Status | Priorität |
 |---|-------|--------|-----------|
-| 1 | Skribble-Signed-Benachrichtigung (n8n) | Vorlage im Repo, **nicht live** | Wartet auf Production-API-Key |
+| 1 | Skribble-Signed-Benachrichtigung (n8n) | Vorlage im Repo, **zurückgestellt** | Kein ROI bei aktuellem Scale — manuell in Skribble UI |
 | 2 | Mail-Vorlagen Pre-Portal (Stripe, Bestätigung) | Dokumentiert, nicht im Repo | Mittel |
 | 3 | Cal.com Event-Type dokumentiert | In Playbook | Niedrig |
-| 4 | Kunden-Passwort per Reset-Link (statt nur Admin-Flash) | Offen | Mittel |
+| 4 | Kunden-Passwort per Reset-Link (statt nur Admin-Flash) | Backlog | E-Mail an kevin@ritz-ai.solutions reicht vorerst |
 | 5 | Post-Call-Starter als Standard-Seed | `docs/seed-onboarding-starter.sql` | Erledigt |
 | 6 | Input-Erfolgstext „Daten übermittelt. Vielen Dank!“ | Portal-Fix | Erledigt |
 | 7 | Report-Mail bei INSERT-as-published | Migration `20260710113000_*` | Erledigt (Migration live anwenden) |
@@ -382,7 +405,7 @@ Datei: [`n8n/workflows/skribble_signed.workflow.json`](../n8n/workflows/skribble
 | Skribble AVV+SA | 8/10 | 0/10 → 6/10 mit n8n | Branchenüblich; Alert automatisiert |
 | Willkommen + Stripe | 7/10 | 0/10 | Manuell, Vorlagen hier |
 | Bestätigung + Termin | 8/10 | 0/10 | Cal.com passt zum ICP |
-| Live-Call + Portal | 6/10 | 5/10 | Portal da, kein Kunden-Mail |
+| Live-Session + Portal | 9/10 | 8/10 | Onboarding persönlich; Portal als Dokumentation & Datenkanal |
 | Post-Call-Anleitung | 9/10 | 2/10 → 6/10 mit Starter-Seed | Konzept stark |
 | Input + Erfolg | 8/10 | 7/10 → 9/10 nach Fix | Flow vorhanden |
 | Reports + E-Mail | 9/10 | 6/10 → 9/10 nach Fix | n8n live |

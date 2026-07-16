@@ -10,9 +10,9 @@ export default async function PortalNewRequestPage({
   searchParams: Promise<{ error?: string }>;
 }) {
   const resolvedSearch = await searchParams;
-  const { canViewReports, canViewInputs, canSubmitRequests } = await requirePortalUser();
+  const { canViewReports, canViewInputs, canSubmitRequests, canViewDocuments } = await requirePortalUser();
   if (!canSubmitRequests) {
-    redirect(resolvePortalHome({ canViewReports, canViewInputs, canSubmitRequests }));
+    redirect(resolvePortalHome({ canViewReports, canViewInputs, canSubmitRequests, canViewDocuments }));
   }
 
   return (

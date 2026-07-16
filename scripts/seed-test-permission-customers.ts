@@ -220,6 +220,7 @@ async function main() {
         canViewReports: customer.canViewReports,
         canViewInputs: customer.canViewInputs,
         canSubmitRequests: true,
+        canViewDocuments: true,
       }),
       reports: customer.canViewReports ? "ja" : "nein",
       inputs: customer.canViewInputs ? "ja" : "nein",

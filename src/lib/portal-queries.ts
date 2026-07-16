@@ -6,12 +6,18 @@ export type PortalCapabilities = {
   canViewReports: boolean;
   canViewInputs: boolean;
   canSubmitRequests: boolean;
+  canViewDocuments: boolean;
 };
 
 export function resolvePortalHome(capabilities: PortalCapabilities) {
-  if (capabilities.canViewReports) return "/portal/reports";
-  if (capabilities.canViewInputs) return "/portal/inputs";
-  if (capabilities.canSubmitRequests) return "/portal/requests";
+  if (
+    capabilities.canViewReports ||
+    capabilities.canViewInputs ||
+    capabilities.canSubmitRequests ||
+    capabilities.canViewDocuments
+  ) {
+    return "/portal";
+  }
   return "/portal/no-access";
 }
 
@@ -33,12 +39,13 @@ export async function requirePortalUser() {
       canViewReports: true,
       canViewInputs: true,
       canSubmitRequests: true,
+      canViewDocuments: true,
     };
   }
 
   const { data: clientUser } = await portal
     .from("client_users")
-    .select("client_id,can_view_reports,can_view_inputs,can_submit_requests")
+    .select("client_id,can_view_reports,can_view_inputs,can_submit_requests,can_view_documents")
     .eq("user_id", user.id)
     .maybeSingle();
   if (!clientUser) redirect("/login");
@@ -50,6 +57,7 @@ export async function requirePortalUser() {
     canViewReports: Boolean(clientUser.can_view_reports),
     canViewInputs: Boolean(clientUser.can_view_inputs),
     canSubmitRequests: Boolean(clientUser.can_submit_requests ?? true),
+    canViewDocuments: Boolean(clientUser.can_view_documents ?? true),
   };
 }
 
@@ -127,6 +135,20 @@ export async function getCustomerRequestForClient(id: string, clientId: string) 
     .select("*")
     .eq("id", id)
     .eq("client_id", clientId)
+    .maybeSingle();
+  if (!data) notFound();
+  return data;
+}
+
+export async function getPublishedDocumentForClient(id: string, clientId: string) {
+  const supabase = await createClient();
+  const portal = supabase.schema("portal");
+  const { data } = await portal
+    .from("client_documents")
+    .select("*")
+    .eq("id", id)
+    .eq("client_id", clientId)
+    .eq("status", "published")
     .maybeSingle();
   if (!data) notFound();
   return data;

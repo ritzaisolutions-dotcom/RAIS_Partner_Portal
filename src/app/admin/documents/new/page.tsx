@@ -19,7 +19,7 @@ export default async function AdminNewDocumentTemplatePage({
         <Link href="/admin/documents" className="text-sm text-grey-500 hover:text-grey-900">
           ← Zurück
         </Link>
-        <h2 className="text-xl">Neue Dokumentvorlage</h2>
+        <h2 className="text-xl">Neue Vorlage</h2>
       </div>
 
       <form
