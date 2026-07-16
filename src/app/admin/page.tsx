@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { PortalPageHeader } from "@/components/portal-page-header";
 import { requireAdminUser } from "@/lib/portal-queries";
 import { OPEN_CUSTOMER_REQUEST_STATUSES } from "@/lib/customer-request-status";
 import { CustomerRequestStatus } from "@/lib/types";
@@ -45,56 +46,57 @@ export default async function AdminHomePage() {
 
   return (
     <section className="space-y-6">
-      <div className="flex items-center justify-between">
-        <h2 className="text-xl">Übersicht</h2>
-        <Link href="/admin/clients/new" className="btn btn-primary">
-          + Neuer Kunde
-        </Link>
-      </div>
+      <PortalPageHeader
+        title="Übersicht"
+        description="Kunden, offene Input-Anfragen und Kundenanfragen auf einen Blick."
+        actions={
+          <Link href="/admin/clients/new" className="btn btn-primary shrink-0">
+            + Neuer Kunde
+          </Link>
+        }
+      />
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <div className="stat-highlight p-6">
-          <div className="relative z-10">
-            <p className="text-secondary-200 text-xs uppercase tracking-wide mb-1">Offene Input-Anfragen</p>
-            <p className="text-3xl font-bold text-white">{totalWaiting}</p>
-            <p className="text-secondary-200 text-xs mt-1">warten auf Kunden-Input</p>
-          </div>
+        <div className="portal-kpi-card border-l-4 border-l-[var(--color-orange)]">
+          <p className="portal-kpi-label">Offene Input-Anfragen</p>
+          <p className="portal-kpi-value mt-2">{totalWaiting}</p>
+          <p className="text-xs text-[var(--color-stone)] mt-2">warten auf Kunden-Input</p>
         </div>
-        <div className="stat-highlight p-6">
-          <div className="relative z-10">
-            <p className="text-secondary-200 text-xs uppercase tracking-wide mb-1">Offene Kundenanfragen</p>
-            <p className="text-3xl font-bold text-white">{openCustomerRequests}</p>
-            <p className="text-secondary-200 text-xs mt-1">warten auf RAIS</p>
-          </div>
+        <div className="portal-kpi-card border-l-4 border-l-[var(--color-orange)]">
+          <p className="portal-kpi-label">Offene Kundenanfragen</p>
+          <p className="portal-kpi-value mt-2">{openCustomerRequests}</p>
+          <p className="text-xs text-[var(--color-stone)] mt-2">warten auf RAIS</p>
         </div>
-        <div className="card card-content">
-          <p className="text-grey-500 text-xs uppercase tracking-wide mb-1">Kunden mit offenen Punkten</p>
-          <p className="text-3xl font-bold text-grey-900">{clientsWithWaiting}</p>
-          <p className="text-grey-500 text-xs mt-1">von {rows.length} Kunden gesamt</p>
+        <div className="portal-kpi-card">
+          <p className="portal-kpi-label">Kunden mit offenen Punkten</p>
+          <p className="portal-kpi-value mt-2">{clientsWithWaiting}</p>
+          <p className="text-xs text-[var(--color-stone)] mt-2">von {rows.length} Kunden gesamt</p>
         </div>
-        <div className="card card-content">
-          <p className="text-grey-500 text-xs uppercase tracking-wide mb-1">Ø Erledigungsquote</p>
-          <p className="text-3xl font-bold text-grey-900">{avgCompletion !== null ? `${avgCompletion}%` : "–"}</p>
-          <p className="text-grey-500 text-xs mt-1">über alle versendeten Input-Anfragen</p>
+        <div className="portal-kpi-card">
+          <p className="portal-kpi-label">Ø Erledigungsquote</p>
+          <p className="portal-kpi-value mt-2">{avgCompletion !== null ? `${avgCompletion}%` : "–"}</p>
+          <p className="text-xs text-[var(--color-stone)] mt-2">über alle versendeten Input-Anfragen</p>
         </div>
       </div>
 
-      <div className="card">
-        <div className="card-header">Kundenprojekte</div>
+      <div className="portal-card">
+        <div className="px-6 py-4 border-b border-[color-mix(in_srgb,var(--color-stone)_30%,transparent)]">
+          <h2 className="font-serif text-xl font-semibold text-[var(--color-charcoal)]">Kundenprojekte</h2>
+        </div>
         {rows.length ? (
           <div className="admin-list-scroll">
             {rows.map(({ client, stats, pct }) => (
               <Link
                 key={client.id}
                 href={`/admin/clients/${client.id}?tab=inputs`}
-                className="table-row admin-list-row admin-list-row-customer"
+                className="table-row admin-list-row admin-list-row-customer portal-card-hover"
               >
-                <div className="h-9 w-9 rounded-lg bg-primary-light text-primary-dark flex items-center justify-center font-semibold shrink-0">
+                <div className="h-9 w-9 rounded-lg bg-[var(--color-linen-soft)] text-[var(--color-charcoal)] border border-[color-mix(in_srgb,var(--color-stone)_30%,transparent)] flex items-center justify-center font-semibold shrink-0">
                   {client.name.charAt(0).toUpperCase()}
                 </div>
                 <div className="admin-list-inline-meta">
-                  <span className="font-medium text-grey-900 truncate">{client.name}</span>
-                  <span className="text-xs text-grey-500 truncate">
+                  <span className="font-medium text-[var(--color-charcoal)] truncate">{client.name}</span>
+                  <span className="text-xs text-[var(--color-stone)] truncate">
                     {client.slug}
                     {client.primary_contact_email ? ` · ${client.primary_contact_email}` : ""}
                   </span>
@@ -102,17 +104,14 @@ export default async function AdminHomePage() {
 
                 <div className="shrink-0">
                   <div className="hidden md:flex items-center gap-2">
-                    <div className="flex-1 h-1.5 rounded-full bg-grey-200 overflow-hidden min-w-[4rem]">
-                      <div
-                        className="h-full rounded-full bg-success"
-                        style={{ width: `${pct ?? 0}%` }}
-                      />
+                    <div className="flex-1 h-1.5 rounded-full bg-[var(--color-linen-soft)] overflow-hidden min-w-[4rem]">
+                      <div className="h-full rounded-full bg-success" style={{ width: `${pct ?? 0}%` }} />
                     </div>
-                    <p className="text-xs text-grey-500 shrink-0 whitespace-nowrap">
+                    <p className="text-xs text-[var(--color-stone)] shrink-0 whitespace-nowrap">
                       {pct !== null ? `${pct}%` : "keine Anfragen"}
                     </p>
                   </div>
-                  <p className="text-xs text-grey-500 whitespace-nowrap md:hidden">–</p>
+                  <p className="text-xs text-[var(--color-stone)] whitespace-nowrap md:hidden">–</p>
                 </div>
 
                 {stats.waiting > 0 ? (
@@ -124,7 +123,7 @@ export default async function AdminHomePage() {
             ))}
           </div>
         ) : (
-          <div className="card-content text-grey-500">Noch keine Kunden angelegt.</div>
+          <div className="px-6 py-8 text-[var(--color-stone)]">Noch keine Kunden angelegt.</div>
         )}
       </div>
     </section>

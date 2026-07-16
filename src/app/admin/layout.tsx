@@ -6,6 +6,7 @@ export default async function AdminLayout({ children }: { children: ReactNode })
   await requireAdminUser();
   return (
     <AppShell
+      variant="admin"
       title="RAIS Admin"
       subtitle="Kunden, Reports und Input-Anfragen verwalten"
       links={[

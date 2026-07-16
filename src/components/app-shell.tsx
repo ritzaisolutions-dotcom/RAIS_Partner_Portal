@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ReactNode } from "react";
+import type { AppShellVariant } from "./app-shell-variant";
 import { PortalHeader } from "./portal-header";
 import { PortalSidebar } from "./portal-sidebar";
 
@@ -9,26 +10,18 @@ type AppShellProps = {
   links: Array<{ href: string; label: string }>;
   children: ReactNode;
   logoUrl?: string | null;
-  variant?: "portal" | "default";
+  variant: AppShellVariant;
 };
 
-export function AppShell({ title, subtitle, links, children, logoUrl, variant = "default" }: AppShellProps) {
-  const isPortal = variant === "portal";
-
+export function AppShell({ title, subtitle, links, children, logoUrl, variant }: AppShellProps) {
   return (
-    <div className={isPortal ? "min-h-screen bg-[var(--color-linen)] flex flex-col" : "min-h-screen bg-white flex flex-col"}>
+    <div className="min-h-screen bg-[var(--color-linen)] flex flex-col">
       <PortalHeader title={title} subtitle={subtitle} logoUrl={logoUrl} variant={variant} />
 
       <div className="flex flex-1 min-h-0 pt-[68px]">
         <PortalSidebar links={links} variant={variant} />
 
-        <div
-          className={
-            isPortal
-              ? "portal-content flex-1 min-w-0 p-4 md:p-8 md:pr-10"
-              : "content-panel flex-1 min-w-0 md:mr-5 mb-5 p-4 md:p-5"
-          }
-        >
+        <div className="portal-content flex-1 min-w-0 p-4 md:p-8 md:pr-10">
           <nav className="flex md:hidden gap-2 mb-4 overflow-x-auto pb-1">
             {links.map((link) => (
               <Link key={link.href} href={link.href} className="chip chip-neutral whitespace-nowrap">
