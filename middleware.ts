@@ -25,8 +25,9 @@ export async function middleware(request: NextRequest) {
   const { data: clientUser } = await portal.from("client_users").select("client_id").eq("user_id", user.id).maybeSingle();
   const hasClient = Boolean(clientUser?.client_id);
   const mustChangePassword = Boolean(user.user_metadata?.must_change_password);
+  const isPasswordChangeFlow = pathname.startsWith("/auth/reset-password");
 
-  if (mustChangePassword && pathname !== "/auth/reset-password") {
+  if (mustChangePassword && !isPasswordChangeFlow && pathname !== "/auth/signout") {
     return NextResponse.redirect(new URL("/auth/reset-password", request.url));
   }
 
