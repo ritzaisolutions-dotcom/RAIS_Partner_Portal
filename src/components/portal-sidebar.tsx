@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { AppShellVariant } from "./app-shell-variant";
+import { PortalNavIcon } from "./portal-nav-icon";
 
 type PortalSidebarProps = {
   links: Array<{ href: string; label: string }>;
@@ -40,17 +41,19 @@ export function PortalSidebar({ links, variant }: PortalSidebarProps) {
             <Link
               key={link.href}
               href={link.href}
-              className={active ? "portal-sidebar-link portal-sidebar-link-active" : "portal-sidebar-link"}
+              className={active ? "portal-sidebar-link portal-sidebar-link-active gap-3" : "portal-sidebar-link gap-3"}
             >
-              {link.label}
+              <PortalNavIcon href={link.href} />
+              <span>{link.label}</span>
             </Link>
           );
         })}
       </nav>
 
       <form action="/auth/signout" method="post" className="mt-4 pt-4 border-t border-[var(--border)] px-1">
-        <button type="submit" className="portal-sidebar-link w-full text-left">
-          Abmelden
+        <button type="submit" className="portal-sidebar-link w-full gap-3 text-left">
+          <PortalNavIcon name="logout" />
+          <span>Abmelden</span>
         </button>
       </form>
     </aside>

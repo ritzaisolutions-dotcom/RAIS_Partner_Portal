@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ReactNode } from "react";
 import type { AppShellVariant } from "./app-shell-variant";
 import { PortalHeader } from "./portal-header";
+import { PortalNavIcon } from "./portal-nav-icon";
 import { PortalSidebar } from "./portal-sidebar";
 
 type AppShellProps = {
@@ -42,7 +43,8 @@ export function AppShell({
         <main className="portal-content flex-1 min-w-0 md:ml-64 px-4 md:px-10 py-8 md:py-10 max-w-[1400px]">
           <nav className="flex md:hidden gap-2 mb-6 overflow-x-auto pb-1">
             {links.map((link) => (
-              <Link key={link.href} href={link.href} className="chip chip-neutral whitespace-nowrap">
+              <Link key={link.href} href={link.href} className="chip chip-neutral inline-flex items-center gap-1.5 whitespace-nowrap">
+                <PortalNavIcon href={link.href} className="h-4 w-4" />
                 {link.label}
               </Link>
             ))}
